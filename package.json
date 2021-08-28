@@ -1,0 +1,18 @@
+{
+  "name": "discord.js-commandhandler",
+  "version": "0.1",
+  "main": "dist/commandHandlerClient.js",
+  "repository": "https://github.com/siwoo131/discord.js-commandhandler",
+  "author": "siwoo131 <tigersiwoo131@gmail.com>",
+  "license": "MIT",
+  "types": "dist/commandHandlerClient.d.ts",
+  "devDependencies": {
+    "@types/node": "^16.7.4",
+    "discord.js": "^13.1.0",
+    "tsc": "^2.0.3",
+    "typescript": "^4.3.5"
+  },
+  "scripts": {
+    "build": "tsc"
+  }
+}
