@@ -25,7 +25,7 @@ const client = new commandHandlerClient({
   prefix: "!",
 });
 
-client.loadCommandOnFile(__dirname + "/commands", "ts");
+client.loadCommandOnFile(__dirname + "/commands", "ts"); // else client.loadCommandOnFolder(__dirname + "/commands", "ts");
 
 client.on("messageCreate", (msg) => {
   if (!msg.content.startsWith(client.prefix) || msg.author.bot) return;
@@ -92,7 +92,7 @@ const client = new commandHandlerClient({
   prefix: "!",
 });
 
-client.loadCommandOnFile(__dirname + "/commands", "js");
+client.loadCommandOnFile(__dirname + "/commands", "js"); // else client.loadCommandOnFolder(__dirname + "/commands", "js");
 
 client.on("messageCreate", (msg) => {
   if (!msg.content.startsWith(client.prefix) || msg.author.bot) return;
