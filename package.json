@@ -1,5 +1,5 @@
 {
-  "name": "discord.js-commandhandler",
+  "name": "@migan/discord.js-commandhandler",
   "version": "0.1.0",
   "main": "dist/commandHandlerClient.js",
   "repository": "https://github.com/siwoo131/discord.js-commandhandler",

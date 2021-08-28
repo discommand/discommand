@@ -17,7 +17,7 @@ npm i discord.js-commandhandler
 index.ts
 
 ```ts
-import { commandHandlerClient } from "discord.js-commandhandler";
+import { commandHandlerClient } from "@migan/discord.js-commandhandler";
 import { Intents } from "discord.js";
 
 const client = new commandHandlerClient({
@@ -85,7 +85,7 @@ export = {
 index.js
 
 ```js
-const { commandHandlerClient } = require("discord.js-commandhandler");
+const { commandHandlerClient } = require("@migan/discord.js-commandhandler");
 
 const client = new commandHandlerClient({
   intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
