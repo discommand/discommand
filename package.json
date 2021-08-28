@@ -1,6 +1,6 @@
 {
   "name": "discord.js-commandhandler",
-  "version": "0.1",
+  "version": "v0.1",
   "main": "dist/commandHandlerClient.js",
   "repository": "https://github.com/siwoo131/discord.js-commandhandler",
   "author": "siwoo131 <tigersiwoo131@gmail.com>",
