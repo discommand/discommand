@@ -7,7 +7,7 @@ easy discord.js commandHandler
 this is use discord.js@13
 
 ```sh
-npm i discord.js-commandhandler
+npm i @migan/discord.js-commandhandler
 ```
 
 ## Example
