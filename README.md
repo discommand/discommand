@@ -65,7 +65,7 @@ const client = new commandHandlerClient({
   endsWith: "js",
 });
 
-client.loadCommandOnFile(); // else client.loadCommandOnFolder();
+client.loadCommandWithFile(); // else client.loadCommandWithFolder();
 
 client.on("messageCreate", (msg) => {
   client.run(msg, client);
