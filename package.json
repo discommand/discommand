@@ -1,18 +1,21 @@
 {
   "name": "@migan/discord.js-commandhandler",
-  "version": "0.2.0",
-  "main": "dist/commandHandlerClient.js",
-  "types": "dist/commandHandlerClient.d.ts",
+  "version": "0.3",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "repository": "https://github.com/siwoo131/discord.js-commandhandler",
   "author": "siwoo131 <tigersiwoo131@gmail.com>",
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^16.7.4",
     "discord.js": "^13.1.0",
+    "ts-node": "^10.2.1",
     "tsc": "^2.0.3",
     "typescript": "^4.3.5"
   },
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "test:ts": "ts-node Examples/index.ts",
+    "test:js": "node Examples/index.js"
   }
 }

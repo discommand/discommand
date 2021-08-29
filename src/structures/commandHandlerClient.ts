@@ -1,41 +1,47 @@
 import { Client, Collection, Message } from "discord.js";
-import * as fs from "fs";
+import { readdirSync } from "fs";
 
-class commandHandlerClient extends Client {
+export class commandHandlerClient extends Client {
   prefix: string;
+  path!: string;
+  endsWith!: string;
   constructor(options: any) {
     super(options);
     this.prefix = options.prefix;
+    this.path = options.path;
+    this.endsWith = options.endsWith;
   }
 
   public commands = new Collection();
 
-  async loadCommandOnFile(path: string, fileExtensions: string) {
-    const commandFiles = fs
-      .readdirSync(path)
-      .filter((file) => file.endsWith(`.${fileExtensions}`));
+  async loadCommandWithFile() {
+    const commandFiles = readdirSync(this.path).filter((file) =>
+      file.endsWith(`.${this.endsWith}`)
+    );
 
     for (const file of commandFiles) {
-      const command = require(`${path}/${file}`);
-      this.commands.set(command.name, command);
+      const { command } = require(`${this.path}/${file}`);
+      const Command = new command();
+      this.commands.set(Command.name, Command);
     }
   }
 
-  async loadCommandOnFolder(path: string, fileExtensions: string) {
-    const commandFolders = fs.readdirSync(path);
+  async loadCommandWithFolder() {
+    const commandFolders = readdirSync(this.path);
 
     for (const folder of commandFolders) {
-      const commandFiles = fs
-        .readdirSync(`${path}/${folder}`)
-        .filter((file) => file.endsWith(`.${fileExtensions}`));
+      const commandFiles = readdirSync(`${this.path}/${folder}`).filter(
+        (file) => file.endsWith(`.${this.endsWith}`)
+      );
       for (const file of commandFiles) {
-        const command = require(`${path}/${folder}/${file}`);
-        this.commands.set(command.name, command);
+        const { command } = require(`${this.path}/${file}`);
+        const Command = new command();
+        this.commands.set(Command.name, Command);
       }
     }
   }
 
-  async commandHandler(msg: Message, client: any) {
+  async run(msg: Message, client: any) {
     if (!msg.content.startsWith(client.prefix) || msg.author.bot) return;
 
     const args: string[] = msg.content
@@ -54,12 +60,10 @@ class commandHandlerClient extends Client {
     if (!command) return;
 
     try {
-      command.execute(client, msg, args);
+      command.execute(msg, client, args);
     } catch (error) {
       console.error(error);
     }
     if (!client.commands.has(commandName)) return;
   }
 }
-
-export { commandHandlerClient };

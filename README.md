@@ -23,12 +23,14 @@ import { Intents } from "discord.js";
 const client = new commandHandlerClient({
   intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
   prefix: "!",
+  path: __dirname + "/commands",
+  endsWith: "ts",
 });
 
-client.loadCommandOnFile(__dirname + "/commands", "ts"); // else client.loadCommandOnFolder(__dirname + "/commands", "ts");
+client.loadCommandWithFile(); // else client.loadCommandWithFolder();
 
 client.on("messageCreate", (msg) => {
-  client.commandHandler(msg, client);
+  client.run(msg, client);
 });
 
 client.login("your_bot_token");
@@ -37,22 +39,12 @@ client.login("your_bot_token");
 commands/ping.ts
 
 ```ts
-export = {
-  name: "ping",
-  execute(client: any, msg: any, args: any) {
-    msg.reply("pong!");
-  },
-};
-```
-
-and
-
-```ts
 import type { Message } from "discord.js";
+import { Command, commandHandlerClient } from '@migan/discord.js-commandhandler';
 
-export = {
+export class command extends Command {
   name: "ping",
-  execute(client: any, msg: Message, args: any) {
+  execute(msg: Message, client: commandHandlerClient, args: any) {
     msg.reply("pong!");
   },
 };
@@ -69,12 +61,14 @@ const { Intents } = require("discord.js");
 const client = new commandHandlerClient({
   intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
   prefix: "!",
+  path: __dirname + "/commands",
+  endsWith: "js",
 });
 
-client.loadCommandOnFile(__dirname + "/commands", "js"); // else client.loadCommandOnFolder(__dirname + "/commands", "js");
+client.loadCommandOnFile(); // else client.loadCommandOnFolder();
 
 client.on("messageCreate", (msg) => {
-  client.commandHandler(msg, client);
+  client.run(msg, client);
 });
 
 client.login("your_bot_token");
@@ -83,10 +77,12 @@ client.login("your_bot_token");
 commands/ping.js
 
 ```js
-module.exports = {
-  name: "ping",
-  execute(client, msg, args) {
+const { Command } = require("@migan/discord.js-commandhandler");
+
+exports.command = class command extends Command {
+  name = "ping";
+  execute(msg, client, args) {
     msg.reply("pong!");
-  },
+  }
 };
 ```

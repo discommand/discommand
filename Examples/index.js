@@ -1,16 +1,18 @@
-const { commandHandlerClient } = require('../dist/commandHandlerClient.js');
+const { commandHandlerClient } = require('../dist/index.js');
 const { Intents } = require('discord.js');
 const config = require('./config.json');
 
 const client = new commandHandlerClient({
     intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
     prefix: "!",
+    path: __dirname + '/commands',
+    endsWith: 'js'
 });
 
-client.loadCommandOnFile(__dirname + '/commands', 'js');
+client.loadCommandWithFile();
 
 client.on("messageCreate", (msg) => {
-    client.commandHandler(msg, client);
+    client.run(msg, client);
 });
 
 client.login(config.token);
