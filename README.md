@@ -86,6 +86,7 @@ index.js
 
 ```js
 const { commandHandlerClient } = require("@migan/discord.js-commandhandler");
+const { Intents } = require("discord.js");
 
 const client = new commandHandlerClient({
   intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
