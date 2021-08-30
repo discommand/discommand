@@ -4,12 +4,12 @@ import { commandHandlerClient } from "../index";
 interface commandOptions {
   name: string;
   description?: string;
-  aliases?: string;
+  aliases?: string[];
 }
 
 export class Command implements commandOptions {
   name: string = "";
   description?: string = "";
-  aliases?: string = "";
+  aliases?: string[] = [""];
   execute(msg: Message, client: commandHandlerClient, args: any): any {}
 }
