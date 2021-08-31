@@ -7,7 +7,7 @@ interface commandOptions {
   aliases?: string[];
 }
 
-export class Command implements commandOptions {
+export class MessageCommand implements commandOptions {
   name: string = "";
   description?: string = "";
   aliases?: string[] = [""];

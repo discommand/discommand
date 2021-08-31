@@ -1,6 +1,6 @@
 {
   "name": "@migan/discord.js-commandhandler",
-  "version": "0.3.1",
+  "version": "1.0.0-dev.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "repository": "https://github.com/siwoo131/discord.js-commandhandler",
@@ -15,7 +15,13 @@
   },
   "scripts": {
     "build": "tsc",
-    "test:ts": "ts-node Examples/index.ts",
-    "test:js": "node Examples/index.js"
+    "test:ts": "ts-node test/index.ts",
+    "test:js": "node test/index.js"
+  },
+  "dependencies": {
+    "@discordjs/builders": "^0.6.0",
+    "@discordjs/rest": "^0.1.0-canary.0",
+    "@types/node-fetch": "^2.5.12",
+    "discord-api-types": "^0.22.0"
   }
 }

@@ -8,12 +8,13 @@ const client = new commandHandlerClient({
   prefix: "!",
   path: __dirname + "/commands",
   endsWith: "ts",
+  token: config.token,
 });
 
-client.loadCommandWithFile();
+client.loadSlashGuildCmdWithFile("863380982560456704", "863380858681557003");
 
-client.on("messageCreate", (msg) => {
-  client.run(msg, client);
+client.on("interactionCreate", (interaction) => {
+  client.runSlash(interaction, client);
 });
 
-client.login(config.token);
+client.login();
