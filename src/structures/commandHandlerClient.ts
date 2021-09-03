@@ -23,6 +23,7 @@ export class commandHandlerClient extends Client {
       const { command } = require(`${this.path}/${file}`);
       const Command = new command();
       this.commands.set(Command.name, Command);
+      console.log(`${Command.name} load`);
     }
   }
 
@@ -35,6 +36,7 @@ export class commandHandlerClient extends Client {
         const { command } = require(`${this.path}/${folder}/${file}`);
         const Command = new command();
         this.commands.set(Command.name, Command);
+        console.log(`${Command.name} load`);
       }
     }
   }
@@ -46,6 +48,7 @@ export class commandHandlerClient extends Client {
       const { command } = require(`${this.path}/${file}`);
       const Command = new command();
       this.slash.set(Command.data.name, Command);
+      console.log(`${Command.data.name} load`);
     }
     this.registryGuildSlashWithFile(clientId, guildId);
   }
@@ -57,6 +60,7 @@ export class commandHandlerClient extends Client {
       const { command } = require(`${this.path}/${file}`);
       const Command = new command();
       this.slash.set(Command.data.name, Command);
+      console.log(`${Command.data.name} load`);
     }
     this.registrySlashWithFile(clientId);
   }

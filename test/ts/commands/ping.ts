@@ -1,6 +1,6 @@
 import { CommandInteraction } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { slashCommand, commandHandlerClient } from "../../dist/index.js";
+import { slashCommand, commandHandlerClient } from "../../../dist/index.js";
 
 export class command extends slashCommand {
   data = new SlashCommandBuilder()

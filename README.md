@@ -32,7 +32,6 @@ const client = new commandHandlerClient({
   intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
   prefix: "!",
   path: __dirname + "/commands",
-  endsWith: "ts",
   token: "your_bot_token",
 });
 
@@ -49,14 +48,17 @@ commands/ping.ts
 
 ```ts
 import type { Message } from "discord.js";
-import { MessageCommand, commandHandlerClient } from '@migan/discord.js-commandhandler';
+import {
+  MessageCommand,
+  commandHandlerClient,
+} from "@migan/discord.js-commandhandler";
 
 export class command extends MessageCommand {
-  name: "ping",
+  name = "ping";
   execute(msg: Message, client: commandHandlerClient, args: any) {
     msg.reply("pong!");
-  },
-};
+  }
+}
 ```
 
 #### slashCommand
@@ -71,7 +73,6 @@ const client = new commandHandlerClient({
   intents: [Intents.FLAGS.GUILDS],
   prefix: "!",
   path: __dirname + "/commands",
-  endsWith: "ts",
   token: "your_bot_token",
 });
 
@@ -116,7 +117,6 @@ const client = new commandHandlerClient({
   intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
   prefix: "!",
   path: __dirname + "/commands",
-  endsWith: "js",
   token: "your_bot_token",
 });
 
@@ -154,7 +154,6 @@ const client = new commandHandlerClient({
   intents: [Intents.FLAGS.GUILDS],
   prefix: "!",
   path: __dirname + "/commands",
-  endsWith: "js",
   token: "your_bot_token",
 });
 
