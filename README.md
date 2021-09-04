@@ -71,7 +71,6 @@ import { Intents } from "discord.js";
 
 const client = new commandHandlerClient({
   intents: [Intents.FLAGS.GUILDS],
-  prefix: "!",
   path: __dirname + "/commands",
   token: "your_bot_token",
 });
@@ -152,7 +151,6 @@ const { Intents } = require("discord.js");
 
 const client = new commandHandlerClient({
   intents: [Intents.FLAGS.GUILDS],
-  prefix: "!",
   path: __dirname + "/commands",
   token: "your_bot_token",
 });

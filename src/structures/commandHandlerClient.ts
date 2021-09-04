@@ -4,7 +4,7 @@ import { REST } from "@discordjs/rest";
 import { Routes } from "discord-api-types/v9";
 
 export class commandHandlerClient extends Client {
-  prefix: string;
+  prefix!: string;
   path!: string;
   constructor(options: any) {
     super(options);
@@ -66,12 +66,10 @@ export class commandHandlerClient extends Client {
   }
 
   public async runMessage(msg: Message, client: commandHandlerClient) {
-    if (!msg.content.startsWith(client.prefix) || msg.author.bot) return;
+    const prefix = this.prefix || "!";
+    if (!msg.content.startsWith(prefix) || msg.author.bot) return;
 
-    const args: string[] = msg.content
-      .slice(client.prefix.length)
-      .trim()
-      .split(/ +/);
+    const args: string[] = msg.content.slice(prefix.length).trim().split(/ +/);
     const shift: any = args.shift();
     const commandName = shift.toLowerCase();
 
@@ -89,6 +87,21 @@ export class commandHandlerClient extends Client {
       console.error(error);
     }
     if (!client.commands.has(commandName)) return;
+  }
+
+  public async loadSlashGuildCmdWithFolder(clientId: string, guildId: string) {
+    const commandFolders = readdirSync(this.path);
+
+    for (const folder of commandFolders) {
+      const commandFiles = readdirSync(`${this.path}/${folder}`);
+      for (const file of commandFiles) {
+        const { command } = require(`${this.path}/${folder}/${file}`);
+        const Command = new command();
+        this.slash.set(Command.data.name, Command);
+        console.log(`${Command.data.name} load`);
+      }
+    }
+    this.registryGuildSlashWithFolder(clientId, guildId);
   }
 
   public async runSlash(
@@ -144,6 +157,34 @@ export class commandHandlerClient extends Client {
     (async () => {
       try {
         await rest.put(Routes.applicationCommands(clientId), {
+          body: commands,
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    })();
+  }
+
+  private async registryGuildSlashWithFolder(
+    clientId: string,
+    guildId: string
+  ) {
+    const rest = new REST({ version: "9" }).setToken(`${this.token}`);
+    const commands = [];
+    const commandFolders = readdirSync(this.path);
+
+    for (const folder of commandFolders) {
+      const commandFiles = readdirSync(`${this.path}/${folder}`);
+      for (const file of commandFiles) {
+        const { command } = require(`${this.path}/${folder}/${file}`);
+        const Command = new command();
+        commands.push(Command.data.toJSON());
+      }
+    }
+
+    (async () => {
+      try {
+        await rest.put(Routes.applicationGuildCommands(clientId, guildId), {
           body: commands,
         });
       } catch (error) {
