@@ -121,6 +121,21 @@ export class commandHandlerClient extends Client {
     }
   }
 
+  public loadSlashCmdWithFolder(clientId: string) {
+    const commandFolders = readdirSync(this.path);
+
+    for (const folder of commandFolders) {
+      const commandFiles = readdirSync(`${this.path}/${folder}`);
+      for (const file of commandFiles) {
+        const { command } = require(`${this.path}/${folder}/${file}`);
+        const Command = new command();
+        this.slash.set(Command.data.name, Command);
+        console.log(`${Command.data.name} load`);
+      }
+    }
+    this.registrySlashWithFolder(clientId);
+  }
+
   private async registryGuildSlashWithFile(clientId: string, guildId: string) {
     const rest = new REST({ version: "9" }).setToken(`${this.token}`);
     const commands = [];
@@ -185,6 +200,31 @@ export class commandHandlerClient extends Client {
     (async () => {
       try {
         await rest.put(Routes.applicationGuildCommands(clientId, guildId), {
+          body: commands,
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    })();
+  }
+
+  private async registrySlashWithFolder(clientId: string) {
+    const rest = new REST({ version: "9" }).setToken(`${this.token}`);
+    const commands = [];
+    const commandFolders = readdirSync(this.path);
+
+    for (const folder of commandFolders) {
+      const commandFiles = readdirSync(`${this.path}/${folder}`);
+      for (const file of commandFiles) {
+        const { command } = require(`${this.path}/${folder}/${file}`);
+        const Command = new command();
+        commands.push(Command.data.toJSON());
+      }
+    }
+
+    (async () => {
+      try {
+        await rest.put(Routes.applicationCommands(clientId), {
           body: commands,
         });
       } catch (error) {
