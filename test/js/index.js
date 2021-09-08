@@ -1,12 +1,13 @@
 const { commandHandlerClient } = require('../../dist/index.js');
 const { Intents } = require('discord.js');
+const path = require('path');
 
 const config = require('../config.json');
 
 const client = new commandHandlerClient({
     intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
     prefix: "!",
-    path: __dirname + '/commands',
+    path: path.join(__dirname, 'commands'),
     token: config.token
 });
 

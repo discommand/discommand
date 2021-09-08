@@ -11,6 +11,8 @@ export class commandHandlerClient extends Client {
     this.prefix = options.prefix;
     this.path = options.path;
     this.token = options.token;
+
+    if (typeof this.path !== "string") throw new Error("path is required.");
   }
 
   public commands = new Collection();
