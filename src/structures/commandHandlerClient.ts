@@ -15,8 +15,6 @@ export class commandHandlerClient extends Client {
 
   public commands = new Collection();
 
-  public slash = new Collection();
-
   public async loadCommandWithFile() {
     const commandFiles = readdirSync(this.path);
     for (const file of commandFiles) {
@@ -47,7 +45,7 @@ export class commandHandlerClient extends Client {
     for (const file of commandFiles) {
       const { command } = require(`${this.path}/${file}`);
       const Command = new command();
-      this.slash.set(Command.data.name, Command);
+      this.commands.set(Command.data.name, Command);
       console.log(`${Command.data.name} load`);
     }
     this.registryGuildSlashWithFile(clientId, guildId);
@@ -59,7 +57,7 @@ export class commandHandlerClient extends Client {
     for (const file of commandFiles) {
       const { command } = require(`${this.path}/${file}`);
       const Command = new command();
-      this.slash.set(Command.data.name, Command);
+      this.commands.set(Command.data.name, Command);
       console.log(`${Command.data.name} load`);
     }
     this.registrySlashWithFile(clientId);
@@ -97,7 +95,7 @@ export class commandHandlerClient extends Client {
       for (const file of commandFiles) {
         const { command } = require(`${this.path}/${folder}/${file}`);
         const Command = new command();
-        this.slash.set(Command.data.name, Command);
+        this.commands.set(Command.data.name, Command);
         console.log(`${Command.data.name} load`);
       }
     }
@@ -110,7 +108,7 @@ export class commandHandlerClient extends Client {
   ) {
     if (!interaction.isCommand()) return;
 
-    const command: any = this.slash.get(interaction.commandName);
+    const command: any = this.commands.get(interaction.commandName);
 
     if (!command) return;
 
@@ -129,7 +127,7 @@ export class commandHandlerClient extends Client {
       for (const file of commandFiles) {
         const { command } = require(`${this.path}/${folder}/${file}`);
         const Command = new command();
-        this.slash.set(Command.data.name, Command);
+        this.commands.set(Command.data.name, Command);
         console.log(`${Command.data.name} load`);
       }
     }
