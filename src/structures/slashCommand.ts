@@ -1,5 +1,4 @@
-import { Interaction } from "discord.js";
-import { commandHandlerClient } from "../index";
+import { CommandInteraction, Client } from "discord.js";
 
 interface commandOptions {
   data: any;
@@ -7,5 +6,5 @@ interface commandOptions {
 
 export class slashCommand implements commandOptions {
   data: any;
-  execute(interaction: Interaction, client: commandHandlerClient): any {}
+  execute(interaction: CommandInteraction, client: Client): any {}
 }

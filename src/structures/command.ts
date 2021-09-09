@@ -5,13 +5,13 @@ type slashType = "GUILD" | "GLOBAL";
 
 export class Command implements CommandOptions {
   /**
-   * @param {Client} [client] Discord.js Client
-   * @param {string} [prefix] bot's prefix
-   * @param {string} [path] commndFile's path
-   * @param {loadType} [loadType] command load type
-   * @param {boolean} [slash] slash on/off
-   * @param {slashType} [slashType] slash type ("GUILD", "GLOBAL") [optional]
-   * @param {string} [token] bot's token [optional]
+   * @property {Client} [client] Discord.js Client
+   * @property {string} [prefix] bot's prefix
+   * @property {string} [path] commndFile's path
+   * @property {loadType} [loadType] command load type
+   * @property {boolean} [slash] slash on/off
+   * @property {slashType} [slashType] slash type ("GUILD", "GLOBAL") [optional]
+   * @property {string} [token] bot's token [optional]
    */
   client: Client;
   prefix: string;

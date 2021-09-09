@@ -1,5 +1,4 @@
-import { Message } from "discord.js";
-import { commandHandlerClient } from "../index";
+import { Message, Client } from "discord.js";
 
 interface commandOptions {
   name: string;
@@ -11,5 +10,5 @@ export class MessageCommand implements commandOptions {
   name: string = "";
   description?: string = "";
   aliases?: string[] = [""];
-  execute(msg: Message, client: commandHandlerClient, args: any): any {}
+  execute(msg: Message, client: Client, args: any): any {}
 }
