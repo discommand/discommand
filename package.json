@@ -22,7 +22,7 @@
     "@discordjs/builders": "^0.6.0",
     "@discordjs/rest": "^0.1.0-canary.0",
     "@types/node-fetch": "^2.5.12",
-    "discord-api-types": "^0.22.0"
+    "discord-api-types": "^0.23.1"
   },
   "keywords": [
     "discord.js"
