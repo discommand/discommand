@@ -105,3 +105,6 @@ dist
 
 # config file
 config.json
+
+# ide setting
+.vscode/
