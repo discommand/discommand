@@ -2,6 +2,8 @@
 
 easy discord.js commandHandler
 
+- Caution! This version is under development. Accordingly, there may be a bug.
+
 ## Installation
 
 this is use discord.js@13
@@ -25,38 +27,42 @@ npm i @migan/discord.js-commandhandler@next
 index.ts
 
 ```ts
-import { commandHandlerClient } from "@migan/discord.js-commandhandler";
-import { Intents } from "discord.js";
+import { Client, Intents } from 'discord.js'
+import { Command } from '@migan/discord.js-commandhandler'
+import path = require('path')
 
 const client = new commandHandlerClient({
   intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
-  prefix: "!",
-  path: __dirname + "/commands",
-  token: "your_bot_token",
-});
+})
+const cmd = new Command(client, {
+  prefix: '!',
+  path: path.join(__dirname, 'commands'),
+  slash: false,
+  loadType: 'FILE',
+})
 
-client.loadCommandWithFile(); // else client.loadCommandWithFolder();
+client.loadCommand()
 
-client.on("messageCreate", (msg) => {
-  client.runMessage(msg, client);
-});
+client.on('messageCreate', message => {
+  client.run(message)
+})
 
-client.login();
+client.login('your_bot_token')
 ```
 
 commands/ping.ts
 
 ```ts
-import type { Message } from "discord.js";
+import type { Message } from 'discord.js'
 import {
   MessageCommand,
   commandHandlerClient,
-} from "@migan/discord.js-commandhandler";
+} from '@migan/discord.js-commandhandler'
 
 export class command extends MessageCommand {
-  name = "ping";
+  name = 'ping'
   execute(msg: Message, client: commandHandlerClient, args: any) {
-    msg.reply("pong!");
+    msg.reply('pong!')
   }
 }
 ```
@@ -66,38 +72,44 @@ export class command extends MessageCommand {
 index.ts
 
 ```ts
-import { commandHandlerClient } from "@migan/discord.js-commandhandler";
-import { Intents } from "discord.js";
+import { Client, Intents } from 'discord.js'
+import { Command } from '@migan/discord.js-commandhandler'
+import path = require('path')
 
-const client = new commandHandlerClient({
-  intents: [Intents.FLAGS.GUILDS],
-  path: __dirname + "/commands",
-  token: "your_bot_token",
-});
+const client = new commandHandlerClient({ intents: [Intents.FLAGS.GUILDS] })
+const cmd = new Command(client, {
+  prefix: '!',
+  path: path.join(__dirname, 'commands'),
+  slash: true,
+  loadType: 'FILE',
+  slashType: 'GUILD',
+  token: 'your_bot_token',
+  guildId: 'GuildId',
+})
 
-client.loadSlashGuildCmdWithFile(clientId, guildId);
+client.loadCommand()
 
-client.on("interactionCreate", (interaction) => {
-  client.runSlash(interaction, client);
-});
+client.on('interactionCreate', interaction => {
+  client.run(interaction)
+})
 
-client.login();
+client.login('your_bot_token')
 ```
 
 commands/ping.ts
 
 ```ts
-import { CommandInteraction } from "discord.js";
-import { SlashCommandBuilder } from "@discordjs/builders";
+import { CommandInteraction } from 'discord.js'
+import { SlashCommandBuilder } from '@discordjs/builders'
 import {
   slashCommand,
   commandHandlerClient,
-} from "@migan/discord.js-commandhandler";
+} from '@migan/discord.js-commandhandler'
 
 export class command extends slashCommand {
-  data = new SlashCommandBuilder().setName("ping").setDescription("pong");
+  data = new SlashCommandBuilder().setName('ping').setDescription('pong')
   async execute(interaction: CommandInteraction, client: commandHandlerClient) {
-    await interaction.reply("pong!");
+    await interaction.reply('pong!')
   }
 }
 ```
@@ -109,36 +121,39 @@ export class command extends slashCommand {
 index.js
 
 ```js
-const { commandHandlerClient } = require("@migan/discord.js-commandhandler");
-const { Intents } = require("discord.js");
-
-const client = new commandHandlerClient({
+const { Client, Intents } = require('discord.js')
+const { Command } = require('@migan/discord.js-commandhandler')
+const path = require('path')
+const client = new Client({
   intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
-  prefix: "!",
-  path: __dirname + "/commands",
-  token: "your_bot_token",
-});
+})
+const cmd = new Command(client, {
+  prefix: '!',
+  path: path.join(__dirname, 'commands'),
+  slash: false,
+  loadType: 'FILE',
+})
 
-client.loadCommandWithFile(); // else client.loadCommandWithFolder();
+cmd.loadCommand()
 
-client.on("messageCreate", (msg) => {
-  client.runMessage(msg, client);
-});
+client.on('messageCreate', message => {
+  cmd.run(message)
+})
 
-client.login();
+client.login('your_bot_token')
 ```
 
 commands/ping.js
 
 ```js
-const { MessageCommand } = require("@migan/discord.js-commandhandler");
+const { MessageCommand } = require('@migan/discord.js-commandhandler')
 
 exports.command = class command extends MessageCommand {
-  name = "ping";
+  name = 'ping'
   execute(msg, client, args) {
-    msg.reply("pong!");
+    msg.reply('pong!')
   }
-};
+}
 ```
 
 #### slashCommand
@@ -146,34 +161,39 @@ exports.command = class command extends MessageCommand {
 index.js
 
 ```js
-const { commandHandlerClient } = require("@migan/discord.js-commandhandler");
-const { Intents } = require("discord.js");
+const { Client, Intents } = require('discord.js')
+const { Command } = require('@migan/discord.js-commandhandler')
+const path = require('path')
+const client = new Client({ intents: [Intents.FLAGS.GUILDS] })
+const cmd = new Command(client, {
+  prefix: '!',
+  path: path.join(__dirname, 'commands'),
+  slash: true,
+  loadType: 'FILE',
+  slashType: 'GUILD',
+  token: 'your_bot_token',
+  guildId: 'GuildId',
+})
 
-const client = new commandHandlerClient({
-  intents: [Intents.FLAGS.GUILDS],
-  path: __dirname + "/commands",
-  token: "your_bot_token",
-});
+cmd.loadCommand()
 
-client.loadSlashGuildCmdWithFile(clientId, guildId);
+client.on('interactionCreate', interaction => {
+  cmd.run(interaction)
+})
 
-client.on("interactionCreate", (interaction) => {
-  client.runSlash(interaction, client);
-});
-
-client.login();
+client.login('your_bot_token')
 ```
 
 commands/ping.js
 
 ```js
-const { SlashCommandBuilder } = require("@discordjs/builders");
-const { slashCommand } = require("@migan/discord.js-commandhandler");
+const { SlashCommandBuilder } = require('@discordjs/builders')
+const { slashCommand } = require('@migan/discord.js-commandhandler')
 
 exports.command = class command extends slashCommand {
-  data = new SlashCommandBuilder().setName("ping").setDescription("pong");
+  data = new SlashCommandBuilder().setName('ping').setDescription('pong')
   execute(interaction, client) {
-    interaction.reply("pong!");
+    interaction.reply('pong!')
   }
-};
+}
 ```

@@ -1,6 +1,6 @@
 {
   "name": "@migan/discord.js-commandhandler",
-  "version": "2.0.0-dev.0",
+  "version": "2.0.0-dev.1",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "repository": "https://github.com/siwoo131/discord.js-commandhandler",
@@ -25,6 +25,11 @@
     "discord-api-types": "^0.23.1"
   },
   "keywords": [
-    "discord.js"
-  ]
+    "discord.js",
+    "commandHandler"
+  ],
+  "bugs": {
+    "url": "https://github.com/siwoo131/discord.js-commandhandler"
+  },
+  "homepage": "https://djs-commandhandler.netlify.app/"
 }
