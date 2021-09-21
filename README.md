@@ -41,11 +41,9 @@ const cmd = new Command(client, {
   loadType: 'FILE',
 })
 
-client.loadCommand()
+cmd.loadCommand()
 
-client.on('messageCreate', message => {
-  client.run(message)
-})
+cmd.run()
 
 client.login('your_bot_token')
 ```
@@ -87,11 +85,9 @@ const cmd = new Command(client, {
   guildId: 'GuildId',
 })
 
-client.loadCommand()
+cmd.loadCommand()
 
-client.on('interactionCreate', interaction => {
-  client.run(interaction)
-})
+cmd.run()
 
 client.login('your_bot_token')
 ```
@@ -136,9 +132,7 @@ const cmd = new Command(client, {
 
 cmd.loadCommand()
 
-client.on('messageCreate', message => {
-  cmd.run(message)
-})
+cmd.run()
 
 client.login('your_bot_token')
 ```
@@ -177,9 +171,7 @@ const cmd = new Command(client, {
 
 cmd.loadCommand()
 
-client.on('interactionCreate', interaction => {
-  cmd.run(interaction)
-})
+cmd.run()
 
 client.login('your_bot_token')
 ```
