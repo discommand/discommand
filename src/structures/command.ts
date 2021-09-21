@@ -68,48 +68,126 @@ export class Command implements CommandOptions {
       if (this.slashType == undefined) throw new Error('slashType is required.')
 
       if (this.token == undefined) throw new Error('Token is required.')
-    }
+      if (this.slashType == 'GUILD') {
+        if (this.guildId == undefined) throw new Error('guildId is required.')
+        if (this.loadType == 'FILE') {
+          const commandFiles = readdirSync(this.path)
 
-    if (this.slashType == 'GUILD') {
-      if (this.guildId == undefined) throw new Error('guildId is required.')
-      if (this.loadType == 'FILE') {
-        const commandFiles = readdirSync(this.path)
+          for (const file of commandFiles) {
+            const { command } = require(`${this.path}/${file}`)
+            const Command = new command()
+            this.commands.set(Command.data.name, Command)
+            console.log(`${Command.data.name} load`)
+          }
 
-        for (const file of commandFiles) {
-          const { command } = require(`${this.path}/${file}`)
-          const Command = new command()
-          this.commands.set(Command.data.name, Command)
-          console.log(`${Command.data.name} load`)
-        }
+          const rest = new REST({ version: '9' }).setToken(`${this.token}`)
+          const commands: any[] = []
 
-        const rest = new REST({ version: '9' }).setToken(`${this.token}`)
-        const commands: any[] = []
+          for (const file of commandFiles) {
+            const { command } = require(`${this.path}/${file}`)
+            const Command = new command()
+            commands.push(Command.data.toJSON())
+          }
+          this.client.once('ready', async () => {
+            this.clientId = await this.client
+              .application!.fetch()
+              .then(data => data!.id)
+            ;(async () => {
+              try {
+                await rest.put(
+                  Routes.applicationGuildCommands(
+                    this.clientId as string,
+                    this.guildId as string
+                  ),
+                  {
+                    body: commands,
+                  }
+                )
+              } catch (error) {
+                console.error(error)
+              }
+            })()
+          })
+        } else if (this.loadType == 'FOLDER') {
+          const commandFolders = readdirSync(this.path)
 
-        for (const file of commandFiles) {
-          const { command } = require(`${this.path}/${file}`)
-          const Command = new command()
-          commands.push(Command.data.toJSON())
-        }
-        this.client.once('ready', async () => {
-          this.clientId = await this.client
-            .application!.fetch()
-            .then(data => data!.id)
-          ;(async () => {
-            try {
-              await rest.put(
-                Routes.applicationGuildCommands(
-                  this.clientId as string,
-                  this.guildId as string
-                ),
-                {
-                  body: commands,
-                }
-              )
-            } catch (error) {
-              console.error(error)
+          for (const folder of commandFolders) {
+            const commandFiles = readdirSync(`${this.path}/${folder}`)
+            for (const file of commandFiles) {
+              const { command } = require(`${this.path}/${folder}/${file}`)
+              const Command = new command()
+              this.commands.set(Command.data.name, Command)
+              console.log(`${Command.data.name} load`)
             }
-          })()
-        })
+          }
+
+          const rest = new REST({ version: '9' }).setToken(`${this.token}`)
+          const commands: any[] = []
+
+          for (const folder of commandFolders) {
+            const commandFiles = readdirSync(`${this.path}/${folder}`)
+            for (const file of commandFiles) {
+              const { command } = require(`${this.path}/${folder}/${file}`)
+              const Command = new command()
+              commands.push(Command.data.toJSON())
+            }
+          }
+          this.client.once('ready', async () => {
+            this.clientId = await this.client
+              .application!.fetch()
+              .then(data => data!.id)
+            ;(async () => {
+              try {
+                await rest.put(
+                  Routes.applicationGuildCommands(
+                    this.clientId as string,
+                    this.guildId as string
+                  ),
+                  {
+                    body: commands,
+                  }
+                )
+              } catch (error) {
+                console.error(error)
+              }
+            })()
+          })
+        }
+      } else if (this.slashType == 'GLOBAL') {
+        if (this.loadType == 'FILE') {
+          const commandFiles = readdirSync(this.path)
+
+          for (const file of commandFiles) {
+            const { command } = require(`${this.path}/${file}`)
+            const Command = new command()
+            this.commands.set(Command.data.name, Command)
+            console.log(`${Command.data.name} load`)
+          }
+
+          const rest = new REST({ version: '9' }).setToken(`${this.token}`)
+          const commands: any[] = []
+
+          for (const file of commandFiles) {
+            const { command } = require(`${this.path}/${file}`)
+            const Command = new command()
+            commands.push(Command.data.toJSON())
+          }
+
+          this.client.once('ready', async () => {
+            this.clientId = await this.client
+              .application!.fetch()
+              .then(data => data!.id)
+            ;(async () => {
+              try {
+                await rest.put(Routes.applicationCommands(this.clientId), {
+                  body: commands,
+                })
+              } catch (error) {
+                console.error(error)
+              }
+            })()
+          })
+        }
       } else if (this.loadType == 'FOLDER') {
         const commandFolders = readdirSync(this.path)
 
@@ -141,10 +219,7 @@ export class Command implements CommandOptions {
           ;(async () => {
             try {
               await rest.put(
-                Routes.applicationGuildCommands(
-                  this.clientId as string,
-                  this.guildId as string
-                ),
+                Routes.applicationCommands(this.clientId as string),
                 {
                   body: commands,
                 }
@@ -155,82 +230,6 @@ export class Command implements CommandOptions {
           })()
         })
       }
-    } else if (this.slashType == 'GLOBAL') {
-      if (this.loadType == 'FILE') {
-        const commandFiles = readdirSync(this.path)
-
-        for (const file of commandFiles) {
-          const { command } = require(`${this.path}/${file}`)
-          const Command = new command()
-          this.commands.set(Command.data.name, Command)
-          console.log(`${Command.data.name} load`)
-        }
-
-        const rest = new REST({ version: '9' }).setToken(`${this.token}`)
-        const commands: any[] = []
-
-        for (const file of commandFiles) {
-          const { command } = require(`${this.path}/${file}`)
-          const Command = new command()
-          commands.push(Command.data.toJSON())
-        }
-
-        this.client.once('ready', async () => {
-          this.clientId = await this.client
-            .application!.fetch()
-            .then(data => data!.id)
-          ;(async () => {
-            try {
-              await rest.put(Routes.applicationCommands(this.clientId), {
-                body: commands,
-              })
-            } catch (error) {
-              console.error(error)
-            }
-          })()
-        })
-      }
-    } else if (this.loadType == 'FOLDER') {
-      const commandFolders = readdirSync(this.path)
-
-      for (const folder of commandFolders) {
-        const commandFiles = readdirSync(`${this.path}/${folder}`)
-        for (const file of commandFiles) {
-          const { command } = require(`${this.path}/${folder}/${file}`)
-          const Command = new command()
-          this.commands.set(Command.data.name, Command)
-          console.log(`${Command.data.name} load`)
-        }
-      }
-
-      const rest = new REST({ version: '9' }).setToken(`${this.token}`)
-      const commands: any[] = []
-
-      for (const folder of commandFolders) {
-        const commandFiles = readdirSync(`${this.path}/${folder}`)
-        for (const file of commandFiles) {
-          const { command } = require(`${this.path}/${folder}/${file}`)
-          const Command = new command()
-          commands.push(Command.data.toJSON())
-        }
-      }
-      this.client.once('ready', async () => {
-        this.clientId = await this.client
-          .application!.fetch()
-          .then(data => data!.id)
-        ;(async () => {
-          try {
-            await rest.put(
-              Routes.applicationCommands(this.clientId as string),
-              {
-                body: commands,
-              }
-            )
-          } catch (error) {
-            console.error(error)
-          }
-        })()
-      })
     }
   }
 
