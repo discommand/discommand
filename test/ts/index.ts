@@ -17,8 +17,6 @@ const cmd = new Command(client, {
 
 cmd.loadCommand()
 
-client.on('interactionCreate', interaction => {
-  cmd.run(interaction)
-})
+cmd.run()
 
 client.login(token)

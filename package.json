@@ -1,6 +1,6 @@
 {
   "name": "@migan/discord.js-commandhandler",
-  "version": "2.0.0-dev.1",
+  "version": "2.0.0-dev.2",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "repository": "https://github.com/siwoo131/discord.js-commandhandler",

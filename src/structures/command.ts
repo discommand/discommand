@@ -234,42 +234,49 @@ export class Command implements CommandOptions {
     }
   }
 
-  public async run(interaction?: Interaction, msg?: Message) {
-    if (this.slash == true) {
-      if (!interaction?.isCommand()) return
+  public async run() {
+    this.client.on('interactionCreate', async interaction => {
+      if (this.slash == true) {
+        if (!interaction?.isCommand()) return
 
-      const command: any = this.commands.get(interaction.commandName)
+        const command: any = this.commands.get(interaction.commandName)
 
-      if (!command) return
+        if (!command) return
 
-      try {
-        await command.execute(interaction, this.client)
-      } catch (error) {
-        console.error(error)
+        try {
+          await command.execute(interaction, this.client)
+        } catch (error) {
+          console.error(error)
+        }
       }
-    }
+    })
     if (this.slash == false) {
       const prefix = this.prefix
-      if (!msg?.content.startsWith(prefix) || msg.author.bot) return
+      this.client.on('messageCreate', msg => {
+        if (!msg?.content.startsWith(prefix) || msg.author.bot) return
 
-      const args: string[] = msg.content.slice(prefix.length).trim().split(/ +/)
-      const shift: any = args.shift()
-      const commandName = shift.toLowerCase()
+        const args: string[] = msg.content
+          .slice(prefix.length)
+          .trim()
+          .split(/ +/)
+        const shift: any = args.shift()
+        const commandName = shift.toLowerCase()
 
-      const command: any =
-        this.commands.get(commandName) ||
-        this.commands.find(
-          (cmd: any) => cmd.aliases && cmd.aliases.includes(commandName)
-        )
+        const command: any =
+          this.commands.get(commandName) ||
+          this.commands.find(
+            (cmd: any) => cmd.aliases && cmd.aliases.includes(commandName)
+          )
 
-      if (!command) return
+        if (!command) return
 
-      try {
-        command.execute(msg, this.client, args)
-      } catch (error) {
-        console.error(error)
-      }
-      if (!this.commands.has(commandName)) return
+        try {
+          command.execute(msg, this.client, args)
+        } catch (error) {
+          console.error(error)
+        }
+        if (!this.commands.has(commandName)) return
+      })
     }
   }
 }
