@@ -1,11 +1,11 @@
-import { Interaction } from "discord.js";
-import { commandHandlerClient } from "../index";
+import { CommandInteraction, Client } from 'discord.js'
+import { SlashCommandBuilder } from '@discordjs/builders'
 
 interface commandOptions {
-  data: any;
+  data: SlashCommandBuilder
 }
 
 export class slashCommand implements commandOptions {
-  data: any;
-  execute(interaction: Interaction, client: commandHandlerClient): any {}
+  data: SlashCommandBuilder = new SlashCommandBuilder()
+  execute(interaction: CommandInteraction, client: Client): any {}
 }

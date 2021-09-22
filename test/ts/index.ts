@@ -1,20 +1,22 @@
-import { commandHandlerClient } from "../../dist/index.js";
-import { Intents } from "discord.js";
-import path = require("path");
+import { Client } from 'discord.js'
+import { Command } from '../../dist'
+import path = require('path')
 
-const config = require("../config.json");
+const { token, guildId } = require('../config.json')
 
-const client = new commandHandlerClient({
-  intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
-  // path: path.join(__dirname, "commands"),
-  path: 1,
-  token: config.token,
-});
+const client = new Client({ intents: ['GUILDS'] })
+const cmd = new Command(client, {
+  prefix: '!',
+  path: path.join(__dirname, 'commands'),
+  slash: true,
+  loadType: 'FILE',
+  slashType: 'GUILD',
+  token,
+  guildId,
+})
 
-client.loadSlashGuildCmdWithFolder("863380982560456704", "863380858681557003");
+cmd.loadCommand()
 
-client.on("interactionCreate", (interaction) => {
-  client.runSlash(interaction, client);
-});
+cmd.run()
 
-client.login();
+client.login(token)

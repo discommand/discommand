@@ -1,20 +1,22 @@
-const { commandHandlerClient } = require('../../dist/index.js');
-const { Intents } = require('discord.js');
-const path = require('path');
+const { Client } = require('discord.js')
+const { Command } = require('../../dist')
+const { token, guildId } = require('../config.json')
+const path = require('path')
 
-const config = require('../config.json');
+const client = new Client({ intents: ['GUILDS'] })
 
-const client = new commandHandlerClient({
-    intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
-    prefix: "!",
-    path: path.join(__dirname, 'commands'),
-    token: config.token
-});
-
-client.loadSlashGuildCmdWithFile("863380982560456704", "863380858681557003");
-
-client.on('interactionCreate', interaction => {
-    client.runSlash(interaction, client);
+const cmd = new Command(client, {
+  prefix: '!',
+  path: path.join(__dirname, 'commands'),
+  slash: true,
+  loadType: 'FOLDER',
+  slashType: 'GUILD',
+  token,
+  guildId,
 })
 
-client.login();
+cmd.loadCommand()
+
+cmd.run()
+
+client.login(token)
