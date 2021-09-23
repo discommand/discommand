@@ -31,7 +31,7 @@ import { Client, Intents } from 'discord.js'
 import { Command } from '@migan/discord.js-commandhandler'
 import path = require('path')
 
-const client = new commandHandlerClient({
+const client = new Client({
   intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
 })
 const cmd = new Command(client, {
@@ -74,7 +74,7 @@ import { Client, Intents } from 'discord.js'
 import { Command } from '@migan/discord.js-commandhandler'
 import path = require('path')
 
-const client = new commandHandlerClient({ intents: [Intents.FLAGS.GUILDS] })
+const client = new Client({ intents: [Intents.FLAGS.GUILDS] })
 const cmd = new Command(client, {
   prefix: '!',
   path: path.join(__dirname, 'commands'),
