@@ -7,7 +7,7 @@
   "author": "siwoo131 <tigersiwoo131@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "@types/node": "^16.9.6",
+    "@types/node": "^16.10.2",
     "discord.js": "^13.1.0",
     "ts-node": "^10.2.1",
     "tsc": "^2.0.3",
