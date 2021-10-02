@@ -2,7 +2,7 @@
 
 easy discord.js commandHandler
 
-- Caution! This version is under development, So there may be a bug.
+- Caution! This version is under development, so there may be a bug.
 
 ## Installation
 
