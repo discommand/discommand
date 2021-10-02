@@ -2,11 +2,11 @@
 
 easy discord.js commandHandler
 
-- Caution! This version is under development. Accordingly, there may be a bug.
+- Caution! This version is under development, So there may be a bug.
 
 ## Installation
 
-this is use discord.js@13
+this is for discord.js@13
 
 ```sh
 npm i @migan/discord.js-commandhandler
@@ -20,7 +20,7 @@ npm i @migan/discord.js-commandhandler@next
 
 ## Example
 
-### ts
+### Usage for TypeScript
 
 #### MessageCommand
 
@@ -110,7 +110,7 @@ export class command extends slashCommand {
 }
 ```
 
-### js
+### Usage for Javascript
 
 #### MessageCommand
 
