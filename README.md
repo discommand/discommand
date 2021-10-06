@@ -1,4 +1,4 @@
-# discord.js-commandhandler
+# discommand
 
 easy discord.js commandHandler
 
@@ -9,13 +9,13 @@ easy discord.js commandHandler
 this is for discord.js@13
 
 ```sh
-npm i @migan/discord.js-commandhandler
+npm i discommand
 ```
 
 dev
 
 ```sh
-npm i @migan/discord.js-commandhandler@next
+npm i discommand@next
 ```
 
 ## Example
@@ -28,7 +28,7 @@ index.ts
 
 ```ts
 import { Client, Intents } from 'discord.js'
-import { Command } from '@migan/discord.js-commandhandler'
+import { Command } from 'discommand'
 import path = require('path')
 
 const client = new Client({
@@ -37,7 +37,6 @@ const client = new Client({
 const cmd = new Command(client, {
   prefix: '!',
   path: path.join(__dirname, 'commands'),
-  slash: false,
   loadType: 'FILE',
 })
 
@@ -52,60 +51,12 @@ commands/ping.ts
 
 ```ts
 import type { Message } from 'discord.js'
-import {
-  MessageCommand,
-  commandHandlerClient,
-} from '@migan/discord.js-commandhandler'
+import { MessageCommand, commandHandlerClient } from 'discommand'
 
 export class command extends MessageCommand {
   name = 'ping'
   execute(msg: Message, client: commandHandlerClient, args: any) {
     msg.reply('pong!')
-  }
-}
-```
-
-#### slashCommand
-
-index.ts
-
-```ts
-import { Client, Intents } from 'discord.js'
-import { Command } from '@migan/discord.js-commandhandler'
-import path = require('path')
-
-const client = new Client({ intents: [Intents.FLAGS.GUILDS] })
-const cmd = new Command(client, {
-  prefix: '!',
-  path: path.join(__dirname, 'commands'),
-  slash: true,
-  loadType: 'FILE',
-  slashType: 'GUILD',
-  token: 'your_bot_token',
-  guildId: 'GuildId',
-})
-
-cmd.loadCommand()
-
-cmd.run()
-
-client.login('your_bot_token')
-```
-
-commands/ping.ts
-
-```ts
-import { CommandInteraction } from 'discord.js'
-import { SlashCommandBuilder } from '@discordjs/builders'
-import {
-  slashCommand,
-  commandHandlerClient,
-} from '@migan/discord.js-commandhandler'
-
-export class command extends slashCommand {
-  data = new SlashCommandBuilder().setName('ping').setDescription('pong')
-  async execute(interaction: CommandInteraction, client: commandHandlerClient) {
-    await interaction.reply('pong!')
   }
 }
 ```
@@ -118,7 +69,7 @@ index.js
 
 ```js
 const { Client, Intents } = require('discord.js')
-const { Command } = require('@migan/discord.js-commandhandler')
+const { Command } = require('discommand')
 const path = require('path')
 const client = new Client({
   intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
@@ -140,52 +91,12 @@ client.login('your_bot_token')
 commands/ping.js
 
 ```js
-const { MessageCommand } = require('@migan/discord.js-commandhandler')
+const { MessageCommand } = require('discommand')
 
 exports.command = class command extends MessageCommand {
   name = 'ping'
   execute(msg, client, args) {
     msg.reply('pong!')
-  }
-}
-```
-
-#### slashCommand
-
-index.js
-
-```js
-const { Client, Intents } = require('discord.js')
-const { Command } = require('@migan/discord.js-commandhandler')
-const path = require('path')
-const client = new Client({ intents: [Intents.FLAGS.GUILDS] })
-const cmd = new Command(client, {
-  prefix: '!',
-  path: path.join(__dirname, 'commands'),
-  slash: true,
-  loadType: 'FILE',
-  slashType: 'GUILD',
-  token: 'your_bot_token',
-  guildId: 'GuildId',
-})
-
-cmd.loadCommand()
-
-cmd.run()
-
-client.login('your_bot_token')
-```
-
-commands/ping.js
-
-```js
-const { SlashCommandBuilder } = require('@discordjs/builders')
-const { slashCommand } = require('@migan/discord.js-commandhandler')
-
-exports.command = class command extends slashCommand {
-  data = new SlashCommandBuilder().setName('ping').setDescription('pong')
-  execute(interaction, client) {
-    interaction.reply('pong!')
   }
 }
 ```

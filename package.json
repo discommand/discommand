@@ -1,9 +1,9 @@
 {
-  "name": "@migan/discord.js-commandhandler",
-  "version": "2.0.0-dev.5",
+  "name": "discommand",
+  "version": "2.0.0-dev",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "repository": "https://github.com/siwoo131/discord.js-commandhandler",
+  "repository": "https://github.com/discommand/discommand",
   "author": "siwoo131 <tigersiwoo131@gmail.com>",
   "license": "MIT",
   "devDependencies": {
@@ -28,8 +28,5 @@
     "discord.js",
     "commandHandler"
   ],
-  "bugs": {
-    "url": "https://github.com/siwoo131/discord.js-commandhandler"
-  },
-  "homepage": "https://djs-commandhandler.netlify.app/"
+  "homepage": "https://discommand.netlify.app/"
 }
