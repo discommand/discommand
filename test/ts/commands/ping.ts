@@ -1,12 +1,9 @@
-import { CommandInteraction, Client } from 'discord.js'
-import { SlashCommandBuilder } from '@discordjs/builders'
-import { slashCommand } from '../../../dist'
+import { Message } from 'discord.js'
+import { MessageCommand } from '../../../dist'
 
-export class command extends slashCommand {
-  data = new SlashCommandBuilder()
-    .setName('ping')
-    .setDescription('Replies with Pong!')
-  async execute(interaction: CommandInteraction, client: Client) {
-    await interaction.reply('pong!')
+export class command extends MessageCommand {
+  name = 'ping'
+  execute(msg: Message, args: any) {
+    msg.reply(args[0] as string)
   }
 }

@@ -68,7 +68,7 @@ export class Command implements CommandOptions {
       if (!command) return
 
       try {
-        command.execute(msg, this.client, args)
+        command.execute(msg, args)
       } catch (error) {
         console.error(error)
       }
