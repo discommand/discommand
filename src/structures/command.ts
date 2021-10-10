@@ -1,10 +1,11 @@
 import { Client, Collection } from 'discord.js'
 import { readdirSync } from 'fs'
+import { MessageCommand } from '..'
 
 type loadType = 'FOLDER' | 'FILE'
 
 /**
- *
+ * @typedef CommandOptions
  * @property {Client} client
  * @property {string} prefix
  * @property {string} path
@@ -30,10 +31,15 @@ export class Command implements CommandOptions {
     if (this.loadType == 'FILE') {
       const commandFiles = readdirSync(this.path)
       for (const file of commandFiles) {
-        const { command } = require(`${this.path}/${file}`)
-        const Command = new command()
-        this.commands.set(Command.name, Command)
-        console.log(`${Command.name} load`)
+        const command = require(`${this.path}/${file}`)
+        const Command: MessageCommand = new command()
+        if (!Command.name) {
+          console.error(`${file} is name required.`)
+          continue
+        } else {
+          this.commands.set(Command.name, Command)
+          console.log(`${Command.name} load`)
+        }
       }
     } else if (this.loadType == 'FOLDER') {
       const commandFolders = readdirSync(this.path)
@@ -41,24 +47,29 @@ export class Command implements CommandOptions {
       for (const folder of commandFolders) {
         const commandFiles = readdirSync(`${this.path}/${folder}`)
         for (const file of commandFiles) {
-          const { command } = require(`${this.path}/${folder}/${file}`)
-          const Command = new command()
-          this.commands.set(Command.name, Command)
-          console.log(`${Command.name} load`)
+          const command = require(`${this.path}/${folder}/${file}`)
+          const Command: MessageCommand = new command()
+          if (!Command.name) {
+            console.error(`${file} is name required.`)
+            continue
+          } else {
+            this.commands.set(Command.name, Command)
+            console.log(`${Command.name} load`)
+          }
         }
       }
     }
   }
 
   public async run() {
-    const prefix = this.prefix
     this.client.on('messageCreate', msg => {
-      if (!msg?.content.startsWith(prefix) || msg.author.bot) return
+      if (!msg.content.startsWith(this.prefix) || msg.author.bot) return
 
-      const args: string[] = msg.content.slice(prefix.length).trim().split(/ +/)
-      const shift: any = args.shift()
-      const commandName = shift.toLowerCase()
-
+      const args: string[] = msg.content
+        .slice(this.prefix.length)
+        .trim()
+        .split(/ +/)
+      const commandName = args.shift()?.toLowerCase() as string
       const command: any =
         this.commands.get(commandName) ||
         this.commands.find(

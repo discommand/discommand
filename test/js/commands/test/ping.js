@@ -1,7 +1,7 @@
 const { MessageCommand } = require('../../../../dist/index.js')
 
-exports.command = class command extends MessageCommand {
-  name = 'ping'
+module.exports = class extends MessageCommand {
+  name = ''
   execute(msg, args) {
     msg.reply('pong!')
   }

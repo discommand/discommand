@@ -1,9 +1,9 @@
 import { Message } from 'discord.js'
 import { MessageCommand } from '../../../dist'
 
-export class command extends MessageCommand {
+export = class extends MessageCommand {
   name = 'ping'
-  execute(msg: Message, args: any) {
-    msg.reply(args[0] as string)
+  execute(msg: Message, args: string[]) {
+    msg.reply('pong!')
   }
 }

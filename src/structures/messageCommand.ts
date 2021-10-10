@@ -10,5 +10,5 @@ export class MessageCommand implements commandOptions {
   name: string = ''
   description?: string = ''
   aliases?: string[] = ['']
-  execute(msg: Message, args: any): any {}
+  execute(msg: Message, args: string[]): any {}
 }

@@ -2,8 +2,6 @@
 
 easy discord.js commandHandler
 
-- Caution! This version is under development, so there may be a bug.
-
 ## Installation
 
 this is for discord.js@13
@@ -50,12 +48,12 @@ client.login('your_bot_token')
 commands/ping.ts
 
 ```ts
-import type { Message } from 'discord.js'
-import { MessageCommand, commandHandlerClient } from 'discommand'
+import { Message } from 'discord.js'
+import { MessageCommand } from 'discommand'
 
-export class command extends MessageCommand {
+export = class extends MessageCommand {
   name = 'ping'
-  execute(msg: Message, client: commandHandlerClient, args: any) {
+  execute(msg: Message, args: string[]) {
     msg.reply('pong!')
   }
 }
@@ -93,9 +91,9 @@ commands/ping.js
 ```js
 const { MessageCommand } = require('discommand')
 
-exports.command = class command extends MessageCommand {
+module.exports = class extends MessageCommand {
   name = 'ping'
-  execute(msg, client, args) {
+  execute(msg, args) {
     msg.reply('pong!')
   }
 }
