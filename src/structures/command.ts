@@ -35,7 +35,6 @@ export class Command implements CommandOptions {
         const Command: MessageCommand = new command()
         if (!Command.name) {
           console.error(`${file} is name required.`)
-          continue
         } else {
           this.commands.set(Command.name, Command)
           console.log(`${Command.name} load`)
@@ -51,7 +50,6 @@ export class Command implements CommandOptions {
           const Command: MessageCommand = new command()
           if (!Command.name) {
             console.error(`${file} is name required.`)
-            continue
           } else {
             this.commands.set(Command.name, Command)
             console.log(`${Command.name} load`)
