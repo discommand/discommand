@@ -34,10 +34,10 @@ export class Command implements CommandOptions {
         const command = require(`${this.path}/${file}`)
         const Command: MessageCommand = new command()
         if (!Command.name) {
-          console.error(`${file} is name required.`)
+          console.error(`[discommand] ${file} is name required.`)
         } else {
           this.commands.set(Command.name, Command)
-          console.log(`${Command.name} load`)
+          console.log(`[discommand] ${Command.name} load`)
         }
       }
     } else if (this.loadType == 'FOLDER') {
@@ -49,10 +49,10 @@ export class Command implements CommandOptions {
           const command = require(`${this.path}/${folder}/${file}`)
           const Command: MessageCommand = new command()
           if (!Command.name) {
-            console.error(`${file} is name required.`)
+            console.error(`[discommand] ${file} is name required.`)
           } else {
             this.commands.set(Command.name, Command)
-            console.log(`${Command.name} load`)
+            console.log(`[discommand] ${Command.name} load`)
           }
         }
       }
