@@ -47,11 +47,11 @@ commands/ping.ts
 
 ```ts
 import { Message } from 'discord.js'
-import { MessageCommand } from 'discommand'
+import { MessageCommand, Command } from 'discommand'
 
 export = class extends MessageCommand {
   name = 'ping'
-  execute(msg: Message, args: string[]) {
+  execute(msg: Message, args: string[], cmd: Command) {
     msg.reply('pong!')
   }
 }
@@ -89,7 +89,7 @@ const { MessageCommand } = require('discommand')
 
 module.exports = class extends MessageCommand {
   name = 'ping'
-  execute(msg, args) {
+  execute(msg, args, cmd) {
     msg.reply('pong!')
   }
 }
