@@ -1,4 +1,5 @@
 import { Message } from 'discord.js'
+import { Command } from '..'
 
 export interface commandOptions {
   name: string
@@ -10,5 +11,5 @@ export class MessageCommand implements commandOptions {
   name: string = ''
   description?: string = ''
   aliases?: string[] = ['']
-  execute(msg: Message, args: string[]): any {}
+  execute(msg: Message, args: string[], cmd: Command): any {}
 }

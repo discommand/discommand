@@ -13,8 +13,4 @@ const cmd = new Command(client, {
 
 cmd.loadCommand()
 
-cmd.run()
-
-client.on('debug', console.info)
-
 client.login(token)

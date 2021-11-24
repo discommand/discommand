@@ -1,10 +1,10 @@
 {
   "name": "discommand",
-  "version": "2.2.0",
+  "version": "3.0.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "repository": "https://github.com/discommand/discommand",
-  "author": "siwoo131 <tigersiwoo131@gmail.com>",
+  "author": "Migan178 <tigersiwoo131@gmail.com>",
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^16.10.9",
@@ -18,12 +18,6 @@
     "build": "tsc",
     "test:ts": "ts-node test/ts/index.ts",
     "test:js": "node test/js/index.js"
-  },
-  "dependencies": {
-    "@discordjs/builders": "^0.6.0",
-    "@discordjs/rest": "^0.1.0-canary.0",
-    "@types/node-fetch": "^2.5.12",
-    "discord-api-types": "^0.23.1"
   },
   "keywords": [
     "discord.js",

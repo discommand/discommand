@@ -40,8 +40,6 @@ const cmd = new Command(client, {
 
 cmd.loadCommand()
 
-cmd.run()
-
 client.login('your_bot_token')
 ```
 
@@ -80,8 +78,6 @@ const cmd = new Command(client, {
 })
 
 cmd.loadCommand()
-
-cmd.run()
 
 client.login('your_bot_token')
 ```

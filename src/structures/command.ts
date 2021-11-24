@@ -2,14 +2,14 @@ import { Client, Collection } from 'discord.js'
 import { readdirSync } from 'fs'
 import { MessageCommand } from '..'
 
-type loadType = 'FOLDER' | 'FILE'
+export type loadType = 'FOLDER' | 'FILE'
 
 /**
  * @typedef CommandOptions
- * @property {Client} client
- * @property {string} prefix
- * @property {string} path
- * @property {'FOLDER', 'FILE'} loadType
+ * @param {Client} client
+ * @param {string} prefix
+ * @param {string} path
+ * @param {'FOLDER', 'FILE'} loadType
  */
 export class Command implements CommandOptions {
   client: Client
@@ -57,9 +57,6 @@ export class Command implements CommandOptions {
         }
       }
     }
-  }
-
-  public async run() {
     this.client.on('messageCreate', msg => {
       if (!msg.content.startsWith(this.prefix) || msg.author.bot) return
 
@@ -77,7 +74,7 @@ export class Command implements CommandOptions {
       if (!command) return
 
       try {
-        command.execute(msg, args)
+        command.execute(msg, args, this)
       } catch (error) {
         console.error(error)
       }
