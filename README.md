@@ -18,22 +18,19 @@ npm i discommand@next
 
 ## Example
 
-### Usage for TypeScript
+- **※ This example is Slash Command.**
 
-#### MessageCommand
+### Usage for TypeScript
 
 index.ts
 
 ```ts
-import { Client, Intents } from 'discord.js'
+import { Client } from 'discord.js'
 import { Command } from 'discommand'
 import path = require('path')
 
-const client = new Client({
-  intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
-})
+const client = new Client({ intents: ['GUILDS'] })
 const cmd = new Command(client, {
-  prefix: '!',
   path: path.join(__dirname, 'commands'),
   loadType: 'FILE',
 })
@@ -46,35 +43,33 @@ client.login('your_bot_token')
 commands/ping.ts
 
 ```ts
-import { Message } from 'discord.js'
-import { MessageCommand, Command } from 'discommand'
+import { SlashCommand, Command } from 'discommand'
+import { CommandInteraction } from 'discord.js'
+import { SlashCommandBuilder } from '@discordjs/builders'
 
-export = class extends MessageCommand {
-  name = 'ping'
-  execute(msg: Message, args: string[], cmd: Command) {
-    msg.reply('pong!')
+export = class extends SlashCommand {
+  data = new SlashCommandBuilder().setName('Ping').setDescription('Pong!')
+  execute(interaction: CommandInteraction, slash: Command) {
+    interaction.reply('Pong!')
   }
 }
 ```
 
 ### Usage for Javascript
 
-#### MessageCommand
-
 index.js
 
 ```js
-const { Client, Intents } = require('discord.js')
-const { Command } = require('discommand')
+const { Client } = require('discord.js')
+const { Command } = require('../../dist')
 const path = require('path')
-const client = new Client({
-  intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
-})
+
+const client = new Client({ intents: ['GUILDS'] })
+
 const cmd = new Command(client, {
   prefix: '!',
   path: path.join(__dirname, 'commands'),
-  slash: false,
-  loadType: 'FILE',
+  loadType: 'FOLDER',
 })
 
 cmd.loadCommand()
@@ -85,12 +80,13 @@ client.login('your_bot_token')
 commands/ping.js
 
 ```js
-const { MessageCommand } = require('discommand')
+const { SlashCommand, Command } = require('discommand')
+const { SlashCommandBuilder } = require('@discordjs/builders')
 
-module.exports = class extends MessageCommand {
-  name = 'ping'
-  execute(msg, args, cmd) {
-    msg.reply('pong!')
+module.exports = class extends SlashCommand {
+  data = new SlashCommandBuilder().setName('ping').setDescription('Pong!')
+  execute(interaction, slash) {
+    interaction.reply('Pong!')
   }
 }
 ```

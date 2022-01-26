@@ -1,10 +1,10 @@
 {
   "name": "discommand",
-  "version": "3.0.1",
+  "version": "4.0.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "repository": "https://github.com/discommand/discommand",
-  "author": "Migan178 <tigersiwoo131@gmail.com>",
+  "author": "Migan178 <migan9857@gmail.com>",
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^16.10.9",
@@ -23,5 +23,6 @@
     "discord.js",
     "commandHandler"
   ],
-  "homepage": "https://discommand.netlify.app/"
+  "homepage": "https://discommand.netlify.app/",
+  "dependencies": {}
 }

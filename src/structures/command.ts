@@ -1,6 +1,7 @@
-import { Client, Collection } from 'discord.js'
+import { Client, Collection, Message } from 'discord.js'
 import { readdirSync } from 'fs'
 import { MessageCommand } from '..'
+import { SlashCommand } from './SlashCommand'
 
 export type loadType = 'FOLDER' | 'FILE'
 
@@ -11,57 +12,60 @@ export type loadType = 'FOLDER' | 'FILE'
  * @param {string} path
  * @param {'FOLDER', 'FILE'} loadType
  */
-export class Command implements CommandOptions {
+export class Command {
   client: Client
-  prefix: string
-  path: string
-  loadType: loadType
+  options: CommandOptions
   constructor(client: Client, options: CommandOptions) {
     this.client = client
-    this.prefix = options.prefix
-    this.path = options.path
-    this.loadType = options.loadType
+    this.options = options
   }
 
   public commands = new Collection()
 
   public version = require('../../package.json').version
 
-  public loadCommand() {
-    if (this.loadType == 'FILE') {
-      const commandFiles = readdirSync(this.path)
-      for (const file of commandFiles) {
-        const command = require(`${this.path}/${file}`)
-        const Command: MessageCommand = new command()
-        if (!Command.name) {
-          console.error(`[discommand] ${file} is name required.`)
-        } else {
-          this.commands.set(Command.name, Command)
-          console.log(`[discommand] ${Command.name} load`)
-        }
-      }
-    } else if (this.loadType == 'FOLDER') {
-      const commandFolders = readdirSync(this.path)
+  /**
+   * @private
+   */
+  private SlashCommandRegister(file: SlashCommand) {
+    console.log(`[discommand] ${file.data.name} is Loaded.`)
+    this.commands.set(file.data.name, file)
+    this.client.on('ready', () => {
+      // @ts-ignore
+      this.client.application!.commands.create(file.data.toJSON())
+    })
 
-      for (const folder of commandFolders) {
-        const commandFiles = readdirSync(`${this.path}/${folder}`)
-        for (const file of commandFiles) {
-          const command = require(`${this.path}/${folder}/${file}`)
-          const Command: MessageCommand = new command()
-          if (!Command.name) {
-            console.error(`[discommand] ${file} is name required.`)
-          } else {
-            this.commands.set(Command.name, Command)
-            console.log(`[discommand] ${Command.name} load`)
-          }
-        }
+    this.client.on('interactionCreate', async interaction => {
+      if (!interaction.isCommand()) return
+
+      const command: any = this.commands.get(interaction.commandName)
+
+      if (!command) return
+
+      try {
+        await command.execute(interaction, this)
+      } catch (error) {
+        console.error(error)
       }
-    }
+    })
+  }
+
+  /**
+   * @private
+   */
+  private MessageCommandRegister(file: MessageCommand) {
+    console.log(`[discommand] ${file.name} is Loaded.`)
+    if (!this.options.prefix)
+      throw Error(
+        'This is MessageCommand, So you have to define this.options.prefix.'
+      )
+    this.commands.set(file.name, file)
     this.client.on('messageCreate', msg => {
-      if (!msg.content.startsWith(this.prefix) || msg.author.bot) return
+      if (!msg.content.startsWith(this.options.prefix!) || msg.author.bot)
+        return
 
       const args: string[] = msg.content
-        .slice(this.prefix.length)
+        .slice(this.options.prefix!.length)
         .trim()
         .split(/ +/)
       const commandName = args.shift()?.toLowerCase() as string
@@ -81,10 +85,40 @@ export class Command implements CommandOptions {
       if (!this.commands.has(commandName)) return
     })
   }
+
+  public loadCommand() {
+    const Dir = readdirSync(this.options.path)
+    if (this.options.loadType === 'FILE') {
+      for (const File of Dir) {
+        const cmd = require(`${this.options.path}/${File}`)
+        const command = new cmd()
+
+        if (command instanceof SlashCommand) {
+          this.SlashCommandRegister(command)
+        } else if (command instanceof MessageCommand) {
+          this.MessageCommandRegister(command)
+        }
+      }
+    } else if (this.options.loadType === 'FOLDER') {
+      for (const Folder of Dir) {
+        const Dir2 = readdirSync(`${this.options.path}/${Folder}`)
+        for (const File of Dir2) {
+          const cmd = require(`${this.options.path}/${Folder}/${File}`)
+          const command = new cmd()
+
+          if (command instanceof SlashCommand) {
+            this.SlashCommandRegister(command)
+          } else if (command instanceof MessageCommand) {
+            this.MessageCommandRegister(command)
+          }
+        }
+      }
+    }
+  }
 }
 
 export interface CommandOptions {
   path: string
-  prefix: string
+  prefix?: string
   loadType: loadType
 }
