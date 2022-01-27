@@ -1,6 +1,6 @@
 {
   "name": "discommand",
-  "version": "4.0.0",
+  "version": "5.0.0-alpha.1",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "repository": "https://github.com/discommand/discommand",
@@ -23,6 +23,4 @@
     "discord.js",
     "commandHandler"
   ],
-  "homepage": "https://discommand.netlify.app/",
-  "dependencies": {}
-}
+  "homepage": ""

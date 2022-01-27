@@ -1,6 +1,5 @@
-import { Client, Collection, Message } from 'discord.js'
+import { Client, Collection } from 'discord.js'
 import { readdirSync } from 'fs'
-import { MessageCommand } from '..'
 import { SlashCommand } from './SlashCommand'
 
 export type loadType = 'FOLDER' | 'FILE'
@@ -50,54 +49,13 @@ export class Command {
     })
   }
 
-  /**
-   * @private
-   */
-  private MessageCommandRegister(file: MessageCommand) {
-    console.log(`[discommand] ${file.name} is Loaded.`)
-    if (!this.options.prefix)
-      throw Error(
-        'This is MessageCommand, So you have to define this.options.prefix.'
-      )
-    this.commands.set(file.name, file)
-    this.client.on('messageCreate', msg => {
-      if (!msg.content.startsWith(this.options.prefix!) || msg.author.bot)
-        return
-
-      const args: string[] = msg.content
-        .slice(this.options.prefix!.length)
-        .trim()
-        .split(/ +/)
-      const commandName = args.shift()?.toLowerCase() as string
-      const command: any =
-        this.commands.get(commandName) ||
-        this.commands.find(
-          (cmd: any) => cmd.aliases && cmd.aliases.includes(commandName)
-        )
-
-      if (!command) return
-
-      try {
-        command.execute(msg, args, this)
-      } catch (error) {
-        console.error(error)
-      }
-      if (!this.commands.has(commandName)) return
-    })
-  }
-
   public loadCommand() {
     const Dir = readdirSync(this.options.path)
     if (this.options.loadType === 'FILE') {
       for (const File of Dir) {
         const cmd = require(`${this.options.path}/${File}`)
         const command = new cmd()
-
-        if (command instanceof SlashCommand) {
           this.SlashCommandRegister(command)
-        } else if (command instanceof MessageCommand) {
-          this.MessageCommandRegister(command)
-        }
       }
     } else if (this.options.loadType === 'FOLDER') {
       for (const Folder of Dir) {
@@ -105,12 +63,7 @@ export class Command {
         for (const File of Dir2) {
           const cmd = require(`${this.options.path}/${Folder}/${File}`)
           const command = new cmd()
-
-          if (command instanceof SlashCommand) {
             this.SlashCommandRegister(command)
-          } else if (command instanceof MessageCommand) {
-            this.MessageCommandRegister(command)
-          }
         }
       }
     }
@@ -119,6 +72,5 @@ export class Command {
 
 export interface CommandOptions {
   path: string
-  prefix?: string
   loadType: loadType
 }
