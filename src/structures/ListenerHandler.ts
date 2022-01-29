@@ -34,9 +34,18 @@ export class ListenerHandler {
     const Dir = readdirSync(this.options.path)
     if (this.options.loadType === 'FILE') {
       for (const File of Dir) {
-        const TemporaryEvent = require(`${this.options.path} ${File}`)
+        const TemporaryEvent = require(`${this.options.path}/${File}`)
         const event = new TemporaryEvent()
         this.ListenerRegister(event)
+      }
+    } else if (this.options.loadType === 'FOLDER') {
+      for (const Folder of Dir) {
+        const Dir2 = readdirSync(`${this.options.path}/${Folder}`)
+        for (const File of Dir2) {
+          const TemporaryEvent = require(`${this.options.path}/${Folder}/${File}`)
+          const event = new TemporaryEvent()
+          this.ListenerRegister(event)
+        }
       }
     }
   }
