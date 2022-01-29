@@ -1,8 +1,8 @@
 import { CommandInteraction } from 'discord.js'
 import { SlashCommandBuilder } from '@discordjs/builders'
-import { Command } from '..'
+import { CommandHandler } from '..'
 
-export class SlashCommand {
+export class Command {
   data: SlashCommandBuilder = new SlashCommandBuilder()
-  execute(interaction: CommandInteraction, cmd: Command): any {}
+  execute(interaction: CommandInteraction, cmd: CommandHandler): any {}
 }

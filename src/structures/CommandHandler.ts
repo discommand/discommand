@@ -1,20 +1,18 @@
 import { Client, Collection } from 'discord.js'
 import { readdirSync } from 'fs'
-import { SlashCommand } from './SlashCommand'
-
-export type loadType = 'FOLDER' | 'FILE'
+import { Command } from './Command'
+import { Listener, Options } from '..'
 
 /**
- * @typedef CommandOptions
+ * @typedef Options
  * @param {Client} client
- * @param {string} prefix
  * @param {string} path
  * @param {'FOLDER', 'FILE'} loadType
  */
-export class Command {
+export class CommandHandler {
   client: Client
-  options: CommandOptions
-  constructor(client: Client, options: CommandOptions) {
+  options: Options
+  constructor(client: Client, options: Options) {
     this.client = client
     this.options = options
   }
@@ -26,8 +24,8 @@ export class Command {
   /**
    * @private
    */
-  private SlashCommandRegister(file: SlashCommand) {
-    console.log(`[discommand] ${file.data.name} is Loaded.`)
+  private SlashCommandRegister(file: Command) {
+    console.log(`[discommand] Command ${file.data.name} is Loaded.`)
     this.commands.set(file.data.name, file)
     this.client.on('ready', () => {
       // @ts-ignore
@@ -49,13 +47,14 @@ export class Command {
     })
   }
 
-  public loadCommand() {
+  public CommandLoadAll() {
+    console.log(`[discommand] version: ${this.version}`)
     const Dir = readdirSync(this.options.path)
     if (this.options.loadType === 'FILE') {
       for (const File of Dir) {
         const cmd = require(`${this.options.path}/${File}`)
         const command = new cmd()
-          this.SlashCommandRegister(command)
+        this.SlashCommandRegister(command)
       }
     } else if (this.options.loadType === 'FOLDER') {
       for (const Folder of Dir) {
@@ -63,14 +62,22 @@ export class Command {
         for (const File of Dir2) {
           const cmd = require(`${this.options.path}/${Folder}/${File}`)
           const command = new cmd()
-            this.SlashCommandRegister(command)
+          this.SlashCommandRegister(command)
         }
       }
     }
   }
-}
 
-export interface CommandOptions {
-  path: string
-  loadType: loadType
+  public CommandDeloadAll() {
+    // @ts-ignore
+    const CommandName = this.commands.map((event: Listener) => event.name)
+    for (const Command of CommandName) {
+      this.commands.delete(Command)
+    }
+  }
+
+  public CommandReloadAll() {
+    this.CommandDeloadAll()
+    this.CommandLoadAll()
+  }
 }

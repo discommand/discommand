@@ -1,6 +1,6 @@
 {
   "name": "discommand",
-  "version": "5.0.0-alpha.1",
+  "version": "5.0.0-alpha.2",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "repository": "https://github.com/discommand/discommand",
@@ -16,11 +16,11 @@
   },
   "scripts": {
     "build": "tsc",
-    "test:ts": "ts-node test/ts/index.ts",
-    "test:js": "node test/js/index.js"
+    "test": "ts-node test/index.ts"
   },
   "keywords": [
     "discord.js",
     "commandHandler"
   ],
   "homepage": ""
+}
