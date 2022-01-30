@@ -14,7 +14,7 @@ export class ListenerHandler {
   public events = new Collection()
 
   public ListenerRegister(file: Listener) {
-    console.log(`[discommand] Listener ${file} is Loaded.`)
+    console.log(`[discommand] Listener ${file.name} is Loaded.`)
     this.events.set(file.name, file)
 
     if (file.once) {
