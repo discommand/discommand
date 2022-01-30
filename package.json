@@ -23,6 +23,6 @@
     "discord.js",
     "commandHandler"
   ],
-  "homepage": "https://discommand.netlify.app/",
+  "homepage": "https://discommand.github.io/",
   "dependencies": {}
 }
