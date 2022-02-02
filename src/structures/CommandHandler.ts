@@ -70,7 +70,7 @@ export class CommandHandler {
 
   public CommandDeloadAll() {
     // @ts-ignore
-    const CommandName = this.commands.map((event: Listener) => event.name)
+    const CommandName = this.commands.map((cmd: Command) => cmd.data.name)
     for (const Command of CommandName) {
       this.commands.delete(Command)
     }
