@@ -24,27 +24,14 @@ export class CommandHandler {
   /**
    * @private
    */
-  private SlashCommandRegister(file: Command) {
+  private __SlashCommandRegister(file: Command) {
     console.log(`[discommand] Command ${file.data.name} is Loaded.`)
     this.commands.set(file.data.name, file)
     this.client.on('ready', () => {
       // @ts-ignore
       this.client.application!.commands.create(file.data.toJSON())
     })
-
-    this.client.on('interactionCreate', async interaction => {
-      if (!interaction.isCommand()) return
-
-      const command: any = this.commands.get(interaction.commandName)
-
-      if (!command) return
-
-      try {
-        await command.execute(interaction, this)
-      } catch (error) {
-        console.error(error)
-      }
-    })
+    this.__CommandOn()
   }
 
   public CommandLoadAll() {
@@ -54,7 +41,7 @@ export class CommandHandler {
       for (const File of Dir) {
         const cmd = require(`${this.options.path}/${File}`)
         const command = new cmd()
-        this.SlashCommandRegister(command)
+        this.__SlashCommandRegister(command)
       }
     } else if (this.options.loadType === 'FOLDER') {
       for (const Folder of Dir) {
@@ -62,7 +49,7 @@ export class CommandHandler {
         for (const File of Dir2) {
           const cmd = require(`${this.options.path}/${Folder}/${File}`)
           const command = new cmd()
-          this.SlashCommandRegister(command)
+          this.__SlashCommandRegister(command)
         }
       }
     }
@@ -79,5 +66,24 @@ export class CommandHandler {
   public CommandReloadAll() {
     this.CommandDeloadAll()
     this.CommandLoadAll()
+  }
+
+  /**
+   * @private
+   */
+  private __CommandOn() {
+    this.client.on('interactionCreate', async interaction => {
+      if (!interaction.isCommand()) return
+
+      const command: any = this.commands.get(interaction.commandName)
+
+      if (!command) return
+
+      try {
+        await command.execute(interaction, this)
+      } catch (error) {
+        console.error(error)
+      }
+    })
   }
 }
