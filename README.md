@@ -2,6 +2,8 @@
 
 easy discord.js commandHandler
 
+- **This version is not supported by MessageCommand.**
+
 ## Installation
 
 - this is for discord.js@13
