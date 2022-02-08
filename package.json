@@ -1,6 +1,6 @@
 {
   "name": "discommand",
-  "version": "4.0.0",
+  "version": "5.0.0-rc.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "repository": "https://github.com/discommand/discommand",
@@ -9,20 +9,18 @@
   "devDependencies": {
     "@types/node": "^16.10.9",
     "discord.js": "^13.1.0",
-    "prettier": "^2.4.1",
-    "ts-node": "^10.3.0",
-    "tsc": "^2.0.3",
-    "typescript": "^4.4.4"
+    "prettier": "^2.5.1",
+    "ts-node": "^10.4.0",
+    "tsc": "^2.0.4",
+    "typescript": "^4.5.5"
   },
   "scripts": {
     "build": "tsc",
-    "test:ts": "ts-node test/ts/index.ts",
-    "test:js": "node test/js/index.js"
+    "test": "ts-node test"
   },
   "keywords": [
     "discord.js",
     "commandHandler"
   ],
-  "homepage": "https://discommand.github.io/",
-  "dependencies": {}
+  "homepage": "https://discommand.github.io/"
 }
