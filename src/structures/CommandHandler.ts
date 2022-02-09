@@ -24,7 +24,7 @@ export class CommandHandler {
   /**
    * @private
    */
-  private __SlashCommandRegister(file: Command) {
+  private __register(file: Command) {
     console.log(`[discommand] Command ${file.data.name} is Loaded.`)
     this.commands.set(file.data.name, file)
     this.client.on('ready', () => {
@@ -41,7 +41,7 @@ export class CommandHandler {
       for (const File of Dir) {
         const cmd = require(`${this.options.path}/${File}`)
         const command = new cmd()
-        this.__SlashCommandRegister(command)
+        this.__register(command)
       }
     } else if (this.options.loadType === 'FOLDER') {
       for (const Folder of Dir) {
@@ -49,23 +49,52 @@ export class CommandHandler {
         for (const File of Dir2) {
           const cmd = require(`${this.options.path}/${Folder}/${File}`)
           const command = new cmd()
-          this.__SlashCommandRegister(command)
+          this.__register(command)
+        }
+      }
+    }
+  }
+
+  /**
+   * @private
+   */
+  private __Deregister(file: Command) {
+    this.commands.delete(file.data.name)
+    const Dir = readdirSync(this.options.path)
+    if (this.options.loadType === 'FILE') {
+      for (const File of Dir) {
+        delete require.cache[require.resolve(`${this.options.path}/${File}`)]
+      }
+    } else if (this.options.loadType === 'FOLDER') {
+      for (const Folder of Dir) {
+        const Dir2 = readdirSync(`${this.options.path}/${Folder}`)
+        for (const File of Dir2) {
+          delete require.cache[
+            require.resolve(`${this.options.path}/${Folder}/${File}`)
+          ]
         }
       }
     }
   }
 
   public CommandDeloadAll() {
-    // @ts-ignore
-    const CommandName = this.commands.map((cmd: Command) => cmd.data.name)
-    for (const Command of CommandName) {
-      this.commands.delete(Command)
+    const Dir = readdirSync(this.options.path)
+    if (this.options.loadType === 'FILE') {
+      for (const File of Dir) {
+        const cmd = require(`${this.options.path}/${File}`)
+        const command = new cmd()
+        this.__Deregister(command)
+      }
+    } else if (this.options.loadType === 'FOLDER') {
+      for (const Folder of Dir) {
+        const Dir2 = readdirSync(`${this.options.path}/${Folder}`)
+        for (const File of Dir2) {
+          const cmd = require(`${this.options.path}/${Folder}/${File}`)
+          const command = new cmd()
+          this.__Deregister(command)
+        }
+      }
     }
-  }
-
-  public CommandReloadAll() {
-    this.CommandDeloadAll()
-    this.CommandLoadAll()
   }
 
   /**
