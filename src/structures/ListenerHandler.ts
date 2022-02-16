@@ -51,10 +51,30 @@ export class ListenerHandler {
   }
 
   public ListenerDeloadAll() {
-    // @ts-ignore
-    const EventName = this.events.map((event: Listener) => event.name)
-    for (const Event of EventName) {
-      this.events.delete(Event)
+    const Dir = readdirSync(this.options.path)
+    if (this.options.loadType === 'FILE') {
+      for (const File of Dir) {
+        delete require.cache[require.resolve(`${this.options.path}/${File}`)]
+        // @ts-ignore
+        const EventName = this.events.map((event: Listener) => event.name)
+        for (const Event of EventName) {
+          this.events.delete(Event)
+        }
+      }
+    } else if (this.options.loadType === 'FOLDER') {
+      for (const Folder of Dir) {
+        const Dir2 = readdirSync(`${this.options.path}/${Folder}`)
+        for (const File of Dir2) {
+          delete require.cache[
+            require.resolve(`${this.options.path}/${Folder}/${File}`)
+          ]
+          // @ts-ignore
+          const EventName = this.events.map((event: Listener) => event.name)
+          for (const Event of EventName) {
+            this.events.delete(Event)
+          }
+        }
+      }
     }
   }
 
