@@ -1,5 +1,3 @@
-export * from './structures/types/index'
-export { CommandHandler } from './structures/CommandHandler'
-export { Command } from './structures/Command'
-export { ListenerHandler } from './structures/ListenerHandler'
-export { Listener } from './structures/Listener'
+export * from './BaseHandler'
+export * from './Command'
+export * from './Listener'
