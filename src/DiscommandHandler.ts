@@ -3,7 +3,7 @@ import { Options } from './types/Options'
 import { readdirSync } from 'fs'
 import { Command, Listener } from '.'
 
-export class BaseHandler {
+export class DiscommandHandler {
   client: Client
   options: Options
   public constructor(client: Client, options: Options) {
@@ -30,7 +30,34 @@ export class BaseHandler {
           defaultPermission: modules.defaultPermission,
         })
       })
+
+      this.client.on('interactionCreate', async interaction => {
+        if (!interaction.isCommand()) return
+
+        const command: any = this.modules.get(interaction.commandName)
+
+        if (!command) return
+
+        try {
+          await command.execute(interaction, this)
+        } catch (error) {
+          console.error(error)
+        }
+      })
     } else if (modules instanceof Listener) {
+      console.log(`[discommand] Listener ${modules.name} is Loaded.`)
+      this.modules.set(modules.name, modules)
+      if (modules.once) {
+        this.client.once(modules.name, (...args) => {
+          // @ts-ignore
+          modules.execute(...args)
+        })
+      } else {
+        this.client.on(modules.name, (...args) => {
+          // @ts-ignore
+          modules.execute(...args)
+        })
+      }
     }
   }
 

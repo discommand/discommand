@@ -27,17 +27,21 @@ npm i discommand@next
 index.ts
 
 ```ts
-import { Client } from 'discord.js'
-import { CommandHandler } from 'discommand'
+import { DiscommandClient } from '../dist'
+import { Intents } from 'discord.js'
 import path = require('path')
 
-const client = new Client({intents: ['GUILDS']})
-const cmd = new CommandHandler(client, {
-    path: path.join(__dirname, 'commands'),
+const client = new DiscommandClient(
+  {
+    intents: [Intents.FLAGS.GUILDS],
+  },
+  {
     loadType: 'FILE',
-})
+    CommandHandlerDirectory: path.join(__dirname, 'commands'),
+  }
+)
 
-cmd.CommandLoadAll()
+client.loadAll()
 
 client.login('your_bot_token')
 ```
@@ -45,13 +49,16 @@ client.login('your_bot_token')
 commands/ping.ts
 
 ```ts
-import { Command, CommandHandler } from 'discommand'
+import { Command } from 'discommand'
 import { CommandInteraction } from 'discord.js'
-import { SlashCommandBuilder } from '@discordjs/builders'
 
 export = class extends Command {
-  data = new SlashCommandBuilder().setName('Ping').setDescription('Pong!')
-  execute(interaction: CommandInteraction, slash: CommandHandler) {
+  name = 'ping'
+  description = 'ping'
+  execute(
+    interaction: CommandInteraction,
+    DiscommandHandler: DiscommandHandler
+  ) {
     interaction.reply('Pong!')
   }
 }
@@ -62,19 +69,21 @@ export = class extends Command {
 index.js
 
 ```js
-const { Client } = require('discord.js')
-const { CommandHandler } = require('discommand')
+const { DiscommndClient } = require('discommand')
+const { Intents } = require('discord.js')
 const path = require('path')
 
-const client = new Client({ intents: ['GUILDS'] })
+const client = new DiscommandClient(
+  {
+    intents: [Intents.FLAGS.GUILDS],
+  },
+  {
+    loadType: 'FILE',
+    CommandHandlerDirectory: path.join(__dirname, 'commands'),
+  }
+)
 
-const cmd = new CommandHandler(client, {
-  prefix: '!',
-  path: path.join(__dirname, 'commands'),
-  loadType: 'FOLDER',
-})
-
-cmd.CommandLoadAll()
+client.LoadAll()
 
 client.login('your_bot_token')
 ```
@@ -83,11 +92,11 @@ commands/ping.js
 
 ```js
 const { Command } = require('discommand')
-const { SlashCommandBuilder } = require('@discordjs/builders')
 
-module.exports = class extends Command {
-  data = new SlashCommandBuilder().setName('ping').setDescription('Pong!')
-  execute(interaction, slash) {
+export = class extends Command {
+  name = 'ping'
+  description = 'ping'
+  execute(interaction, DiscommandHandler) {
     interaction.reply('Pong!')
   }
 }

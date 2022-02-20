@@ -22,5 +22,9 @@
     "discord.js",
     "commandHandler"
   ],
-  "homepage": "https://discommand.github.io/"
+  "homepage": "https://discommand.github.io/",
+  "engines": {
+		"node": ">=16.6.0",
+		"npm": ">=7.0.0"
+  }
 }
