@@ -27,7 +27,7 @@ npm i discommand@next
 index.ts
 
 ```ts
-import { DiscommandClient } from '../dist'
+import { DiscommandClient } from 'discommand'
 import { Intents } from 'discord.js'
 import path = require('path')
 
