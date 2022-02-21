@@ -70,6 +70,15 @@ export class DiscommandHandler {
         const modules = new Temp()
         this.Register(modules)
       }
+    } else if (this.options.loadType === 'FOLDER') {
+      for (const Folder of Dir) {
+        const Dir2 = readdirSync(`${this.options.directory}/${Folder}`)
+        for (const File of Dir2) {
+          const Temp = require(`${this.options.directory}/${Folder}/${File}`)
+          const modules = new Temp()
+          this.Register(modules)
+        }
+      }
     }
   }
 }
