@@ -1,21 +1,18 @@
-import { Client } from 'discord.js'
-import { CommandHandler, ListenerHandler } from '../dist'
+import { Intents } from 'discord.js'
+import { DiscommandClient } from '../dist'
 import path = require('path')
 
-const { token } = require('./config.json')
+const config = require('./config.json')
+const client = new DiscommandClient(
+  {
+    intents: [Intents.FLAGS.GUILDS],
+  },
+  {
+    loadType: 'FILE',
+    CommandHandlerDirectory: path.join(__dirname, 'commands'),
+    // ListenerDirectory: path.join(__dirname, 'events'),
+  }
+)
 
-const client = new Client({ intents: ['GUILDS', 'GUILD_MESSAGES'] })
-const cmd = new CommandHandler(client, {
-  path: path.join(__dirname, 'commands'),
-  loadType: 'FILE',
-})
-const event = new ListenerHandler(client, {
-  path: path.join(__dirname, 'events'),
-  loadType: 'FILE',
-})
-
-event.ListenerLoadAll()
-
-cmd.CommandLoadAll()
-
-client.login(token)
+client.loadAll()
+client.login(config.token)

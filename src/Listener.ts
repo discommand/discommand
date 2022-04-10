@@ -1,5 +1,5 @@
 export class Listener {
-  name = ''
+  name: string = ''
   once: boolean = false
   execute(): any {}
 }

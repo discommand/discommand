@@ -1,6 +1,6 @@
 {
   "name": "discommand",
-  "version": "5.1.1",
+  "version": "6.0.0-alpha.2",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "repository": "https://github.com/discommand/discommand",
@@ -22,5 +22,9 @@
     "discord.js",
     "commandHandler"
   ],
-  "homepage": "https://discommand.github.io/"
+  "homepage": "https://discommand.github.io/",
+  "engines": {
+		"node": ">=16.6.0",
+		"npm": ">=7.0.0"
+  }
 }
