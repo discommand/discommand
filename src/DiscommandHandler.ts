@@ -1,4 +1,4 @@
-import { Client, Collection } from 'discord.js'
+import { Client, Collection, InteractionType } from 'discord.js'
 import { Options } from './types/Options'
 import { readdirSync } from 'fs'
 import { Command, Listener } from '.'
@@ -19,29 +19,31 @@ export class DiscommandHandler {
    */
   private Register(modules: Command | Listener) {
     if (modules instanceof Command) {
-      console.info(`[Command] ${modules.name} is Loaded.`)
+      console.info(`[discommand] Command ${modules.name} is Loaded.`)
       this.modules.set(modules.name, modules)
       this.client.once('ready', () => {
         this.client.application?.commands.create({
           name: modules.name,
           description: modules.description,
+          // @ts-ignore
           type: modules.type,
+          // @ts-ignore
           options: modules.options,
           defaultPermission: modules.defaultPermission,
         })
       })
 
       this.client.on('interactionCreate', async interaction => {
-        if (!interaction.isCommand()) return
+        if (interaction.type === InteractionType.ApplicationCommand) {
+          const command: any = this.modules.get(interaction.commandName)
 
-        const command: any = this.modules.get(interaction.commandName)
+          if (!command) return
 
-        if (!command) return
-
-        try {
-          await command.execute(interaction, this)
-        } catch (error) {
-          console.error(error)
+          try {
+            await command.execute(interaction, this)
+          } catch (error) {
+            console.error(error)
+          }
         }
       })
     } else if (modules instanceof Listener) {

@@ -2,11 +2,12 @@
 
 easy discord.js commandHandler
 
-- **This version is not supported by MessageCommand.**
+- **This version is not supported localizations.**
 
 ## Installation
 
-- this is for discord.js@13
+- this is use for discord.js@14
+- **Required by node.js 16.9.0 or higher**
 
 ```sh
 npm i discommand
@@ -20,20 +21,18 @@ npm i discommand@next
 
 ## Example
 
-- **※ This example is Slash Command.**
-
 ### Usage for TypeScript
 
 index.ts
 
 ```ts
 import { DiscommandClient } from 'discommand'
-import { Intents } from 'discord.js'
-import path = require('path')
+import { GatewayIntentBits } from 'discord.js'
+import * as path from 'path'
 
 const client = new DiscommandClient(
   {
-    intents: [Intents.FLAGS.GUILDS],
+    intents: [GatewayIntentBits.Guilds],
   },
   {
     loadType: 'FILE',
@@ -50,13 +49,13 @@ commands/ping.ts
 
 ```ts
 import { Command } from 'discommand'
-import { CommandInteraction } from 'discord.js'
+import { ChatInputCommandInteraction } from 'discord.js'
 
 export = class extends Command {
   name = 'ping'
   description = 'ping'
   execute(
-    interaction: CommandInteraction,
+    interaction: ChatInputCommandInteraction,
     DiscommandHandler: DiscommandHandler
   ) {
     interaction.reply('Pong!')
@@ -75,7 +74,7 @@ const path = require('path')
 
 const client = new DiscommandClient(
   {
-    intents: [Intents.FLAGS.GUILDS],
+    intents: [GatewayIntentBits.Guilds],
   },
   {
     loadType: 'FILE',
@@ -93,7 +92,7 @@ commands/ping.js
 ```js
 const { Command } = require('discommand')
 
-export = class extends Command {
+module.exports = class extends Command {
   name = 'ping'
   description = 'ping'
   execute(interaction, DiscommandHandler) {

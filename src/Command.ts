@@ -1,18 +1,19 @@
 import {
   ApplicationCommandOptionData,
   ApplicationCommandType,
-  CommandInteraction,
+  ChatInputCommandInteraction,
+  PermissionResolvable,
 } from 'discord.js'
 import { DiscommandHandler } from '.'
 
-export class Command {
+export abstract class Command {
   name: string = ''
   description: string = ''
-  type?: ApplicationCommandType = 'CHAT_INPUT'
+  type?: ApplicationCommandType = ApplicationCommandType.ChatInput
   options?: ApplicationCommandOptionData[]
-  defaultPermission?: boolean
+  defaultPermission?: PermissionResolvable
   execute(
-    interaction: CommandInteraction,
+    interaction: ChatInputCommandInteraction,
     DiscommandHandler: DiscommandHandler
   ): any {}
 }
