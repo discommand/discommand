@@ -1,4 +1,4 @@
-export type loadType = 'FILE' | 'FOLDER'
+import { loadType } from "."
 
 export type DiscommandClientOptions = {
   loadType: loadType

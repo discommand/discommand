@@ -15,5 +15,5 @@ export abstract class Command {
   execute(
     interaction: ChatInputCommandInteraction,
     DiscommandHandler: DiscommandHandler
-  ): any {}
+  ): void {}
 }

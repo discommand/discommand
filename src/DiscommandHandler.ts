@@ -1,5 +1,5 @@
 import { Client, Collection, InteractionType } from 'discord.js'
-import { Options } from './types/Options'
+import { Options } from '.'
 import { readdirSync } from 'fs'
 import { Command, Listener } from '.'
 

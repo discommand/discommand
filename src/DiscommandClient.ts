@@ -1,6 +1,6 @@
 import { Client, ClientOptions } from 'discord.js'
 import { DiscommandHandler } from '.'
-import { DiscommandClientOptions } from './types/DiscommandClientOptions'
+import { DiscommandClientOptions } from '.'
 
 export class DiscommandClient extends Client {
   DiscommandClientOptions: DiscommandClientOptions
