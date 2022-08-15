@@ -1,10 +1,9 @@
-import { Command } from '../../dist'
-import { CommandInteraction } from 'discord.js'
+import { Command, DiscommandHandler } from '../../dist'
+import { CommandInteraction, SlashCommandBuilder } from 'discord.js'
 
-export = class extends Command {
-  name = 'ping'
-  description = 'ping'
-  execute(interaction: CommandInteraction) {
+export default class extends Command {
+  data = new SlashCommandBuilder().setName('ping').setDescription('pong')
+  execute(interaction: CommandInteraction, cmd: DiscommandHandler) {
     interaction.reply('Pong!')
   }
 }

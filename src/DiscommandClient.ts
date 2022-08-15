@@ -3,23 +3,20 @@ import { DiscommandHandler } from '.'
 import { DiscommandClientOptions } from '.'
 
 export class DiscommandClient extends Client {
-  DiscommandClientOptions: DiscommandClientOptions
+  Options: DiscommandClientOptions
   CommandHandler: DiscommandHandler
   ListenerHandler?: DiscommandHandler
-  constructor(
-    options: ClientOptions,
-    DiscommandClientOptions: DiscommandClientOptions
-  ) {
-    super(options)
-    this.DiscommandClientOptions = DiscommandClientOptions
+  constructor(ClientOptions: ClientOptions, options: DiscommandClientOptions) {
+    super(ClientOptions)
+    this.Options = options
     this.CommandHandler = new DiscommandHandler(this, {
-      loadType: DiscommandClientOptions.loadType,
-      directory: DiscommandClientOptions.CommandHandlerDirectory,
+      loadType: options.loadType,
+      directory: this.Options.directory.commandFolderDirectory,
     })
-    if (DiscommandClientOptions.ListenerDirectory) {
+    if (options.directory.listenerFolderDirectory) {
       this.ListenerHandler = new DiscommandHandler(this, {
-        loadType: DiscommandClientOptions.loadType,
-        directory: DiscommandClientOptions.ListenerDirectory,
+        loadType: options.loadType,
+        directory: options.directory.listenerFolderDirectory,
       })
     }
   }

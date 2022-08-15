@@ -1,21 +1,21 @@
+import { type Command, type Listener } from '..'
+
 export enum LoadType {
   File = 0,
-  Folder,
+  Folder = 1,
 }
 
-export type Options = {
+export interface DiscommandHandlerOptions {
   loadType: LoadType
   directory: string
 }
 
-export type DiscommandClientOptions = {
+export interface DiscommandClientOptions {
   loadType: LoadType
-  CommandHandlerDirectory: string
-  ListenerDirectory?: string
+  directory: {
+    commandFolderDirectory: string
+    listenerFolderDirectory?: string
+  }
 }
 
-export enum MessageComponentType {
-  Button = 0,
-  SelectMenu,
-  Modal,
-}
+export type ModuleType = Command | Listener

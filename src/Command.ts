@@ -1,19 +1,13 @@
 import {
-  ApplicationCommandOptionData,
-  ApplicationCommandType,
-  ChatInputCommandInteraction,
-  PermissionResolvable,
+  SlashCommandBuilder,
+  type ChatInputCommandInteraction,
 } from 'discord.js'
-import { DiscommandHandler } from '.'
+import { type DiscommandHandler } from '.'
 
 export abstract class Command {
-  name: string = ''
-  description: string = ''
-  type?: ApplicationCommandType = ApplicationCommandType.ChatInput
-  options?: ApplicationCommandOptionData[]
-  defaultPermission?: PermissionResolvable
+  data: SlashCommandBuilder = new SlashCommandBuilder()
   execute(
     interaction: ChatInputCommandInteraction,
-    DiscommandHandler: DiscommandHandler
+    cmd: DiscommandHandler
   ): void {}
 }

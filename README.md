@@ -26,7 +26,7 @@ npm i discommand@next
 index.ts
 
 ```ts
-import { DiscommandClient } from 'discommand'
+import { DiscommandClient, LoadType } from 'discommand'
 import { GatewayIntentBits } from 'discord.js'
 import * as path from 'path'
 
@@ -35,8 +35,10 @@ const client = new DiscommandClient(
     intents: [GatewayIntentBits.Guilds],
   },
   {
-    loadType: 'FILE',
-    CommandHandlerDirectory: path.join(__dirname, 'commands'),
+    loadType: LoadType.File,
+    directory: {
+      commandFolderDirectory: path.join(__dirname, 'commands'),
+    },
   }
 )
 
@@ -49,15 +51,11 @@ commands/ping.ts
 
 ```ts
 import { Command } from 'discommand'
-import { ChatInputCommandInteraction } from 'discord.js'
+import { ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js'
 
-export = class extends Command {
-  name = 'ping'
-  description = 'ping'
-  execute(
-    interaction: ChatInputCommandInteraction,
-    DiscommandHandler: DiscommandHandler
-  ) {
+export default class extends Command {
+  data = new SlashCommandBuilder().setName('ping').setDescription('pong')
+  execute(interaction: ChatInputCommandInteraction, cmd: DiscommandHandler) {
     interaction.reply('Pong!')
   }
 }
@@ -68,8 +66,8 @@ export = class extends Command {
 index.js
 
 ```js
-const { DiscommndClient } = require('discommand')
-const { Intents } = require('discord.js')
+const { DiscommndClient, LoadType } = require('discommand')
+const { GatewayIntentBits } = require('discord.js')
 const path = require('path')
 
 const client = new DiscommandClient(
@@ -77,8 +75,10 @@ const client = new DiscommandClient(
     intents: [GatewayIntentBits.Guilds],
   },
   {
-    loadType: 'FILE',
-    CommandHandlerDirectory: path.join(__dirname, 'commands'),
+    loadType: LoadType.File,
+    directory: {
+      commandFolderDirectory: path.join(__dirname, 'commands'),
+    },
   }
 )
 
@@ -91,11 +91,11 @@ commands/ping.js
 
 ```js
 const { Command } = require('discommand')
+const { SlashCommandBuilder } = require('discord.js')
 
 module.exports = class extends Command {
-  name = 'ping'
-  description = 'ping'
-  execute(interaction, DiscommandHandler) {
+  data = new SlashCommandBuilder().setName('ping').setDescription('pong')
+  execute(interaction, cmd) {
     interaction.reply('Pong!')
   }
 }
