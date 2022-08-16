@@ -9,11 +9,13 @@ easy discord.js commandHandler
 - this is use for discord.js@14
 - **Required by node.js 16.9.0 or higher**
 
+1. Stable version
+
 ```sh
 npm i discommand
 ```
 
-dev
+2. Devlopment version
 
 ```sh
 npm i discommand@next

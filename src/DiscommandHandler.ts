@@ -74,7 +74,7 @@ export class DiscommandHandler {
     this.client.on('interactionCreate', async interaction => {
       if (interaction.type === InteractionType.ApplicationCommand) {
         if (interaction.isChatInputCommand()) {
-          const command = this.modules.get(interaction.commandName) as Command
+          const command = this.modules.get(interaction.commandName)
 
           if (!command) return
 
