@@ -19,10 +19,20 @@ export class DiscommandHandler {
    */
   private register(modules: ModuleType) {
     if (modules instanceof Command) {
-      console.info(`[discommand] Command ${modules.data.name} is Loaded.`)
-      this.modules.set(modules.data.name, modules)
+      console.info(`[discommand] Command ${modules.name} is Loaded.`)
+      this.modules.set(modules.name, modules)
       this.client.once('ready', () => {
-        this.client.application?.commands.create(modules.data!.toJSON())
+        this.client.application?.commands.create({
+          name: modules.name,
+          nameLocalizations: modules.nameLocalizations,
+          description: modules.description,
+          descriptionLocalizations: modules.descriptionLocalizations,
+          defaultPermission: modules.defaultPermission,
+          // @ts-ignore
+          type: modules.type,
+          // @ts-ignore
+          options: modules.options,
+        })
       })
     } else if (modules instanceof Listener) {
       console.log(`[discommand] Listener ${modules.name} is Loaded.`)
