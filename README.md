@@ -60,11 +60,10 @@ export default class extends Command {
     this.name = 'ping'
     this.description = 'Pong'
   }
-    execute(interaction: ChatInputCommandInteraction, cmd: DiscommandHandler) {
-      interaction.reply('Pong!')
-    }
+  execute(interaction: ChatInputCommandInteraction, cmd: DiscommandHandler) {
+    interaction.reply('Pong!')
   }
-  }
+}
 ```
 
 ### Usage for Javascript
