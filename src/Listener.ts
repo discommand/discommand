@@ -1,5 +1,5 @@
-export class Listener {
+export abstract class Listener {
   name: string = ''
   once: boolean = false
-  execute(): void {}
+  execute(...options: any[]): void {}
 }

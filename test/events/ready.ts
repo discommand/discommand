@@ -1,8 +1,11 @@
 import { Listener } from '../../dist'
 
-export = class extends Listener {
-  name = 'ready'
-  execute(): any {
+export default class extends Listener {
+  constructor() {
+    super()
+    this.name = 'ready'
+  }
+  execute() {
     console.log('test')
   }
 }

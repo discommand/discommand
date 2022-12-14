@@ -11,9 +11,16 @@ const client = new DiscommandClient(
     loadType: LoadType.File,
     directory: {
       commandFolderDirectory: path.join(__dirname, 'commands'),
+      listenerFolderDirectory: path.join(__dirname, 'events'),
     },
   }
 )
 
 client.loadAll()
 client.login(config.token)
+
+const a = () => {
+  client.deloadAll()
+}
+
+setTimeout(a, 10000)

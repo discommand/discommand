@@ -1,10 +1,13 @@
-import { Command, DiscommandHandler } from '../../dist'
-import { CommandInteraction, SlashCommandBuilder } from 'discord.js'
+import { ChatInputCommandInteraction } from 'discord.js'
+import { Command } from '../../dist'
 
-export default class extends Command {
-  name = 'ping'
-  description = 'pong'
-  execute(interaction: CommandInteraction, cmd: DiscommandHandler) {
+export default class PingCommand extends Command {
+  constructor() {
+    super()
+    this.name = 'ping'
+    this.description = 'pong'
+  }
+  execute(interaction: ChatInputCommandInteraction) {
     interaction.reply('Pong!')
   }
 }
