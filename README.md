@@ -84,7 +84,7 @@ const client = new DiscommandClient(
   }
 )
 
-client.LoadAll()
+client.loadAll()
 
 client.login('your_bot_token')
 ```
