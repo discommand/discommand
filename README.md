@@ -30,7 +30,6 @@ index.ts
 ```ts
 import { DiscommandClient, LoadType } from 'discommand'
 import { GatewayIntentBits } from 'discord.js'
-import * as path from 'path'
 
 const client = new DiscommandClient(
   {
@@ -39,7 +38,7 @@ const client = new DiscommandClient(
   {
     loadType: LoadType.File,
     directory: {
-      commandFolderDirectory: path.join(__dirname, 'commands'),
+      commandFolderDirectory: __dirname + '/commands',
     },
   }
 )
@@ -53,14 +52,19 @@ commands/ping.ts
 
 ```ts
 import { Command } from 'discommand'
-import { ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js'
+import { ChatInputCommandInteraction } from 'discord.js'
 
 export default class extends Command {
-  data = new SlashCommandBuilder().setName('ping').setDescription('pong')
-  execute(interaction: ChatInputCommandInteraction, cmd: DiscommandHandler) {
-    interaction.reply('Pong!')
+  constructor() {
+    super()
+    this.name = 'ping'
+    this.description = 'Pong'
   }
-}
+    execute(interaction: ChatInputCommandInteraction, cmd: DiscommandHandler) {
+      interaction.reply('Pong!')
+    }
+  }
+  }
 ```
 
 ### Usage for Javascript
@@ -79,7 +83,7 @@ const client = new DiscommandClient(
   {
     loadType: LoadType.File,
     directory: {
-      commandFolderDirectory: path.join(__dirname, 'commands'),
+      commandFolderDirectory: __dirname + '/commands',
     },
   }
 )
@@ -96,7 +100,11 @@ const { Command } = require('discommand')
 const { SlashCommandBuilder } = require('discord.js')
 
 module.exports = class extends Command {
-  data = new SlashCommandBuilder().setName('ping').setDescription('pong')
+  constructor() {
+    super()
+    this.name = 'ping'
+    this.description = 'Pong!'
+  }
   execute(interaction, cmd) {
     interaction.reply('Pong!')
   }
