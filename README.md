@@ -2,8 +2,6 @@
 
 easy discord.js commandHandler
 
-- **This version is not supported localizations.**
-
 ## Installation
 
 - this is use for discord.js@14
@@ -60,7 +58,7 @@ export default class extends Command {
     this.name = 'ping'
     this.description = 'Pong'
   }
-  execute(interaction: ChatInputCommandInteraction, cmd: DiscommandHandler) {
+  execute(interaction: ChatInputCommandInteraction) {
     interaction.reply('Pong!')
   }
 }
@@ -104,7 +102,7 @@ module.exports = class extends Command {
     this.name = 'ping'
     this.description = 'Pong!'
   }
-  execute(interaction, cmd) {
+  execute(interaction) {
     interaction.reply('Pong!')
   }
 }
