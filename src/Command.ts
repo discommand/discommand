@@ -2,15 +2,15 @@ import {
   type ApplicationCommandOptionData,
   type ApplicationCommandType,
   type ChatInputCommandInteraction,
-  type Locale,
+  type LocalizationMap,
   type PermissionResolvable,
 } from 'discord.js'
 
 export abstract class Command {
   name: string = ''
-  nameLocalizations?: Record<Locale, string>
+  nameLocalizations?: LocalizationMap
   description: string = ''
-  descriptionLocalizations?: Record<Locale, string>
+  descriptionLocalizations?: LocalizationMap
   type?: ApplicationCommandType
   options?: ApplicationCommandOptionData[]
   defaultPermission?: PermissionResolvable
