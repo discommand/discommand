@@ -2,6 +2,7 @@ import { type Client, Collection, InteractionType } from 'discord.js'
 import { type DiscommandHandlerOptions, LoadType, type ModuleType } from '.'
 import { readdirSync } from 'fs'
 import { Command, Listener } from '.'
+import { BaseHandler } from './BaseHandler'
 
 /**
  * @typedef {object} DiscommandHandlerOptions
@@ -9,8 +10,7 @@ import { Command, Listener } from '.'
  * @property {string} [directory]
  */
 
-export class DiscommandHandler {
-  public client: Client
+export class DiscommandHandler extends BaseHandler {
   public options: DiscommandHandlerOptions
   public modules: Collection<string, ModuleType> = new Collection()
   /**
@@ -19,43 +19,8 @@ export class DiscommandHandler {
    * @param {DiscommandHandlerOptions} [options]
    */
   public constructor(client: Client, options: DiscommandHandlerOptions) {
-    this.client = client
+    super(client)
     this.options = options
-  }
-
-  /**
-   *
-   * @private
-   */
-  private register(modules: ModuleType) {
-    if (modules instanceof Command) {
-      console.info(`[discommand] Command ${modules.name} is Loaded.`)
-      this.modules.set(modules.name, modules)
-      this.client.once('ready', () => {
-        this.client.application?.commands.create({
-          name: modules.name,
-          nameLocalizations: modules.nameLocalizations,
-          description: modules.description,
-          descriptionLocalizations: modules.descriptionLocalizations,
-          defaultPermission: modules.defaultPermission,
-          // @ts-ignore
-          type: modules.type!,
-          options: modules.options,
-        })
-      })
-    } else if (modules instanceof Listener) {
-      console.log(`[discommand] Listener ${modules.name} is loaded.`)
-      this.modules.set(modules.name, modules)
-      if (modules.once) {
-        this.client.once(modules.name, (...args) => {
-          modules.execute(...args)
-        })
-      } else {
-        this.client.on(modules.name, (...args) => {
-          modules.execute(...args)
-        })
-      }
-    }
   }
 
   public loadAll() {
@@ -100,24 +65,29 @@ export class DiscommandHandler {
           } catch (error) {
             console.error(error)
           }
+        } else if (interaction.isMessageContextMenuCommand()) {
+          const command = this.modules.get(interaction.commandName)
+
+          if (!command) return
+
+          try {
+            await command.execute(interaction)
+          } catch (error) {
+            console.error(error)
+          }
+        } else if (interaction.isUserContextMenuCommand()) {
+          const command = this.modules.get(interaction.commandName)
+
+          if (!command) return
+
+          try {
+            await command.execute(interaction)
+          } catch (error) {
+            console.error(error)
+          }
         }
       }
     })
-  }
-
-  /**
-   * @private
-   */
-  private deregister(module: ModuleType, filedir: string) {
-    if (module instanceof Command) {
-      this.modules.delete(module.name)
-      console.log(`[discommand] Command ${module.name} is deloaded.`)
-      delete require.cache[require.resolve(filedir)]
-    } else {
-      this.modules.delete(module.name)
-      console.log(`[discommand] Listener ${module.name} is deloaded.`)
-      delete require.cache[require.resolve(filedir)]
-    }
   }
 
   public deloadAll() {

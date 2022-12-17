@@ -10,23 +10,26 @@ import { type LoadType } from './types'
  */
 
 export class DiscommandClient extends Client {
-  public Options: DiscommandClientOptions
-  public CommandHandler: DiscommandHandler
-  public ListenerHandler?: DiscommandHandler
+  public discommandOptions: DiscommandClientOptions
+  public commandHandler: DiscommandHandler
+  public listenerHandler?: DiscommandHandler
   /**
    *
    * @param {ClientOptions} ClientOptions
    * @param {DiscommandClientOptions} options
    */
-  constructor(ClientOptions: ClientOptions, options: DiscommandClientOptions) {
+  public constructor(
+    ClientOptions: ClientOptions,
+    options: DiscommandClientOptions
+  ) {
     super(ClientOptions)
-    this.Options = options
-    this.CommandHandler = new DiscommandHandler(this, {
+    this.discommandOptions = options
+    this.commandHandler = new DiscommandHandler(this, {
       loadType: options.loadType,
-      directory: this.Options.directory.commandFolderDirectory,
+      directory: this.discommandOptions.directory.commandFolderDirectory,
     })
     if (options.directory.listenerFolderDirectory) {
-      this.ListenerHandler = new DiscommandHandler(this, {
+      this.listenerHandler = new DiscommandHandler(this, {
         loadType: options.loadType,
         directory: options.directory.listenerFolderDirectory,
       })
@@ -34,23 +37,23 @@ export class DiscommandClient extends Client {
   }
 
   public loadAll() {
-    this.CommandHandler.loadAll()
-    if (this.ListenerHandler) {
-      this.ListenerHandler.loadAll()
+    this.commandHandler.loadAll()
+    if (this.listenerHandler) {
+      this.listenerHandler.loadAll()
     }
   }
 
   public deloadAll() {
-    this.CommandHandler.deloadAll()
-    if (this.ListenerHandler) {
-      this.ListenerHandler.deloadAll()
+    this.commandHandler.deloadAll()
+    if (this.listenerHandler) {
+      this.listenerHandler.deloadAll()
     }
   }
 
   public reloadAll() {
-    this.CommandHandler.reloadAll()
-    if (this.ListenerHandler) {
-      this.ListenerHandler.reloadAll()
+    this.commandHandler.reloadAll()
+    if (this.listenerHandler) {
+      this.listenerHandler.reloadAll()
     }
   }
 }

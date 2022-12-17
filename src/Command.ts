@@ -5,14 +5,16 @@ import {
   type LocalizationMap,
   type PermissionResolvable,
 } from 'discord.js'
+import { Base } from './Base'
 
-export abstract class Command {
-  name: string = ''
-  nameLocalizations?: LocalizationMap
-  description: string = ''
-  descriptionLocalizations?: LocalizationMap
-  type?: ApplicationCommandType
-  options?: ApplicationCommandOptionData[]
-  defaultPermission?: PermissionResolvable
-  execute(interaction: ChatInputCommandInteraction): void {}
+/**
+ * @abstract
+ */
+export abstract class Command extends Base {
+  public nameLocalizations?: LocalizationMap
+  public description: string = ''
+  public descriptionLocalizations?: LocalizationMap
+  public type?: ApplicationCommandType
+  public options?: ApplicationCommandOptionData[]
+  public abstract execute(interaction: ChatInputCommandInteraction): any
 }

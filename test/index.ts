@@ -18,9 +18,3 @@ const client = new DiscommandClient(
 
 client.loadAll()
 client.login(config.token)
-
-const a = () => {
-  client.deloadAll()
-}
-
-setTimeout(a, 10000)

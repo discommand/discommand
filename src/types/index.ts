@@ -1,4 +1,9 @@
-import { type Command, type Listener } from '..'
+import {
+  type MessageContextMenu,
+  type UserContextMenu,
+  type Command,
+  type Listener,
+} from '..'
 
 export enum LoadType {
   File = 0,
@@ -18,4 +23,6 @@ export interface DiscommandClientOptions {
   }
 }
 
-export type ModuleType = Command | Listener
+export type ContextMenuType = MessageContextMenu | UserContextMenu
+
+export type ModuleType = Command | Listener | ContextMenuType
