@@ -3,6 +3,7 @@ import {
   PermissionResolvable,
   UserContextMenuCommandInteraction,
 } from 'discord.js'
+import { ModuleTypeString } from '.'
 import { Base } from './Base'
 
 /**
@@ -11,5 +12,9 @@ import { Base } from './Base'
 export abstract class UserContextMenu extends Base {
   public nameLocalizations?: LocalizationMap
   public defaultMemberPermissions?: PermissionResolvable
+  /**
+   * @readonly
+   */
+  public readonly type: ModuleTypeString = 'UserContextMenu'
   public abstract execute(interaction: UserContextMenuCommandInteraction): any
 }

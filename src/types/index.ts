@@ -1,3 +1,4 @@
+import { type Snowflake } from 'discord.js'
 import {
   type MessageContextMenu,
   type UserContextMenu,
@@ -10,19 +11,28 @@ export enum LoadType {
   Folder = 1,
 }
 
+// Discommand Options
+
 export interface DiscommandHandlerOptions {
   loadType: LoadType
   directory: string
+  guildID?: Snowflake
 }
 
 export interface DiscommandClientOptions {
   loadType: LoadType
   directory: {
-    commandFolderDirectory: string
-    listenerFolderDirectory?: string
+    command: string
+    listener?: string
   }
+  guildID?: Snowflake
 }
 
+// Module Type
 export type ContextMenuType = MessageContextMenu | UserContextMenu
 
 export type ModuleType = Command | Listener | ContextMenuType
+
+export type ContextMenuTypeString = 'MessageContextMenu' | 'UserContextMenu'
+
+export type ModuleTypeString = 'Command' | 'Listener' | ContextMenuTypeString

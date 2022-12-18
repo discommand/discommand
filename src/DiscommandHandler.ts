@@ -1,8 +1,8 @@
-import { type Client, Collection, InteractionType } from 'discord.js'
+import { type Client, Collection } from 'discord.js'
 import { type DiscommandHandlerOptions, LoadType, type ModuleType } from '.'
 import { readdirSync } from 'fs'
-import { Command, Listener } from '.'
 import { BaseHandler } from './BaseHandler'
+import { DiscommandError } from './DiscommandError'
 
 /**
  * @typedef {object} DiscommandHandlerOptions
@@ -21,6 +21,7 @@ export class DiscommandHandler extends BaseHandler {
   public constructor(client: Client, options: DiscommandHandlerOptions) {
     super(client)
     this.options = options
+    this.guildID = options.guildID
   }
 
   public loadAll() {
@@ -29,12 +30,27 @@ export class DiscommandHandler extends BaseHandler {
     if (this.options.loadType === LoadType.File) {
       for (const file of dir) {
         const tempModules = require(`${this.options.directory}/${file}`)
-        let modules
+        let modules: ModuleType
         if (!tempModules.default) {
           modules = new tempModules()
         } else {
           modules = new tempModules.default()
         }
+
+        if (!modules.name)
+          throw new DiscommandError(`The name is missing from ${file}`)
+
+        if (
+          modules.type === 'MessageContextMenu' ||
+          modules.type === 'UserContextMenu'
+        )
+          console.log('[discommand] You are Using experimental features.')
+
+        console.log(
+          `[discommand]${this.guildID ? ` guild ${this.guildID}` : ''} ${
+            modules.type
+          } ${modules.name} is loaded.`
+        )
         this.register(modules)
       }
     } else if (this.options.loadType === LoadType.Folder) {
@@ -42,52 +58,28 @@ export class DiscommandHandler extends BaseHandler {
         const folderDir = readdirSync(`${this.options.directory}/${folder}`)
         for (const file of folderDir) {
           const tempModules = require(`${this.options.directory}/${folder}/${file}`)
-          let modules
+          let modules: ModuleType
           if (!tempModules.default) {
             modules = new tempModules()
           } else {
             modules = new tempModules.default()
           }
+
+          if (!modules.name)
+            throw new DiscommandError(
+              `The name is missing from ${folder}/${file}`
+            )
+          if (
+            modules.type === 'MessageContextMenu' ||
+            modules.type === 'UserContextMenu'
+          )
+            console.log('[discommand] You are Using experimental features.')
+
+          console.log(`[discommand] ${modules.type} ${modules.name} is loaded.`)
           this.register(modules)
         }
       }
     }
-
-    this.client.on('interactionCreate', async interaction => {
-      if (interaction.type === InteractionType.ApplicationCommand) {
-        if (interaction.isChatInputCommand()) {
-          const command = this.modules.get(interaction.commandName)
-
-          if (!command) return
-
-          try {
-            await command.execute(interaction)
-          } catch (error) {
-            console.error(error)
-          }
-        } else if (interaction.isMessageContextMenuCommand()) {
-          const command = this.modules.get(interaction.commandName)
-
-          if (!command) return
-
-          try {
-            await command.execute(interaction)
-          } catch (error) {
-            console.error(error)
-          }
-        } else if (interaction.isUserContextMenuCommand()) {
-          const command = this.modules.get(interaction.commandName)
-
-          if (!command) return
-
-          try {
-            await command.execute(interaction)
-          } catch (error) {
-            console.error(error)
-          }
-        }
-      }
-    })
   }
 
   public deloadAll() {
@@ -103,20 +95,25 @@ export class DiscommandHandler extends BaseHandler {
           modules = new tempModules.default()
         }
 
-        this.deregister(modules, `${this.options.directory}/${file}`)
+        console.log(`[discommand] ${modules.type} ${modules.name} is deloaded.`)
+        this.deregister(modules.name, `${this.options.directory}/${file}`)
       }
     } else if (this.options.loadType === LoadType.Folder) {
       for (const folder of dir) {
         const folderDir = readdirSync(`${this.options.directory}/${folder}`)
         for (const file of folderDir) {
           const tempModules = require(`${this.options.directory}/${folder}/${file}`)
-          let modules
+          let modules: ModuleType
           if (!tempModules.default) {
             modules = new tempModules()
           } else {
             modules = new tempModules.default()
           }
-          this.deregister(modules, `${this.options.directory}/${file}`)
+
+          console.log(
+            `[discommand] ${modules.type} ${modules.name} is deloaded.`
+          )
+          this.deregister(modules.name, `${this.options.directory}/${file}`)
         }
       }
     }

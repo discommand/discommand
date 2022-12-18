@@ -1,8 +1,14 @@
-import { ApplicationCommandType, Client, Collection } from 'discord.js'
+import {
+  ApplicationCommandType,
+  type Client,
+  Collection,
+  type Snowflake,
+  InteractionType,
+} from 'discord.js'
 import { Command } from './Command'
 import { Listener } from './Listener'
 import { MessageContextMenu } from './MessageCtx'
-import { ModuleType } from './types'
+import { type ModuleType } from './types'
 import { UserContextMenu } from './UserCtx'
 
 /**
@@ -10,13 +16,15 @@ import { UserContextMenu } from './UserCtx'
  */
 export abstract class BaseHandler {
   public readonly client: Client
+  protected guildID?: Snowflake
   public modules: Collection<string, ModuleType> = new Collection()
   /**
    *
    * @param {Client} client
    */
-  public constructor(client: Client) {
+  public constructor(client: Client, guildID?: Snowflake) {
     this.client = client
+    this.guildID = guildID
   }
 
   /**
@@ -24,20 +32,21 @@ export abstract class BaseHandler {
    */
   protected register(modules: ModuleType) {
     if (modules instanceof Command) {
-      console.info(`[discommand] Command ${modules.name} is loaded.`)
       this.modules.set(modules.name, modules)
       this.client.once('ready', () => {
-        this.client.application?.commands.create({
-          name: modules.name,
-          nameLocalizations: modules.nameLocalizations,
-          description: modules.description,
-          descriptionLocalizations: modules.descriptionLocalizations,
-          type: ApplicationCommandType.ChatInput,
-          options: modules.options,
-        })
+        this.client.application?.commands.create(
+          {
+            name: modules.name,
+            nameLocalizations: modules.nameLocalizations,
+            description: modules.description,
+            descriptionLocalizations: modules.descriptionLocalizations,
+            type: ApplicationCommandType.ChatInput,
+            options: modules.options,
+          },
+          this.guildID
+        )
       })
     } else if (modules instanceof Listener) {
-      console.log(`[discommand] Listener ${modules.name} is loaded.`)
       this.modules.set(modules.name, modules)
       if (modules.once) {
         this.client.once(modules.name, (...args) => {
@@ -49,38 +58,59 @@ export abstract class BaseHandler {
         })
       }
     } else if (modules instanceof UserContextMenu) {
-      console.log(`[discommand] User Context Menu ${modules.name} is loaded.`)
-      this.client.application?.commands.create({
-        name: modules.name,
-        nameLocalizations: modules.nameLocalizations,
-        type: ApplicationCommandType.User,
-        defaultMemberPermissions: modules.defaultMemberPermissions,
-      })
-    } else if (modules instanceof MessageContextMenu) {
-      console.log(
-        `[discommand] Message Context Menu ${modules.name} is loaded.`
+      this.client.application?.commands.create(
+        {
+          name: modules.name,
+          nameLocalizations: modules.nameLocalizations,
+          type: ApplicationCommandType.User,
+          defaultMemberPermissions: modules.defaultMemberPermissions,
+        },
+        this.guildID
       )
-      this.client.application?.commands.create({
-        name: modules.name,
-        nameLocalizations: modules.nameLocalizations,
-        type: ApplicationCommandType.Message,
-        defaultMemberPermissions: modules.defaultMemberPermissions,
-      })
+    } else if (modules instanceof MessageContextMenu) {
+      this.client.application?.commands.create(
+        {
+          name: modules.name,
+          nameLocalizations: modules.nameLocalizations,
+          type: ApplicationCommandType.Message,
+          defaultMemberPermissions: modules.defaultMemberPermissions,
+        },
+        this.guildID
+      )
     }
+
+    this.client.on('interactionCreate', async interaction => {
+      if (interaction.type === InteractionType.ApplicationCommand) {
+        if (interaction.isChatInputCommand()) {
+          const command = this.modules.get(interaction.commandName)
+
+          if (!command) return
+
+          try {
+            await command.execute(interaction)
+          } catch (error) {
+            console.error(error)
+          }
+        } else if (interaction.isContextMenuCommand()) {
+          const command = this.modules.get(interaction.commandName)
+
+          if (!command) return
+
+          try {
+            await command.execute(interaction)
+          } catch (error) {
+            console.error(error)
+          }
+        }
+      }
+    })
   }
 
   /**
    * @protected
    */
-  protected deregister(module: ModuleType, filedir: string) {
-    if (module instanceof Command) {
-      this.modules.delete(module.name)
-      console.log(`[discommand] Command ${module.name} is deloaded.`)
-      delete require.cache[require.resolve(filedir)]
-    } else if (module instanceof Listener) {
-      this.modules.delete(module.name)
-      console.log(`[discommand] Listener ${module.name} is deloaded.`)
-      delete require.cache[require.resolve(filedir)]
-    }
+  protected deregister(moduleName: string, filedir: string) {
+    this.modules.delete(moduleName)
+    delete require.cache[require.resolve(filedir)]
   }
 }

@@ -1,11 +1,10 @@
 import {
   type ApplicationCommandOptionData,
-  type ApplicationCommandType,
   type ChatInputCommandInteraction,
   type LocalizationMap,
-  type PermissionResolvable,
 } from 'discord.js'
 import { Base } from './Base'
+import { type ModuleTypeString } from './types'
 
 /**
  * @abstract
@@ -14,7 +13,10 @@ export abstract class Command extends Base {
   public nameLocalizations?: LocalizationMap
   public description: string = ''
   public descriptionLocalizations?: LocalizationMap
-  public type?: ApplicationCommandType
+  /**
+   * @readonly
+   */
+  public readonly type: ModuleTypeString = 'Command'
   public options?: ApplicationCommandOptionData[]
   public abstract execute(interaction: ChatInputCommandInteraction): any
 }
