@@ -43,12 +43,6 @@ export class DiscommandHandler extends BaseHandler {
         if (!modules.name)
           throw new DiscommandError(`The name is missing from ${file}`)
 
-        if (
-          this.ModuleType(modules) === 'MessageContextMenu' ||
-          this.ModuleType(modules) === 'UserContextMenu'
-        )
-          console.log('[discommand] You are Using experimental features.')
-
         console.log(
           `[discommand]${
             this.guildID ? ` guild ${this.guildID}` : ''
@@ -72,11 +66,6 @@ export class DiscommandHandler extends BaseHandler {
             throw new DiscommandError(
               `The name is missing from ${folder}/${file}`
             )
-          if (
-            this.ModuleType(modules) === 'MessageContextMenu' ||
-            this.ModuleType(modules) === 'UserContextMenu'
-          )
-            console.log('[discommand] You are Using experimental features.')
 
           console.log(
             `[discommand] ${this.ModuleType(modules)} ${

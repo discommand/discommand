@@ -1,6 +1,6 @@
 {
   "name": "discommand",
-  "version": "10.0.0-dev.2",
+  "version": "10.0.0",
   "main": "dist/src/index.js",
   "types": "dist/types/index.d.ts",
   "repository": "https://github.com/discommand/discommand",
