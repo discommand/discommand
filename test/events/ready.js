@@ -1,6 +1,6 @@
-import { Listener } from '../../dist'
+const { Listener } = require('../../dist/src')
 
-export default class extends Listener {
+module.exports = class extends Listener {
   constructor() {
     super()
     this.name = 'ready'

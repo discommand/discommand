@@ -1,5 +1,8 @@
-export abstract class Listener {
-  name: string = ''
-  once: boolean = false
-  execute(...options: any[]): void {}
+import { Base } from './Base'
+
+/**
+ * @abstract
+ */
+export abstract class Listener extends Base {
+  public once: boolean = false
 }

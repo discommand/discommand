@@ -1,5 +1,9 @@
 # discommand
 
+[![](https://img.shields.io/npm/v/discommand)](https://npmjs.com/package/discommand)
+![](https://img.shields.io/node/v/discommand)
+![](https://img.shields.io/npm/dm/discommand)
+
 easy discord.js commandHandler
 
 ## Installation
@@ -36,7 +40,7 @@ const client = new DiscommandClient(
   {
     loadType: LoadType.File,
     directory: {
-      commandFolderDirectory: __dirname + '/commands',
+      command: __dirname + '/commands',
     },
   }
 )
@@ -50,13 +54,14 @@ commands/ping.ts
 
 ```ts
 import { Command } from 'discommand'
-import { ChatInputCommandInteraction } from 'discord.js'
+import { ChatInputCommandInteraction, ApplicationCommandType } from 'discord.js'
 
 export default class extends Command {
   constructor() {
     super()
     this.name = 'ping'
     this.description = 'Pong'
+    this.type = ApplicationCommandType.ChatInput
   }
   execute(interaction: ChatInputCommandInteraction) {
     interaction.reply('Pong!')
@@ -80,7 +85,7 @@ const client = new DiscommandClient(
   {
     loadType: LoadType.File,
     directory: {
-      commandFolderDirectory: __dirname + '/commands',
+      command: __dirname + '/commands',
     },
   }
 )
@@ -94,13 +99,14 @@ commands/ping.js
 
 ```js
 const { Command } = require('discommand')
-const { SlashCommandBuilder } = require('discord.js')
+const { SlashCommandBuilder, ApplicationCommandType } = require('discord.js')
 
 module.exports = class extends Command {
   constructor() {
     super()
     this.name = 'ping'
     this.description = 'Pong!'
+    this.type = ApplicationCommandType.ChatInput
   }
   execute(interaction) {
     interaction.reply('Pong!')
