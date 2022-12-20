@@ -1,5 +1,9 @@
 # discommand
 
+[![](https://img.shields.io/npm/v/discommand)](https://npmjs.com/package/discommand)
+![](https://img.shields.io/node/v/discommand)
+![](https://img.shields.io/npm/dm/discommand)
+
 easy discord.js commandHandler
 
 ## Installation
@@ -36,7 +40,7 @@ const client = new DiscommandClient(
   {
     loadType: LoadType.File,
     directory: {
-      commandFolderDirectory: __dirname + '/commands',
+      command: __dirname + '/commands',
     },
   }
 )
@@ -80,7 +84,7 @@ const client = new DiscommandClient(
   {
     loadType: LoadType.File,
     directory: {
-      commandFolderDirectory: __dirname + '/commands',
+      command: __dirname + '/commands',
     },
   }
 )

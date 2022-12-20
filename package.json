@@ -1,8 +1,8 @@
 {
   "name": "discommand",
-  "version": "10.0.0-dev.1",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "version": "10.0.0-dev.2",
+  "main": "dist/src/index.js",
+  "types": "dist/types/index.d.ts",
   "repository": "https://github.com/discommand/discommand",
   "author": "Migan178 <migan9857@gmail.com>",
   "license": "MIT",

@@ -1,4 +1,4 @@
-const { Listener } = require('../../dist')
+const { Listener } = require('../../dist/src')
 
 module.exports = class extends Listener {
   constructor() {

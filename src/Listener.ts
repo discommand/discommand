@@ -1,4 +1,3 @@
-import { ModuleTypeString } from '.'
 import { Base } from './Base'
 
 /**
@@ -6,8 +5,4 @@ import { Base } from './Base'
  */
 export abstract class Listener extends Base {
   public once: boolean = false
-  /**
-   * @readonly
-   */
-  public readonly type: ModuleTypeString = 'Listener'
 }

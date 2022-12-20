@@ -1,4 +1,4 @@
-const { DiscommandClient, LoadType } = require('../dist')
+const { DiscommandClient, LoadType } = require('../dist/src')
 const { GatewayIntentBits } = require('discord.js')
 const path = require('path')
 const config = require('./config.json')

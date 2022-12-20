@@ -1,10 +1,5 @@
 import { type Snowflake } from 'discord.js'
-import {
-  type MessageContextMenu,
-  type UserContextMenu,
-  type Command,
-  type Listener,
-} from '..'
+import { type Command, type Listener } from '..'
 
 export enum LoadType {
   File = 0,
@@ -29,10 +24,6 @@ export interface DiscommandClientOptions {
 }
 
 // Module Type
-export type ContextMenuType = MessageContextMenu | UserContextMenu
-
-export type ModuleType = Command | Listener | ContextMenuType
+export type ModuleType = Command | Listener
 
 export type ContextMenuTypeString = 'MessageContextMenu' | 'UserContextMenu'
-
-export type ModuleTypeString = 'Command' | 'Listener' | ContextMenuTypeString

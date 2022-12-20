@@ -1,8 +1,9 @@
-import { type Client, Collection } from 'discord.js'
+import { type Client, Collection, InteractionType } from 'discord.js'
 import { type DiscommandHandlerOptions, LoadType, type ModuleType } from '.'
 import { readdirSync } from 'fs'
 import { BaseHandler } from './BaseHandler'
 import { DiscommandError } from './DiscommandError'
+import { extname } from 'path'
 
 /**
  * @typedef {object} DiscommandHandlerOptions
@@ -25,7 +26,9 @@ export class DiscommandHandler extends BaseHandler {
   }
 
   public loadAll() {
-    const dir = readdirSync(this.options.directory)
+    const dir = readdirSync(this.options.directory).filter(
+      fileName => extname(fileName) === '.js' || extname(fileName) === '.ts'
+    )
 
     if (this.options.loadType === LoadType.File) {
       for (const file of dir) {
@@ -41,15 +44,15 @@ export class DiscommandHandler extends BaseHandler {
           throw new DiscommandError(`The name is missing from ${file}`)
 
         if (
-          modules.type === 'MessageContextMenu' ||
-          modules.type === 'UserContextMenu'
+          this.ModuleType(modules) === 'MessageContextMenu' ||
+          this.ModuleType(modules) === 'UserContextMenu'
         )
           console.log('[discommand] You are Using experimental features.')
 
         console.log(
-          `[discommand]${this.guildID ? ` guild ${this.guildID}` : ''} ${
-            modules.type
-          } ${modules.name} is loaded.`
+          `[discommand]${
+            this.guildID ? ` guild ${this.guildID}` : ''
+          } ${this.ModuleType(modules)} ${modules.name} is loaded.`
         )
         this.register(modules)
       }
@@ -70,20 +73,40 @@ export class DiscommandHandler extends BaseHandler {
               `The name is missing from ${folder}/${file}`
             )
           if (
-            modules.type === 'MessageContextMenu' ||
-            modules.type === 'UserContextMenu'
+            this.ModuleType(modules) === 'MessageContextMenu' ||
+            this.ModuleType(modules) === 'UserContextMenu'
           )
             console.log('[discommand] You are Using experimental features.')
 
-          console.log(`[discommand] ${modules.type} ${modules.name} is loaded.`)
+          console.log(
+            `[discommand] ${this.ModuleType(modules)} ${
+              modules.name
+            } is loaded.`
+          )
           this.register(modules)
         }
       }
     }
+
+    this.client.on('interactionCreate', async interaction => {
+      if (interaction.type === InteractionType.ApplicationCommand) {
+        const command = this.modules.get(interaction.commandName)
+
+        if (!command) return
+
+        try {
+          await command.execute(interaction)
+        } catch (error) {
+          console.error(error)
+        }
+      }
+    })
   }
 
   public deloadAll() {
-    const dir = readdirSync(this.options.directory)
+    const dir = readdirSync(this.options.directory).filter(
+      fileName => extname(fileName) === '.js' || extname(fileName) === '.ts'
+    )
 
     if (this.options.loadType === LoadType.File) {
       for (const file of dir) {
@@ -95,7 +118,11 @@ export class DiscommandHandler extends BaseHandler {
           modules = new tempModules.default()
         }
 
-        console.log(`[discommand] ${modules.type} ${modules.name} is deloaded.`)
+        console.log(
+          `[discommand] ${this.ModuleType(modules)} ${
+            modules.name
+          } is deloaded.`
+        )
         this.deregister(modules.name, `${this.options.directory}/${file}`)
       }
     } else if (this.options.loadType === LoadType.Folder) {
@@ -111,7 +138,9 @@ export class DiscommandHandler extends BaseHandler {
           }
 
           console.log(
-            `[discommand] ${modules.type} ${modules.name} is deloaded.`
+            `[discommand] ${this.ModuleType(modules)} ${
+              modules.name
+            } is deloaded.`
           )
           this.deregister(modules.name, `${this.options.directory}/${file}`)
         }

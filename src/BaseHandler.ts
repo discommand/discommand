@@ -1,19 +1,13 @@
 import {
-  ApplicationCommandType,
   type Client,
   Collection,
   type Snowflake,
-  InteractionType,
+  ApplicationCommandType,
 } from 'discord.js'
 import { Command } from './Command'
 import { Listener } from './Listener'
-import { MessageContextMenu } from './MessageCtx'
 import { type ModuleType } from './types'
-import { UserContextMenu } from './UserCtx'
 
-/**
- * @abstract
- */
 export abstract class BaseHandler {
   public readonly client: Client
   protected guildID?: Snowflake
@@ -36,12 +30,15 @@ export abstract class BaseHandler {
       this.client.once('ready', () => {
         this.client.application?.commands.create(
           {
+            // @ts-ignore
+            type: modules.type,
             name: modules.name,
             nameLocalizations: modules.nameLocalizations,
             description: modules.description,
             descriptionLocalizations: modules.descriptionLocalizations,
-            type: ApplicationCommandType.ChatInput,
             options: modules.options,
+            defaultMemberPermissions: modules.defaultMemberPermissions,
+            dmPermission: modules.dmPermission,
           },
           this.guildID
         )
@@ -57,53 +54,7 @@ export abstract class BaseHandler {
           modules.execute(...args)
         })
       }
-    } else if (modules instanceof UserContextMenu) {
-      this.client.application?.commands.create(
-        {
-          name: modules.name,
-          nameLocalizations: modules.nameLocalizations,
-          type: ApplicationCommandType.User,
-          defaultMemberPermissions: modules.defaultMemberPermissions,
-        },
-        this.guildID
-      )
-    } else if (modules instanceof MessageContextMenu) {
-      this.client.application?.commands.create(
-        {
-          name: modules.name,
-          nameLocalizations: modules.nameLocalizations,
-          type: ApplicationCommandType.Message,
-          defaultMemberPermissions: modules.defaultMemberPermissions,
-        },
-        this.guildID
-      )
     }
-
-    this.client.on('interactionCreate', async interaction => {
-      if (interaction.type === InteractionType.ApplicationCommand) {
-        if (interaction.isChatInputCommand()) {
-          const command = this.modules.get(interaction.commandName)
-
-          if (!command) return
-
-          try {
-            await command.execute(interaction)
-          } catch (error) {
-            console.error(error)
-          }
-        } else if (interaction.isContextMenuCommand()) {
-          const command = this.modules.get(interaction.commandName)
-
-          if (!command) return
-
-          try {
-            await command.execute(interaction)
-          } catch (error) {
-            console.error(error)
-          }
-        }
-      }
-    })
   }
 
   /**
@@ -112,5 +63,22 @@ export abstract class BaseHandler {
   protected deregister(moduleName: string, filedir: string) {
     this.modules.delete(moduleName)
     delete require.cache[require.resolve(filedir)]
+  }
+
+  protected ModuleType(module: ModuleType) {
+    if (module instanceof Listener) {
+      return 'Listener'
+    } else {
+      switch (module.type) {
+        case ApplicationCommandType.ChatInput:
+          return 'ChatInputCommand'
+        case ApplicationCommandType.User:
+          return 'UserContextMenu'
+        case ApplicationCommandType.Message:
+          return 'MessageContextMenu'
+        case undefined:
+          return 'ChatInputCommand'
+      }
+    }
   }
 }
