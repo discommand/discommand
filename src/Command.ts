@@ -1,8 +1,8 @@
 import {
-  ApplicationCommandType,
-  MessageContextMenuCommandInteraction,
-  PermissionResolvable,
-  UserContextMenuCommandInteraction,
+  type ApplicationCommandType,
+  type MessageContextMenuCommandInteraction,
+  type PermissionResolvable,
+  type UserContextMenuCommandInteraction,
   type ApplicationCommandOptionData,
   type ChatInputCommandInteraction,
   type LocalizationMap,

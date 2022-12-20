@@ -54,13 +54,14 @@ commands/ping.ts
 
 ```ts
 import { Command } from 'discommand'
-import { ChatInputCommandInteraction } from 'discord.js'
+import { ChatInputCommandInteraction, ApplicationCommandType } from 'discord.js'
 
 export default class extends Command {
   constructor() {
     super()
     this.name = 'ping'
     this.description = 'Pong'
+    this.type = ApplicationCommandType.ChatInput
   }
   execute(interaction: ChatInputCommandInteraction) {
     interaction.reply('Pong!')
@@ -98,13 +99,14 @@ commands/ping.js
 
 ```js
 const { Command } = require('discommand')
-const { SlashCommandBuilder } = require('discord.js')
+const { SlashCommandBuilder, ApplicationCommandType } = require('discord.js')
 
 module.exports = class extends Command {
   constructor() {
     super()
     this.name = 'ping'
     this.description = 'Pong!'
+    this.type = ApplicationCommandType.ChatInput
   }
   execute(interaction) {
     interaction.reply('Pong!')
