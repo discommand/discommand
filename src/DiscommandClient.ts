@@ -4,24 +4,21 @@ import { type DiscommandClientOptions } from '.'
 
 /**
  * @typedef {object} LoadType
- * @enum {number}
- */
-
-/**
- * @typedef {string} Snowflake
+ * @property {number} [File]
+ * @property {number} [Folder]
  */
 
 /**
  * @typedef {object} directory
- * @property {string} command
- * @property {string | undefined} listener
+ * @property {string} [command]
+ * @property {string | undefined} [listener]
  */
 
 /**
  * @typedef {object} DiscommandClientOptions
  * @property {LoadType} [loadType]
  * @property {directory} [directory]
- * @property {Snowflake} [guildID]
+ * @property {import('discord.js').Snowflake} [guildID]
  */
 
 export class DiscommandClient extends Client {
@@ -30,8 +27,8 @@ export class DiscommandClient extends Client {
   public listenerHandler?: DiscommandHandler
   /**
    *
-   * @param {ClientOptions} ClientOptions
-   * @param {DiscommandClientOptions} options
+   * @param {import('discord.js').ClientOptions} [ClientOptions]
+   * @param {DiscommandClientOptions} [options]
    */
   public constructor(
     ClientOptions: ClientOptions,
