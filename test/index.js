@@ -1,7 +1,7 @@
-const { DiscommandClient, LoadType } = require('../dist/src')
+const { DiscommandClient, LoadType } = require('..')
 const { GatewayIntentBits } = require('discord.js')
-const path = require('path')
-const config = require('./config.json')
+const { join } = require('path')
+const { token, guildID } = require('./config.json')
 const client = new DiscommandClient(
   {
     intents: [GatewayIntentBits.Guilds],
@@ -9,12 +9,11 @@ const client = new DiscommandClient(
   {
     loadType: LoadType.File,
     directory: {
-      command: path.join(__dirname, 'commands'),
-      listener: path.join(__dirname, 'events'),
+      command: join(__dirname, 'commands'),
+      listener: join(__dirname, 'events'),
     },
-    guildID: '863380858681557003',
+    guildID,
   }
 )
 
-client.loadAll()
-client.login(config.token)
+client.start(token)

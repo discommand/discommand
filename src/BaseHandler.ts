@@ -15,23 +15,22 @@ export abstract class BaseHandler {
   /**
    *
    * @param {Client} client
+   * @param {Snowflake} guildID
    */
   public constructor(client: Client, guildID?: Snowflake) {
     this.client = client
     this.guildID = guildID
   }
 
-  /**
-   * @protected
-   */
   protected register(modules: ModuleType) {
     if (modules instanceof Command) {
       this.modules.set(modules.name, modules)
       this.client.once('ready', () => {
         this.client.application?.commands.create(
           {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
-            type: modules.type,
+            type: modules.type || ApplicationCommandType.ChatInput,
             name: modules.name,
             nameLocalizations: modules.nameLocalizations,
             description: modules.description,
@@ -57,9 +56,6 @@ export abstract class BaseHandler {
     }
   }
 
-  /**
-   * @protected
-   */
   protected deregister(moduleName: string, filedir: string) {
     this.modules.delete(moduleName)
     delete require.cache[require.resolve(filedir)]

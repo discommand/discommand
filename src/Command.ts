@@ -11,7 +11,7 @@ import { Base } from './Base'
 
 export abstract class Command extends Base {
   public nameLocalizations?: LocalizationMap
-  public description: string = ''
+  public description = ''
   public descriptionLocalizations?: LocalizationMap
   public type?: ApplicationCommandType
   public options?: ApplicationCommandOptionData[]
@@ -22,5 +22,5 @@ export abstract class Command extends Base {
       | ChatInputCommandInteraction
       | MessageContextMenuCommandInteraction
       | UserContextMenuCommandInteraction
-  ): any
+  ): unknown
 }

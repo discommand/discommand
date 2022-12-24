@@ -1,12 +1,27 @@
 import { Client, type ClientOptions } from 'discord.js'
 import { DiscommandHandler } from '.'
 import { type DiscommandClientOptions } from '.'
-import { type LoadType } from './types'
+
+/**
+ * @typedef {object} LoadType
+ * @enum {number}
+ */
+
+/**
+ * @typedef {string} Snowflake
+ */
+
+/**
+ * @typedef {object} directory
+ * @property {string} command
+ * @property {string | undefined} listener
+ */
 
 /**
  * @typedef {object} DiscommandClientOptions
  * @property {LoadType} [loadType]
- * @property {{commandFolderDirectory: string; listenerFolderDirectory?: string}} [directory]
+ * @property {directory} [directory]
+ * @property {Snowflake} [guildID]
  */
 
 export class DiscommandClient extends Client {
@@ -56,5 +71,10 @@ export class DiscommandClient extends Client {
     if (this.listenerHandler) {
       this.listenerHandler.reloadAll()
     }
+  }
+
+  public start(token?: string) {
+    this.login(token)
+    this.loadAll()
   }
 }

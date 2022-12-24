@@ -6,6 +6,11 @@ export enum LoadType {
   Folder = 1,
 }
 
+export interface directory {
+  command: string
+  listener?: string
+}
+
 // Discommand Options
 
 export interface DiscommandHandlerOptions {
@@ -16,10 +21,7 @@ export interface DiscommandHandlerOptions {
 
 export interface DiscommandClientOptions {
   loadType: LoadType
-  directory: {
-    command: string
-    listener?: string
-  }
+  directory: directory
   guildID?: Snowflake
 }
 

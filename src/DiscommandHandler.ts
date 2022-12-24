@@ -6,9 +6,14 @@ import { DiscommandError } from './DiscommandError'
 import { extname } from 'path'
 
 /**
+ * @typedef {string} Snowflake
+ */
+
+/**
  * @typedef {object} DiscommandHandlerOptions
  * @property {LoadType} [loadType]
  * @property {string} [directory]
+ * @property {Snowflake} [guildID]
  */
 
 export class DiscommandHandler extends BaseHandler {

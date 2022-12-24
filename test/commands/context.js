@@ -1,5 +1,5 @@
 const { ApplicationCommandType } = require('discord.js')
-const { Command } = require('../../dist/src')
+const { Command } = require('../..')
 
 module.exports = class TestUserCtxMenu extends Command {
   constructor() {

@@ -1,0 +1,31 @@
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint", "prettier"],
+  "extends": [
+    "plugin:@typescript-eslint/recommended",
+    "prettier",
+    "eslint:recommended"
+  ],
+  "env": {
+    "node": true,
+    "es6": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 2020
+  },
+  "settings": {
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts", ".tsx"] 
+    }, 
+    "import/resolver": { 
+      "typescript": "./tsconfig.json" 
+    }
+  },
+  "rules": {
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "@typescript-eslint/no-var-requires": "off",
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": "off"
+  }
+}
