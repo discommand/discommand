@@ -3,19 +3,14 @@
 easy discord.js commandHandler
 
 - **This version is not supported by MessageCommand.**
+- **This version will only include bug fixes in the future, and new features will not be updated.**
 
 ## Installation
 
 - this is for discord.js@13
 
 ```sh
-npm i discommand
-```
-
-dev
-
-```sh
-npm i discommand@next
+npm i discommand@djsv13
 ```
 
 ## Example
@@ -83,7 +78,7 @@ const client = new DiscommandClient(
   }
 )
 
-client.LoadAll()
+client.loadAll()
 
 client.login('your_bot_token')
 ```

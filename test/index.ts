@@ -1,6 +1,6 @@
 import { Intents } from 'discord.js'
 import { DiscommandClient } from '../dist'
-import path = require('path')
+import * as path from 'path'
 
 const config = require('./config.json')
 const client = new DiscommandClient(

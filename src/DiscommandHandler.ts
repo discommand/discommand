@@ -25,24 +25,11 @@ export class DiscommandHandler {
         this.client.application?.commands.create({
           name: modules.name,
           description: modules.description,
+          // @ts-ignore
           type: modules.type,
           options: modules.options,
           defaultPermission: modules.defaultPermission,
         })
-      })
-
-      this.client.on('interactionCreate', async interaction => {
-        if (!interaction.isCommand()) return
-
-        const command: any = this.modules.get(interaction.commandName)
-
-        if (!command) return
-
-        try {
-          await command.execute(interaction, this)
-        } catch (error) {
-          console.error(error)
-        }
       })
     } else if (modules instanceof Listener) {
       console.log(`[discommand] Listener ${modules.name} is Loaded.`)
@@ -80,5 +67,19 @@ export class DiscommandHandler {
         }
       }
     }
+
+    this.client.on('interactionCreate', async interaction => {
+      if (!interaction.isCommand()) return
+
+      const command: any = this.modules.get(interaction.commandName)
+
+      if (!command) return
+
+      try {
+        await command.execute(interaction, this)
+      } catch (error) {
+        console.error(error)
+      }
+    })
   }
 }
