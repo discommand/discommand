@@ -1,5 +1,11 @@
 export abstract class Base {
-  public name = ''
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public abstract execute(...options: any[]): any
+  public readonly name: string
+  /**
+   *
+   * @param {string} name
+   */
+  constructor(name: string) {
+    this.name = name
+  }
+  public abstract execute(...options: unknown[]): unknown
 }

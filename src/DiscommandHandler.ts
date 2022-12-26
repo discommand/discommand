@@ -6,14 +6,16 @@ import { DiscommandError } from './DiscommandError'
 import { extname } from 'path'
 
 /**
- * @typedef {string} Snowflake
+ * @typedef {object} LoadType
+ * @property {number} [File]
+ * @property {number} [Folder]
  */
 
 /**
  * @typedef {object} DiscommandHandlerOptions
  * @property {LoadType} [loadType]
  * @property {string} [directory]
- * @property {Snowflake} [guildID]
+ * @property {import('discord.js').Snowflake} [guildID]
  */
 
 export class DiscommandHandler extends BaseHandler {
@@ -51,7 +53,7 @@ export class DiscommandHandler extends BaseHandler {
         console.log(
           `[discommand]${
             this.guildID ? ` guild ${this.guildID}` : ''
-          } ${this.ModuleType(modules)} ${modules.name} is loaded.`
+          } ${this.moduleType(modules)} ${modules.name} is loaded.`
         )
         this.register(modules)
       }
@@ -73,7 +75,7 @@ export class DiscommandHandler extends BaseHandler {
             )
 
           console.log(
-            `[discommand] ${this.ModuleType(modules)} ${
+            `[discommand] ${this.moduleType(modules)} ${
               modules.name
             } is loaded.`
           )
@@ -113,7 +115,7 @@ export class DiscommandHandler extends BaseHandler {
         }
 
         console.log(
-          `[discommand] ${this.ModuleType(modules)} ${
+          `[discommand] ${this.moduleType(modules)} ${
             modules.name
           } is deloaded.`
         )
@@ -132,7 +134,7 @@ export class DiscommandHandler extends BaseHandler {
           }
 
           console.log(
-            `[discommand] ${this.ModuleType(modules)} ${
+            `[discommand] ${this.moduleType(modules)} ${
               modules.name
             } is deloaded.`
           )

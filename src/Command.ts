@@ -1,26 +1,24 @@
 import {
-  type ApplicationCommandType,
   type MessageContextMenuCommandInteraction,
-  type PermissionResolvable,
   type UserContextMenuCommandInteraction,
-  type ApplicationCommandOptionData,
   type ChatInputCommandInteraction,
-  type LocalizationMap,
+  ApplicationCommandData,
 } from 'discord.js'
 import { Base } from './Base'
 
 export abstract class Command extends Base {
-  public nameLocalizations?: LocalizationMap
-  public description = ''
-  public descriptionLocalizations?: LocalizationMap
-  public type?: ApplicationCommandType
-  public options?: ApplicationCommandOptionData[]
-  public defaultMemberPermissions?: PermissionResolvable
-  public dmPermission?: boolean
+  /**
+   * @type {import('discord.js').ApplicationCommandData}
+   */
+  public data?: ApplicationCommandData
   public abstract execute(
     interaction:
       | ChatInputCommandInteraction
       | MessageContextMenuCommandInteraction
       | UserContextMenuCommandInteraction
   ): unknown
+
+  public toJSON(): ApplicationCommandData {
+    return { ...this.data! }
+  }
 }

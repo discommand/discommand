@@ -27,5 +27,3 @@ export interface DiscommandClientOptions {
 
 // Module Type
 export type ModuleType = Command | Listener
-
-export type ContextMenuTypeString = 'MessageContextMenu' | 'UserContextMenu'

@@ -14,8 +14,8 @@ export abstract class BaseHandler {
   public modules: Collection<string, ModuleType> = new Collection()
   /**
    *
-   * @param {Client} client
-   * @param {Snowflake} guildID
+   * @param {import('discord.js').Client} client
+   * @param {import('discord.js').Snowflake} guildID
    */
   public constructor(client: Client, guildID?: Snowflake) {
     this.client = client
@@ -26,21 +26,7 @@ export abstract class BaseHandler {
     if (modules instanceof Command) {
       this.modules.set(modules.name, modules)
       this.client.once('ready', () => {
-        this.client.application?.commands.create(
-          {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            type: modules.type || ApplicationCommandType.ChatInput,
-            name: modules.name,
-            nameLocalizations: modules.nameLocalizations,
-            description: modules.description,
-            descriptionLocalizations: modules.descriptionLocalizations,
-            options: modules.options,
-            defaultMemberPermissions: modules.defaultMemberPermissions,
-            dmPermission: modules.dmPermission,
-          },
-          this.guildID
-        )
+        this.client.application?.commands.create(modules.toJSON(), this.guildID)
       })
     } else if (modules instanceof Listener) {
       this.modules.set(modules.name, modules)
@@ -61,11 +47,11 @@ export abstract class BaseHandler {
     delete require.cache[require.resolve(filedir)]
   }
 
-  protected ModuleType(module: ModuleType) {
+  protected moduleType(module: ModuleType) {
     if (module instanceof Listener) {
       return 'Listener'
     } else {
-      switch (module.type) {
+      switch (module.data!.type) {
         case ApplicationCommandType.ChatInput:
           return 'ChatInputCommand'
         case ApplicationCommandType.User:
@@ -76,5 +62,14 @@ export abstract class BaseHandler {
           return 'ChatInputCommand'
       }
     }
+  }
+
+  public load(module: ModuleType[]) {
+    module.forEach(module => {
+      this.register(module)
+      console.log(
+        `[discommand] ${this.moduleType(module)} ${module.name} is loaded.`
+      )
+    })
   }
 }

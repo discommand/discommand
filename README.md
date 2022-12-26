@@ -58,10 +58,12 @@ import { ChatInputCommandInteraction, ApplicationCommandType } from 'discord.js'
 
 export default class extends Command {
   constructor() {
-    super()
-    this.name = 'ping'
-    this.description = 'Pong'
-    this.type = ApplicationCommandType.ChatInput
+    super('ping')
+    this.data = {
+      name: 'ping',
+      description: 'Pong',
+      type: ApplicationCommandType.ChatInput,
+    }
   }
   execute(interaction: ChatInputCommandInteraction) {
     interaction.reply('Pong!')
@@ -103,10 +105,12 @@ const { SlashCommandBuilder, ApplicationCommandType } = require('discord.js')
 
 module.exports = class extends Command {
   constructor() {
-    super()
-    this.name = 'ping'
-    this.description = 'Pong!'
-    this.type = ApplicationCommandType.ChatInput
+    super('ping')
+    this.data = {
+      name: 'ping',
+      description: 'Pong',
+      type: ApplicationCommandType.ChatInput,
+    }
   }
   execute(interaction) {
     interaction.reply('Pong!')

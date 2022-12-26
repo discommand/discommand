@@ -4,3 +4,6 @@ test/
 .github/
 .vscode/
 .idea/
+.fleet/
+.prettier*
+.eslint*
