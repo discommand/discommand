@@ -1,6 +1,6 @@
 {
   "name": "discommand",
-  "version": "11.0.0-dev.0",
+  "version": "11.0.0-dev.1",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
