@@ -4,9 +4,9 @@ import {
   type Snowflake,
   ApplicationCommandType,
 } from 'discord.js'
-import { Command } from './Command'
-import { Listener } from './Listener'
-import { type ModuleType } from './types'
+import { Command } from '../Command'
+import { Listener } from '../Listener'
+import { deloadOptions, type ModuleType } from '../types'
 
 export abstract class BaseHandler {
   public readonly client: Client
@@ -64,11 +64,25 @@ export abstract class BaseHandler {
     }
   }
 
-  public load(module: ModuleType[]) {
-    module.forEach(module => {
+  public load(modules: ModuleType[]) {
+    modules.forEach(module => {
       this.register(module)
       console.log(
-        `[discommand] ${this.moduleType(module)} ${module.name} is loaded.`
+        `[discommand]${
+          this.guildID ? ` guild ${this.guildID}` : ''
+        } ${this.moduleType(module)} ${module.name} is loaded.`
+      )
+    })
+  }
+
+  public deload(modules: deloadOptions[]) {
+    modules.forEach(module => {
+      const modules = module.modules
+      this.deregister(modules.name, module.filedir!)
+      console.log(
+        `[discommand] ${this.moduleType(module.modules)} ${
+          modules.name
+        } is deloaded.`
       )
     })
   }

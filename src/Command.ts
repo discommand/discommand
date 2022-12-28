@@ -4,7 +4,7 @@ import {
   type ChatInputCommandInteraction,
   ApplicationCommandData,
 } from 'discord.js'
-import { Base } from './Base'
+import { Base } from './Bases'
 
 export abstract class Command extends Base {
   /**

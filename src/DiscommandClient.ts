@@ -1,6 +1,6 @@
 import { Client, type ClientOptions } from 'discord.js'
-import { DiscommandHandler } from '.'
-import { type DiscommandClientOptions } from '.'
+import { DiscommandHandler } from './DiscommandHandler'
+import { type DiscommandClientOptions } from './types'
 
 /**
  * @typedef {object} LoadType
