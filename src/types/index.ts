@@ -1,5 +1,6 @@
 import { type Snowflake } from 'discord.js'
 import { type Command, type Listener } from '..'
+import { type DiscommandHandler } from '../DiscommandHandler'
 
 export enum LoadType {
   File = 'FILE',
@@ -27,8 +28,19 @@ export interface DiscommandClientOptions {
 
 export interface deloadOptions {
   modules: ModuleType
-  filedir?: string
+  fileDir?: string
 }
 
 // Module Type
 export type ModuleType = Command | Listener
+
+// declaration
+declare module 'discord.js' {
+  interface Client {
+    commandHandler: DiscommandHandler
+    listenerHandler?: DiscommandHandler
+    loadAll(): void
+    deloadAll(): void
+    reloadAll(): void
+  }
+}

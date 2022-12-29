@@ -8,29 +8,12 @@ import { readdirSync } from 'fs'
 import { BaseHandler } from './Bases'
 import { DiscommandError } from './error'
 import { extname } from 'path'
-import { interactionCreate, loadModule } from './utils'
-
-/**
- * @typedef {object} LoadType
- * @property {number} [File]
- * @property {number} [Folder]
- */
-
-/**
- * @typedef {object} DiscommandHandlerOptions
- * @property {LoadType} [loadType]
- * @property {string} [directory]
- * @property {import('discord.js').Snowflake} [guildID]
- */
+import { deloadModule, interactionCreate, loadModule } from './utils'
 
 export class DiscommandHandler extends BaseHandler {
   public options: DiscommandHandlerOptions
   public modules: Collection<string, ModuleType> = new Collection()
-  /**
-   *
-   * @param {Client} [client]
-   * @param {DiscommandHandlerOptions} [options]
-   */
+
   public constructor(client: Client, options: DiscommandHandlerOptions) {
     super(client)
     this.options = options
@@ -38,13 +21,13 @@ export class DiscommandHandler extends BaseHandler {
   }
 
   public loadAll() {
+    let modules: ModuleType
     const dir = readdirSync(this.options.directory, { withFileTypes: true })
 
     if (this.options.loadType === LoadType.File) {
       for (const file of dir) {
         const tempModules = require(`${this.options.directory}/${file.name}`)
         console.log(tempModules)
-        let modules: ModuleType
         if (!tempModules.default) {
           modules = new tempModules()
         } else {
@@ -68,7 +51,6 @@ export class DiscommandHandler extends BaseHandler {
         )
         for (const file of folderDir) {
           const tempModules = require(`${this.options.directory}/${folder.name}/${file}`)
-          let modules: ModuleType
           if (!tempModules.default) {
             modules = new tempModules()
           } else {
@@ -96,6 +78,7 @@ export class DiscommandHandler extends BaseHandler {
   }
 
   public deloadAll() {
+    let modules: ModuleType
     const dir = readdirSync(this.options.directory).filter(
       fileName => extname(fileName) === '.js' || extname(fileName) === '.ts'
     )
@@ -103,7 +86,6 @@ export class DiscommandHandler extends BaseHandler {
     if (this.options.loadType === LoadType.File) {
       for (const file of dir) {
         const tempModules = require(`${this.options.directory}/${file}`)
-        let modules: ModuleType
         if (!tempModules.default) {
           modules = new tempModules()
         } else {
@@ -137,6 +119,8 @@ export class DiscommandHandler extends BaseHandler {
           this.deregister(modules.name, `${this.options.directory}/${file}`)
         }
       }
+    } else if (!this.options.loadType) {
+      this.deload(deloadModule(this.options.directory))
     }
   }
 

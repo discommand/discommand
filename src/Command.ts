@@ -7,9 +7,6 @@ import {
 import { Base } from './Bases'
 
 export abstract class Command extends Base {
-  /**
-   * @type {import('discord.js').ApplicationCommandData}
-   */
   public data?: ApplicationCommandData
   public abstract execute(
     interaction:

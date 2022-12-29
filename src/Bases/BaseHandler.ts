@@ -12,12 +12,7 @@ export abstract class BaseHandler {
   public readonly client: Client
   protected guildID?: Snowflake
   public modules: Collection<string, ModuleType> = new Collection()
-  /**
-   *
-   * @param {import('discord.js').Client} client
-   * @param {import('discord.js').Snowflake} guildID
-   */
-  public constructor(client: Client, guildID?: Snowflake) {
+  protected constructor(client: Client, guildID?: Snowflake) {
     this.client = client
     this.guildID = guildID
   }
@@ -28,7 +23,7 @@ export abstract class BaseHandler {
       this.client.once('ready', () => {
         this.client.application?.commands.create(modules.toJSON(), this.guildID)
       })
-    } else if (modules instanceof Listener) {
+    } else {
       this.modules.set(modules.name, modules)
       if (modules.once) {
         this.client.once(modules.name, (...args) => {
@@ -42,9 +37,9 @@ export abstract class BaseHandler {
     }
   }
 
-  protected deregister(moduleName: string, filedir: string) {
+  protected deregister(moduleName: string, fileDir?: string) {
     this.modules.delete(moduleName)
-    delete require.cache[require.resolve(filedir)]
+    if (fileDir) delete require.cache[require.resolve(fileDir)]
   }
 
   protected moduleType(module: ModuleType) {
@@ -78,7 +73,7 @@ export abstract class BaseHandler {
   public deload(modules: deloadOptions[]) {
     modules.forEach(module => {
       const modules = module.modules
-      this.deregister(modules.name, module.filedir!)
+      this.deregister(modules.name, module.fileDir!)
       console.log(
         `[discommand] ${this.moduleType(module.modules)} ${
           modules.name

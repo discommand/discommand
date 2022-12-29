@@ -2,34 +2,10 @@ import { Client, type ClientOptions } from 'discord.js'
 import { DiscommandHandler } from './DiscommandHandler'
 import { type DiscommandClientOptions } from './types'
 
-/**
- * @typedef {object} LoadType
- * @property {number} [File]
- * @property {number} [Folder]
- */
-
-/**
- * @typedef {object} directory
- * @property {string} [command]
- * @property {string | undefined} [listener]
- */
-
-/**
- * @typedef {object} DiscommandClientOptions
- * @property {LoadType} [loadType]
- * @property {directory} [directory]
- * @property {import('discord.js').Snowflake} [guildID]
- */
-
 export class DiscommandClient extends Client {
   public discommandOptions: DiscommandClientOptions
   public commandHandler: DiscommandHandler
   public listenerHandler?: DiscommandHandler
-  /**
-   *
-   * @param {import('discord.js').ClientOptions} [ClientOptions]
-   * @param {DiscommandClientOptions} [options]
-   */
   public constructor(
     ClientOptions: ClientOptions,
     options: DiscommandClientOptions
