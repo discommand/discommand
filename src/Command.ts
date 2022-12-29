@@ -2,7 +2,7 @@ import {
   type MessageContextMenuCommandInteraction,
   type UserContextMenuCommandInteraction,
   type ChatInputCommandInteraction,
-  ApplicationCommandData,
+  type ApplicationCommandData,
 } from 'discord.js'
 import { Base } from './Bases'
 

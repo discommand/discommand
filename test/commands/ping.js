@@ -1,5 +1,5 @@
 const { ApplicationCommandType } = require('discord.js')
-const { Command } = require('../..')
+const { Command } = require('../../dist')
 
 module.exports = class PingCommand extends Command {
   constructor() {

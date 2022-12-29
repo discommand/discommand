@@ -89,7 +89,7 @@ export class DiscommandHandler extends BaseHandler {
         }
       }
     } else if (!this.options.loadType) {
-      this.load(loadModule(this.options.directory)!)
+      this.load(loadModule(this.options.directory))
     }
 
     interactionCreate(this)
