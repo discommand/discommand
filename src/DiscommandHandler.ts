@@ -8,7 +8,12 @@ import { readdirSync } from 'fs'
 import { BaseHandler } from './Bases'
 import { DiscommandError } from './error'
 import { extname } from 'path'
-import { deloadModule, interactionCreate, loadModule } from './utils'
+import {
+  deloadModule,
+  interactionCreate,
+  loadModule,
+  reloadModule,
+} from './utils'
 
 export class DiscommandHandler extends BaseHandler {
   public options: DiscommandHandlerOptions
@@ -125,7 +130,11 @@ export class DiscommandHandler extends BaseHandler {
   }
 
   public reloadAll() {
-    this.deloadAll()
-    this.loadAll()
+    if (this.options.loadType) {
+      this.deloadAll()
+      this.loadAll()
+    } else {
+      this.reload(reloadModule(this.options.directory))
+    }
   }
 }

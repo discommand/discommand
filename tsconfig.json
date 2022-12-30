@@ -4,15 +4,14 @@
     "module": "commonjs",
     "declaration": true,
     "outDir": "./dist",
-    "strict": true,
-    "removeComments": false,
-    "declarationDir": "./dist"
+    "strict": true
   },
   "include": [
     "src/**/*"
   ],
   "exclude": [
     "node_modules",
-    "test"
+    "test",
+    "dist"
   ]
 }

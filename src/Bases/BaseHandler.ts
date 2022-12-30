@@ -6,7 +6,7 @@ import {
 } from 'discord.js'
 import { Command } from '../Command'
 import { Listener } from '../Listener'
-import { deloadOptions, type ModuleType } from '../types'
+import { deloadOptions, type ModuleType, reloadOptions } from '../types'
 
 export abstract class BaseHandler {
   public readonly client: Client
@@ -72,12 +72,26 @@ export abstract class BaseHandler {
 
   public deload(modules: deloadOptions[]) {
     modules.forEach(module => {
-      const modules = module.modules
-      this.deregister(modules.name, module.fileDir!)
+      const { modules, fileDir } = module
+      console.log(fileDir)
+      this.deregister(modules.name, fileDir)
       console.log(
         `[discommand] ${this.moduleType(module.modules)} ${
           modules.name
         } is deloaded.`
+      )
+    })
+  }
+
+  public reload(modules: reloadOptions[]) {
+    modules.forEach(module => {
+      const { modules, fileDir } = module
+      this.deregister(modules.name, fileDir)
+      this.register(modules)
+      console.log(
+        `[discommand] ${this.moduleType(module.modules)} ${
+          modules.name
+        } is reloaded.`
       )
     })
   }

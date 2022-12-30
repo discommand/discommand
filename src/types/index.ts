@@ -31,6 +31,10 @@ export interface deloadOptions {
   fileDir?: string
 }
 
+export interface reloadOptions extends deloadOptions {
+  fileDir: string
+}
+
 // Module Type
 export type ModuleType = Command | Listener
 
