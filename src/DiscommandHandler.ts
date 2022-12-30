@@ -9,6 +9,7 @@ import { BaseHandler } from './Bases'
 import { DiscommandError } from './error'
 import { extname } from 'path'
 import {
+  clientReady,
   deloadModule,
   interactionCreate,
   loadModule,
@@ -79,6 +80,7 @@ export class DiscommandHandler extends BaseHandler {
       this.load(loadModule(this.options.directory))
     }
 
+    clientReady(this)
     interactionCreate(this)
   }
 

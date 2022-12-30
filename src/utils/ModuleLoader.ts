@@ -1,5 +1,5 @@
 import { readdirSync } from 'fs'
-import { deloadOptions, type ModuleType, reloadOptions } from '..'
+import { type DeloadOptions, type ModuleType, type ReloadOptions } from '..'
 
 export const returnDir = (fileDir: string): string[] => {
   const dir: string[] = []
@@ -33,9 +33,9 @@ export const loadModule = (fileDir: string): ModuleType[] => {
   return modules
 }
 
-export const deloadModule = (fileDir: string): deloadOptions[] => {
+export const deloadModule = (fileDir: string): DeloadOptions[] => {
   const dir = returnDir(fileDir)
-  const modules: deloadOptions[] = []
+  const modules: DeloadOptions[] = []
   loadModule(fileDir).forEach(module => {
     dir.forEach(dir => {
       modules.push({
@@ -47,15 +47,15 @@ export const deloadModule = (fileDir: string): deloadOptions[] => {
   return modules
 }
 
-export const reloadModule = (fileDir: string): reloadOptions[] => {
+export const reloadModule = (fileDir: string): ReloadOptions[] => {
   const dir = returnDir(fileDir)
-  const modules: reloadOptions[] = []
+
+  const modules: ReloadOptions[] = []
   loadModule(fileDir).forEach(module => {
-    dir.forEach(dir => {
-      modules.push({
-        modules: module,
-        fileDir: dir,
-      })
+    modules.push({
+      modules: module,
+      fileDirs: dir,
+      fileDir,
     })
   })
   return modules

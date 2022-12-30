@@ -26,12 +26,16 @@ export interface DiscommandClientOptions {
   guildID?: Snowflake
 }
 
-export interface deloadOptions {
+export interface BaseLoadOptions {
   modules: ModuleType
+}
+
+export interface DeloadOptions extends BaseLoadOptions {
   fileDir?: string
 }
 
-export interface reloadOptions extends deloadOptions {
+export interface ReloadOptions extends BaseLoadOptions {
+  fileDirs: string[]
   fileDir: string
 }
 

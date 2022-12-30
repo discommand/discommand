@@ -14,6 +14,6 @@ module.exports = class PingCommand extends Command {
     }
   }
   execute(interaction) {
-    interaction.reply('Pong!~!!')
+    interaction.reply('Pong!')
   }
 }

@@ -4,9 +4,9 @@ import {
   type Snowflake,
   ApplicationCommandType,
 } from 'discord.js'
-import { Command } from '../Command'
 import { Listener } from '../Listener'
-import { deloadOptions, type ModuleType, reloadOptions } from '../types'
+import { DeloadOptions, type ModuleType, ReloadOptions } from '../types'
+import { loadModule } from '../utils'
 
 export abstract class BaseHandler {
   public readonly client: Client
@@ -18,13 +18,8 @@ export abstract class BaseHandler {
   }
 
   protected register(modules: ModuleType) {
-    if (modules instanceof Command) {
-      this.modules.set(modules.name, modules)
-      this.client.once('ready', () => {
-        this.client.application?.commands.create(modules.toJSON(), this.guildID)
-      })
-    } else {
-      this.modules.set(modules.name, modules)
+    this.modules.set(modules.name, modules)
+    if (modules instanceof Listener) {
       if (modules.once) {
         this.client.once(modules.name, (...args) => {
           modules.execute(...args)
@@ -70,7 +65,7 @@ export abstract class BaseHandler {
     })
   }
 
-  public deload(modules: deloadOptions[]) {
+  public deload(modules: DeloadOptions[]) {
     modules.forEach(module => {
       const { modules, fileDir } = module
       console.log(fileDir)
@@ -83,11 +78,15 @@ export abstract class BaseHandler {
     })
   }
 
-  public reload(modules: reloadOptions[]) {
+  public reload(modules: ReloadOptions[]) {
     modules.forEach(module => {
-      const { modules, fileDir } = module
-      this.deregister(modules.name, fileDir)
-      this.register(modules)
+      const { modules, fileDirs, fileDir } = module
+      fileDirs.forEach(file => {
+        this.deregister(modules.name, file)
+      })
+      loadModule(fileDir).forEach(module => {
+        this.register(module)
+      })
       console.log(
         `[discommand] ${this.moduleType(module.modules)} ${
           modules.name
