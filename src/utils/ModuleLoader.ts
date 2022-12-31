@@ -21,13 +21,23 @@ export const loadModule = (fileDir: string): ModuleType[] => {
     if (dirent.isDirectory()) {
       for (const file of readdirSync(`${fileDir}/${dirent.name}`)) {
         const tempModule = require(`${fileDir}/${dirent.name}/${file}`)
-        const module: ModuleType = new tempModule()
-        modules.push(module)
+        if (!tempModule.default) {
+          const module: ModuleType = new tempModule()
+          modules.push(module)
+        } else {
+          const module: ModuleType = new tempModule.default()
+          modules.push(module)
+        }
       }
     } else if (dirent.isFile()) {
       const tempModule = require(`${fileDir}/${dirent.name}`)
-      const module: ModuleType = new tempModule()
-      modules.push(module)
+      if (!tempModule.default) {
+        const module: ModuleType = new tempModule()
+        modules.push(module)
+      } else {
+        const module: ModuleType = new tempModule.default()
+        modules.push(module)
+      }
     }
   }
   return modules
