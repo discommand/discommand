@@ -10,8 +10,8 @@ import { loadModule } from '../utils'
 
 export abstract class BaseHandler {
   public readonly client: Client
-  protected guildID?: Snowflake
-  public modules: Collection<string, ModuleType> = new Collection()
+  public readonly guildID?: Snowflake
+  public readonly modules: Collection<string, ModuleType> = new Collection()
   protected constructor(client: Client, guildID?: Snowflake) {
     this.client = client
     this.guildID = guildID
@@ -65,31 +65,31 @@ export abstract class BaseHandler {
     })
   }
 
-  public deload(modules: DeloadOptions[]) {
-    modules.forEach(module => {
-      const { modules, fileDir } = module
+  public deload(options: DeloadOptions[]) {
+    options.forEach(option => {
+      const { module, fileDir } = option
       console.log(fileDir)
-      this.deregister(modules.name, fileDir)
+      this.deregister(module.name, fileDir)
       console.log(
-        `[discommand] ${this.moduleType(module.modules)} ${
-          modules.name
+        `[discommand] ${this.moduleType(option.module)} ${
+          module.name
         } is deloaded.`
       )
     })
   }
 
-  public reload(modules: ReloadOptions[]) {
-    modules.forEach(module => {
-      const { modules, fileDirs, fileDir } = module
+  public reload(options: ReloadOptions[]) {
+    options.forEach(option => {
+      const { module, fileDirs, fileDir } = option
       fileDirs.forEach(file => {
-        this.deregister(modules.name, file)
+        this.deregister(module.name, file)
       })
       loadModule(fileDir).forEach(module => {
         this.register(module)
       })
       console.log(
-        `[discommand] ${this.moduleType(module.modules)} ${
-          modules.name
+        `[discommand] ${this.moduleType(option.module)} ${
+          module.name
         } is reloaded.`
       )
     })

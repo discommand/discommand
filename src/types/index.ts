@@ -2,11 +2,6 @@ import { type Snowflake } from 'discord.js'
 import { type Command, type Listener } from '..'
 import { type DiscommandHandler } from '../DiscommandHandler'
 
-export enum LoadType {
-  File = 'FILE',
-  Folder = 'FOLDER',
-}
-
 export interface directory {
   command: string
   listener?: string
@@ -15,19 +10,17 @@ export interface directory {
 // Discommand Options
 
 export interface DiscommandHandlerOptions {
-  loadType?: LoadType
   directory: string
   guildID?: Snowflake
 }
 
 export interface DiscommandClientOptions {
-  loadType: LoadType
   directory: directory
   guildID?: Snowflake
 }
 
 export interface BaseLoadOptions {
-  modules: ModuleType
+  module: ModuleType
 }
 
 export interface DeloadOptions extends BaseLoadOptions {

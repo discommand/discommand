@@ -1,7 +1,7 @@
 import { Events, InteractionType } from 'discord.js'
-import { type DiscommandHandler } from '../DiscommandHandler'
+import { type BaseHandler } from '../Bases'
 
-export async function interactionCreate(handler: DiscommandHandler) {
+export async function interactionCreate(handler: BaseHandler) {
   handler.client.on(Events.InteractionCreate, async interaction => {
     if (interaction.type === InteractionType.ApplicationCommand) {
       const command = handler.modules.get(interaction.commandName)

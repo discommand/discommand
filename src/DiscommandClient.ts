@@ -13,13 +13,11 @@ export class DiscommandClient extends Client {
     super(ClientOptions)
     this.discommandOptions = options
     this.commandHandler = new DiscommandHandler(this, {
-      loadType: options.loadType,
       directory: options.directory.command,
       guildID: options.guildID,
     })
     if (options.directory.listener) {
       this.listenerHandler = new DiscommandHandler(this, {
-        loadType: options.loadType,
         directory: options.directory.listener,
       })
     }

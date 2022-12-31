@@ -39,7 +39,7 @@ export const deloadModule = (fileDir: string): DeloadOptions[] => {
   loadModule(fileDir).forEach(module => {
     dir.forEach(dir => {
       modules.push({
-        modules: module,
+        module: module,
         fileDir: dir,
       })
     })
@@ -53,7 +53,7 @@ export const reloadModule = (fileDir: string): ReloadOptions[] => {
   const modules: ReloadOptions[] = []
   loadModule(fileDir).forEach(module => {
     modules.push({
-      modules: module,
+      module: module,
       fileDirs: dir,
       fileDir,
     })

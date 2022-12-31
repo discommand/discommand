@@ -1,7 +1,5 @@
 node_modules/
-config.json
 test/
-.github/
 .vscode/
 .idea/
 .fleet/
