@@ -1,23 +1,11 @@
 import { Client, type ClientOptions } from 'discord.js'
-import { DiscommandHandler } from '.'
-import { type DiscommandClientOptions } from '.'
-import { type LoadType } from './types'
-
-/**
- * @typedef {object} DiscommandClientOptions
- * @property {LoadType} [loadType]
- * @property {{commandFolderDirectory: string; listenerFolderDirectory?: string}} [directory]
- */
+import { DiscommandHandler } from './DiscommandHandler'
+import { type DiscommandClientOptions } from './types'
 
 export class DiscommandClient extends Client {
   public discommandOptions: DiscommandClientOptions
   public commandHandler: DiscommandHandler
   public listenerHandler?: DiscommandHandler
-  /**
-   *
-   * @param {ClientOptions} ClientOptions
-   * @param {DiscommandClientOptions} options
-   */
   public constructor(
     ClientOptions: ClientOptions,
     options: DiscommandClientOptions
@@ -25,13 +13,11 @@ export class DiscommandClient extends Client {
     super(ClientOptions)
     this.discommandOptions = options
     this.commandHandler = new DiscommandHandler(this, {
-      loadType: options.loadType,
       directory: options.directory.command,
       guildID: options.guildID,
     })
     if (options.directory.listener) {
       this.listenerHandler = new DiscommandHandler(this, {
-        loadType: options.loadType,
         directory: options.directory.listener,
       })
     }
@@ -56,5 +42,10 @@ export class DiscommandClient extends Client {
     if (this.listenerHandler) {
       this.listenerHandler.reloadAll()
     }
+  }
+
+  public start(token?: string) {
+    this.login(token)
+    this.loadAll()
   }
 }

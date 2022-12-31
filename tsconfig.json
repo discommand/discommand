@@ -3,16 +3,15 @@
     "target": "ES2018",
     "module": "commonjs",
     "declaration": true,
-    "outDir": "./dist/src",
-    "strict": true,
-    "removeComments": false,
-    "declarationDir": "./dist/types"
+    "outDir": "./dist",
+    "strict": true
   },
   "include": [
     "src/**/*"
   ],
   "exclude": [
     "node_modules",
-    "test"
+    "test",
+    "dist"
   ]
 }

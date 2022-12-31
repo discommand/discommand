@@ -30,7 +30,7 @@ npm i discommand@next
 index.ts
 
 ```ts
-import { DiscommandClient, LoadType } from 'discommand'
+import { DiscommandClient } from 'discommand'
 import { GatewayIntentBits } from 'discord.js'
 
 const client = new DiscommandClient(
@@ -38,7 +38,6 @@ const client = new DiscommandClient(
     intents: [GatewayIntentBits.Guilds],
   },
   {
-    loadType: LoadType.File,
     directory: {
       command: __dirname + '/commands',
     },
@@ -58,10 +57,12 @@ import { ChatInputCommandInteraction, ApplicationCommandType } from 'discord.js'
 
 export default class extends Command {
   constructor() {
-    super()
-    this.name = 'ping'
-    this.description = 'Pong'
-    this.type = ApplicationCommandType.ChatInput
+    super('ping')
+    this.data = {
+      name: 'ping',
+      description: 'Pong',
+      type: ApplicationCommandType.ChatInput,
+    }
   }
   execute(interaction: ChatInputCommandInteraction) {
     interaction.reply('Pong!')
@@ -74,16 +75,14 @@ export default class extends Command {
 index.js
 
 ```js
-const { DiscommndClient, LoadType } = require('discommand')
+const { DiscommndClient } = require('discommand')
 const { GatewayIntentBits } = require('discord.js')
-const path = require('path')
 
 const client = new DiscommandClient(
   {
     intents: [GatewayIntentBits.Guilds],
   },
   {
-    loadType: LoadType.File,
     directory: {
       command: __dirname + '/commands',
     },
@@ -103,10 +102,12 @@ const { SlashCommandBuilder, ApplicationCommandType } = require('discord.js')
 
 module.exports = class extends Command {
   constructor() {
-    super()
-    this.name = 'ping'
-    this.description = 'Pong!'
-    this.type = ApplicationCommandType.ChatInput
+    super('ping')
+    this.data = {
+      name: 'ping',
+      description: 'Pong',
+      type: ApplicationCommandType.ChatInput,
+    }
   }
   execute(interaction) {
     interaction.reply('Pong!')

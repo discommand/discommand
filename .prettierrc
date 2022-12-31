@@ -1,8 +1,1 @@
-{
-  "semi": false,
-  "singleQuote": true,
-  "endOfLine": "lf",
-  "arrowParens": "avoid",
-  "bracketSpacing": true,
-  "tabWidth": 2
-}
+"@migan/prettier-config"

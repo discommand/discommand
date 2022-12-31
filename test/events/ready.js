@@ -1,9 +1,8 @@
-const { Listener } = require('../../dist/src')
+const { Listener } = require('../..')
 
 module.exports = class extends Listener {
   constructor() {
-    super()
-    this.name = 'ready'
+    super('ready')
   }
   execute() {
     console.log('test')

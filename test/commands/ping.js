@@ -1,12 +1,17 @@
 const { ApplicationCommandType } = require('discord.js')
-const { Command } = require('../../dist/src')
+const { Command } = require('../../dist')
 
 module.exports = class PingCommand extends Command {
   constructor() {
-    super()
-    this.name = 'ping'
-    this.description = 'pong'
-    this.type = ApplicationCommandType.ChatInput
+    super('ping')
+    /**
+     * @type {import('discord.js').ApplicationCommandData}
+     */
+    this.data = {
+      type: ApplicationCommandType.ChatInput,
+      name: 'ping',
+      description: 'pong',
+    }
   }
   execute(interaction) {
     interaction.reply('Pong!')

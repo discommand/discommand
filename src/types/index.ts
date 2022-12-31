@@ -1,29 +1,47 @@
 import { type Snowflake } from 'discord.js'
 import { type Command, type Listener } from '..'
+import { type DiscommandHandler } from '../DiscommandHandler'
 
-export enum LoadType {
-  File = 0,
-  Folder = 1,
+export interface directory {
+  command: string
+  listener?: string
 }
 
 // Discommand Options
 
 export interface DiscommandHandlerOptions {
-  loadType: LoadType
   directory: string
   guildID?: Snowflake
 }
 
 export interface DiscommandClientOptions {
-  loadType: LoadType
-  directory: {
-    command: string
-    listener?: string
-  }
+  directory: directory
   guildID?: Snowflake
+}
+
+export interface BaseLoadOptions {
+  module: ModuleType
+}
+
+export interface DeloadOptions extends BaseLoadOptions {
+  fileDir?: string
+}
+
+export interface ReloadOptions extends BaseLoadOptions {
+  fileDirs: string[]
+  fileDir: string
 }
 
 // Module Type
 export type ModuleType = Command | Listener
 
-export type ContextMenuTypeString = 'MessageContextMenu' | 'UserContextMenu'
+// declaration
+declare module 'discord.js' {
+  interface Client {
+    commandHandler: DiscommandHandler
+    listenerHandler?: DiscommandHandler
+    loadAll(): void
+    deloadAll(): void
+    reloadAll(): void
+  }
+}

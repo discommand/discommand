@@ -1,8 +1,5 @@
-import { Base } from './Base'
+import { Base } from './Bases'
 
-/**
- * @abstract
- */
 export abstract class Listener extends Base {
-  public once: boolean = false
+  public once = false
 }
