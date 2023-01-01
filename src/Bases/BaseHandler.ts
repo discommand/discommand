@@ -18,8 +18,8 @@ export abstract class BaseHandler {
   }
 
   protected register(modules: ModuleType) {
-    this.modules.set(modules.name, modules)
     if (modules instanceof Listener) {
+      this.modules.set(modules.name, modules)
       if (modules.once) {
         this.client.once(modules.name, (...args) => {
           modules.execute(...args)
@@ -29,6 +29,8 @@ export abstract class BaseHandler {
           modules.execute(...args)
         })
       }
+    } else {
+      this.modules.set(modules.toJSON().name, modules)
     }
   }
 

@@ -1,5 +1,5 @@
 import { type Snowflake } from 'discord.js'
-import { type Command, type Listener } from '..'
+import type { Command, Listener } from '..'
 import { type DiscommandHandler } from '../DiscommandHandler'
 
 export interface directory {
