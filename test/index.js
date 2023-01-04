@@ -5,7 +5,6 @@ const { token, guildID } = require('./config.json')
 const client = new DiscommandClient(
   {
     intents: [GatewayIntentBits.Guilds],
-    z,
   },
   {
     directory: {
