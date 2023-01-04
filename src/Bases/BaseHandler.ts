@@ -86,9 +86,12 @@ export abstract class BaseHandler {
       fileDirs.forEach(file => {
         this.deregister(module.name, file)
       })
-      loadModule(fileDir).forEach(module => {
-        this.register(module)
-      })
+      loadModule(fileDir) //
+        .then(a =>
+          a.forEach(module => {
+            this.register(module)
+          })
+        )
       console.log(
         `[discommand] ${this.moduleType(option.module)} ${
           module.name

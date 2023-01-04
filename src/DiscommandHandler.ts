@@ -18,11 +18,11 @@ export class DiscommandHandler extends BaseHandler {
     this.options = options
   }
 
-  public loadAll() {
-    this.load(loadModule(this.options.directory))
+  public async loadAll() {
+    this.load(await loadModule(this.options.directory))
 
     clientReady(this)
-    interactionCreate(this)
+    await interactionCreate(this)
   }
 
   public deloadAll() {

@@ -6,5 +6,5 @@ export default defineConfig({
   dts: true,
   skipNodeModulesBundle: true,
   minify: false,
-  format: 'cjs',
+  format: ['esm', 'cjs'],
 })
