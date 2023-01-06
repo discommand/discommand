@@ -70,7 +70,6 @@ export abstract class BaseHandler {
   public deload(options: DeloadOptions[]) {
     options.forEach(option => {
       const { module, fileDir } = option
-      console.log(fileDir)
       this.deregister(module.name, fileDir)
       console.log(
         `[discommand] ${this.moduleType(option.module)} ${
