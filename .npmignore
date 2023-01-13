@@ -1,7 +1,0 @@
-node_modules/
-test/
-.vscode/
-.idea/
-.fleet/
-.prettier*
-.eslint*

@@ -1,5 +1,5 @@
 import { readdirSync } from 'fs'
-import type { DeloadOptions, ModuleType, ReloadOptions } from '..'
+import type { DeloadOptions, ModuleType, ReloadOptions } from '../index'
 
 export const returnDir = (fileDir: string): string[] => {
   const dir: string[] = []

@@ -1,24 +1,22 @@
 import { Client, type ClientOptions } from 'discord.js'
 import { DiscommandHandler } from './DiscommandHandler'
-import { type DiscommandClientOptions } from './types'
+import type { DiscommandClientOptions } from './types'
 
 export class DiscommandClient extends Client {
-  public discommandOptions: DiscommandClientOptions
   public commandHandler: DiscommandHandler
   public listenerHandler?: DiscommandHandler
   public constructor(
-    ClientOptions: ClientOptions,
-    options: DiscommandClientOptions
+    clientOptions: ClientOptions,
+    public readonly discommandOptions: DiscommandClientOptions
   ) {
-    super(ClientOptions)
-    this.discommandOptions = options
+    super(clientOptions)
     this.commandHandler = new DiscommandHandler(this, {
-      directory: options.directory.command,
-      guildID: options.guildID,
+      directory: discommandOptions.directory.command,
+      guildID: discommandOptions.guildID,
     })
-    if (options.directory.listener) {
+    if (discommandOptions.directory.listener) {
       this.listenerHandler = new DiscommandHandler(this, {
-        directory: options.directory.listener,
+        directory: discommandOptions.directory.listener,
       })
     }
   }
