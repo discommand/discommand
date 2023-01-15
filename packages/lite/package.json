@@ -1,6 +1,6 @@
 {
   "name": "@discommand/lite",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "description": "discommand, but Command Handler only",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -14,8 +14,11 @@
       "import": "./dist/index.mjs"
     }
   },
-  "repository": "https://github.com/discommand/discommand",
-  "author": "Jeon Siwoo <migan178@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/discommand/discommand.git"
+  },
+  "author": "Migan178 <migan9857@gmail.com>",
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^18.11.18",
