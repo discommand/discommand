@@ -1,13 +1,15 @@
-import { Command } from '../../dist'
+import { Command } from '@discommand/lite'
 import { ChatInputCommandInteraction } from 'discord.js'
 
 export default class extends Command {
-  public constructor() {
+  constructor() {
     super()
-    this.name = 'ping'
-    this.description = 'pong'
+    this.data = {
+      name: 'ping',
+      description: 'pong',
+    }
   }
   execute(interaction: ChatInputCommandInteraction) {
-    interaction.reply('Pong')
+    interaction.reply('Pong!')
   }
 }

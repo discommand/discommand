@@ -26,10 +26,9 @@
     "node": ">=16.9.0",
     "npm": ">=7.0.0"
   },
-  "workspaces": {
-    "packages": [
-      "packages/*"
-    ]
-  },
+  "workspaces": [
+    "packages/*",
+    "tests/*"
+  ],
   "packageManager": "yarn@3.3.1"
 }

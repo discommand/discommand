@@ -7,6 +7,7 @@
     "strict": true
   },
   "include": [
-    "packages/**/src/**/*.ts"
+    "packages/**/src/**/*.ts",
+    "tests/**/src/**/*.ts"
   ]
 }

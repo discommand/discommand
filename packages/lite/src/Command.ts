@@ -7,13 +7,13 @@ import type {
 import { ApplicationCommandType } from 'discord.js'
 
 export abstract class Command implements ChatInputApplicationCommandData {
-  name: string = ''
-  nameLocalizations?: LocalizationMap
-  description: string = ''
-  descriptionLocalizations?: LocalizationMap
-  options?: ApplicationCommandOptionData[]
+  public name = ''
+  public nameLocalizations?: LocalizationMap
+  public description = ''
+  public descriptionLocalizations?: LocalizationMap
+  public options?: ApplicationCommandOptionData[]
   public data?: ChatInputApplicationCommandData
-  abstract execute(interaction: ChatInputCommandInteraction): any
+  public abstract execute(interaction: ChatInputCommandInteraction): unknown
 
   public toJSON(): ChatInputApplicationCommandData {
     if (this.data) {

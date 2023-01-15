@@ -1,6 +1,6 @@
-const { Listener } = require('../..')
+import { Listener } from 'discommand'
 
-module.exports = class extends Listener {
+export default class extends Listener {
   constructor() {
     super('ready')
   }

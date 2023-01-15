@@ -32,7 +32,33 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@discommand/lite@workspace:packages/lite":
+"@discommand/discommand-test@workspace:tests/discommand":
+  version: 0.0.0-use.local
+  resolution: "@discommand/discommand-test@workspace:tests/discommand"
+  dependencies:
+    "@types/node": ^18.11.18
+    discommand: "workspace:^"
+    discord.js: ^14.7.1
+    dotenv: ^16.0.3
+    ts-node: ^10.9.1
+    typescript: ^4.9.4
+  languageName: unknown
+  linkType: soft
+
+"@discommand/lite-test@workspace:tests/lite":
+  version: 0.0.0-use.local
+  resolution: "@discommand/lite-test@workspace:tests/lite"
+  dependencies:
+    "@discommand/lite": "workspace:^"
+    "@types/node": ^18.11.18
+    discord.js: ^14.7.1
+    dotenv: ^16.0.3
+    ts-node: ^10.9.1
+    typescript: ^4.9.4
+  languageName: unknown
+  linkType: soft
+
+"@discommand/lite@workspace:^, @discommand/lite@workspace:packages/lite":
   version: 0.0.0-use.local
   resolution: "@discommand/lite@workspace:packages/lite"
   dependencies:
@@ -914,7 +940,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"discord.js@npm:^14.1.0":
+"discord.js@npm:^14.1.0, discord.js@npm:^14.7.1":
   version: 14.7.1
   resolution: "discord.js@npm:14.7.1"
   dependencies:
@@ -940,6 +966,13 @@ __metadata:
   dependencies:
     esutils: ^2.0.2
   checksum: fd7673ca77fe26cd5cba38d816bc72d641f500f1f9b25b83e8ce28827fe2da7ad583a8da26ab6af85f834138cf8dae9f69b0cd6ab925f52ddab1754db44d99ce
+  languageName: node
+  linkType: hard
+
+"dotenv@npm:^16.0.3":
+  version: 16.0.3
+  resolution: "dotenv@npm:16.0.3"
+  checksum: afcf03f373d7a6d62c7e9afea6328e62851d627a4e73f2e12d0a8deae1cd375892004f3021883f8aec85932cd2834b091f568ced92b4774625b321db83b827f8
   languageName: node
   linkType: hard
 
