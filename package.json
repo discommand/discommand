@@ -1,7 +1,7 @@
 {
   "name": "@discommand/monorepo",
   "private": true,
-  "version": "0.0.1",
+  "version": "0.0.0",
   "description": "easy discord.js command handler.",
   "repository": "https://github.com/discommand/discommand",
   "author": "Migan178 <migan9857@gmail.com>",
@@ -10,10 +10,10 @@
     "@migan/prettier-config": "^1.0.0",
     "@typescript-eslint/eslint-plugin": "^5.48.1",
     "@typescript-eslint/parser": "^5.48.1",
-    "eslint": "^8.31.0",
+    "eslint": "^8.32.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-prettier": "^4.2.1",
-    "prettier": "^2.8.2",
+    "prettier": "^2.8.3",
     "typescript": "^4.9.4"
   },
   "keywords": [

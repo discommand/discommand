@@ -9,10 +9,11 @@ import { DeloadOptions, type ModuleType, ReloadOptions } from '../types'
 import { loadModule } from '../utils'
 
 export abstract class BaseHandler {
-  public readonly client: Client
-  public readonly guildID?: Snowflake
   public readonly modules: Collection<string, ModuleType> = new Collection()
-  protected constructor(client: Client, guildID?: Snowflake) {
+  protected constructor(
+    public readonly client: Client,
+    public readonly guildID?: Snowflake
+  ) {
     this.client = client
     this.guildID = guildID
   }

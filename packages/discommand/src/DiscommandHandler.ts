@@ -10,19 +10,23 @@ import {
 } from './utils'
 
 export class DiscommandHandler extends BaseHandler {
-  public options: DiscommandHandlerOptions
   public modules: Collection<string, ModuleType> = new Collection()
 
-  public constructor(client: Client, options: DiscommandHandlerOptions) {
+  public constructor(
+    client: Client,
+    public readonly options: DiscommandHandlerOptions
+  ) {
     super(client, options.guildID)
-    this.options = options
+    client.on('ready', async () => {
+      await interactionCreate(this)
+    })
   }
 
-  public async loadAll() {
-    this.load(await loadModule(this.options.directory))
+  public loadAll() {
+    loadModule(this.options.directory) //
+      .then(modules => this.load(modules))
 
     clientReady(this)
-    await interactionCreate(this)
   }
 
   public deloadAll() {

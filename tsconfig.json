@@ -4,10 +4,8 @@
     "module": "commonjs",
     "declaration": true,
     "outDir": "./dist",
-    "strict": true
+    "strict": true,
+    "resolveJsonModule": true
   },
-  "include": [
-    "packages/**/src/**/*.ts",
-    "tests/**/src/**/*.ts"
-  ]
+  "include": ["packages/**/src/**/*.ts", "tests/**/src/**/*.ts"]
 }
