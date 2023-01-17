@@ -1,19 +1,25 @@
-import { DiscommandHandler } from 'discommand'
+import { DiscommandClient } from 'discommand'
 import type { DebuggerOptions } from './types'
-import { type Client } from 'discord.js'
 
 export class Debugger {
-  protected readonly client: Client
   public constructor(
-    protected readonly handler: DiscommandHandler,
+    protected readonly client: DiscommandClient,
     public readonly options: DebuggerOptions
-  ) {
-    this.client = handler.client
-  }
+  ) {}
 
   public run() {
-    this.client.on('interactionCreate', interaction => {
-      console.log('a')
-    })
+    this.client
+      .on('interactionCreate', interaction => {
+        if (interaction.isChatInputCommand()) {
+          import('./commands/debugger').then(a =>
+            new a.default(this).execute(interaction)
+          )
+        }
+      })
+      .once('ready', () => {
+        import('./commands/debugger').then(a =>
+          this.client.application?.commands.create(new a.default(this).toJSON())
+        )
+      })
   }
 }

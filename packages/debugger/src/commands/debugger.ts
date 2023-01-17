@@ -1,6 +1,9 @@
 import { Command } from 'discommand'
 import type { Debugger } from '../Debugger'
-import { type ChatInputCommandInteraction } from 'discord.js'
+import {
+  type ChatInputCommandInteraction,
+  ApplicationCommandOptionType,
+} from 'discord.js'
 
 export default class DebuggerCommands extends Command {
   constructor(public readonly _debugger: Debugger) {
@@ -8,6 +11,13 @@ export default class DebuggerCommands extends Command {
     this.data = {
       name: 'debugger',
       description: "discommand's debugger",
+      options: [
+        {
+          type: ApplicationCommandOptionType.Subcommand,
+          name: 'main',
+          description: 'debugger main',
+        },
+      ],
     }
   }
   execute(interaction: ChatInputCommandInteraction) {
