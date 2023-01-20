@@ -1,6 +1,6 @@
 import { Events } from 'discord.js'
-import { Command } from '../Command'
-import { type BaseHandler } from '../Bases'
+import { Command } from '../Command.js'
+import type { BaseHandler } from '../Bases/index.js'
 
 export function clientReady(handler: BaseHandler) {
   handler.client.once(Events.ClientReady, () => {

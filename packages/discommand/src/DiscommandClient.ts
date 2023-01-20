@@ -1,6 +1,6 @@
 import { Client, type ClientOptions } from 'discord.js'
-import { DiscommandHandler } from './DiscommandHandler'
-import type { DiscommandClientOptions } from './types'
+import { DiscommandHandler } from './DiscommandHandler.js'
+import type { DiscommandClientOptions } from './types/index.js'
 
 export class DiscommandClient extends Client {
   public commandHandler: DiscommandHandler
@@ -42,8 +42,16 @@ export class DiscommandClient extends Client {
     }
   }
 
+  public async login(token?: string): Promise<string> {
+    await this.loadAll()
+    return super.login(token)
+  }
+
+  /**
+   * @__PURE__
+   * @deprecated use .login('your-token')
+   */
   public start(token?: string) {
     this.login(token)
-    this.loadAll()
   }
 }

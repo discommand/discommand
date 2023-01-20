@@ -1,19 +1,21 @@
 import { type Client, Collection, InteractionType } from 'discord.js'
-import { type DiscommandHandlerOptions, type ModuleType } from './types'
-import { BaseHandler } from './Bases'
+import {
+  type DiscommandHandlerOptions,
+  type ModuleType,
+} from './types/index.js'
+import { BaseHandler } from './Bases/index.js'
 import {
   clientReady,
   deloadModule,
   interactionCreate,
   loadModule,
   reloadModule,
-} from './utils'
+} from './utils/index.js'
 
 export class DiscommandHandler extends BaseHandler {
   public modules: Collection<string, ModuleType> = new Collection()
-
   public constructor(
-    client: Client,
+    public client: Client,
     public readonly options: DiscommandHandlerOptions
   ) {
     super(client, options.guildID)

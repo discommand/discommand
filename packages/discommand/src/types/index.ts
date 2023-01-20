@@ -1,6 +1,7 @@
-import { type Snowflake } from 'discord.js'
-import type { Command, Listener } from '../index'
-import { type DiscommandHandler } from '../DiscommandHandler'
+import type { Snowflake } from 'discord.js'
+import type { Command } from '../Command.js'
+import type { Listener } from '../Listener.js'
+import type { DiscommandHandler } from '../DiscommandHandler.js'
 
 export interface directory {
   command: string
@@ -8,7 +9,6 @@ export interface directory {
 }
 
 // Discommand Options
-
 export interface DiscommandHandlerOptions {
   directory: string
   guildID?: Snowflake
@@ -19,6 +19,7 @@ export interface DiscommandClientOptions {
   guildID?: Snowflake
 }
 
+// Load options
 export interface BaseLoadOptions {
   module: ModuleType
 }
@@ -28,8 +29,8 @@ export interface DeloadOptions extends BaseLoadOptions {
 }
 
 export interface ReloadOptions extends BaseLoadOptions {
-  fileDirs: string[]
   fileDir: string
+  nextModule?: ModuleType
 }
 
 // Module Type

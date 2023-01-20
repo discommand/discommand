@@ -1,5 +1,5 @@
 import { Command } from 'discommand'
-import type { Debugger } from '../Debugger'
+import type { Debugger } from '../Debugger.js'
 import {
   type ChatInputCommandInteraction,
   ApplicationCommandOptionType,
@@ -7,8 +7,7 @@ import {
 
 export default class DebuggerCommands extends Command {
   constructor(public readonly _debugger: Debugger) {
-    super('debugger')
-    this.data = {
+    super({
       name: 'debugger',
       description: "discommand's debugger",
       options: [
@@ -18,7 +17,7 @@ export default class DebuggerCommands extends Command {
           description: 'debugger main',
         },
       ],
-    }
+    })
   }
   execute(interaction: ChatInputCommandInteraction) {
     const _debugger = this._debugger
@@ -33,7 +32,7 @@ export default class DebuggerCommands extends Command {
 
     switch (interaction.options.getSubcommand()) {
       case 'main':
-        import('./main').then(a =>
+        import('./main.js').then(a =>
           new a.default(_debugger).execute(interaction)
         )
     }

@@ -1,3 +1,3 @@
-export * from './ModuleLoader'
-export * from './interactionCreate'
-export * from './clientReady'
+export * from './ModuleLoader.js'
+export * from './interactionCreate.js'
+export * from './clientReady.js'

@@ -1,2 +1,3 @@
-export * from './Debugger'
-export * from './types'
+export * from './Debugger.js'
+export * from './types.js'
+export { version } from '../package.json'

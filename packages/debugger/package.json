@@ -1,6 +1,7 @@
 {
   "name": "@discommand/debugger",
   "version": "1.0.0",
+  "type": "module",
   "description": "discommand's debugger",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -21,8 +22,8 @@
   "author": "Migan178 <migan9867@gmail.com>",
   "devDependencies": {
     "@types/node": "^18.11.18",
-    "@typescript-eslint/eslint-plugin": "^5.48.1",
-    "@typescript-eslint/parser": "^5.48.1",
+    "@typescript-eslint/eslint-plugin": "^5.48.2",
+    "@typescript-eslint/parser": "^5.48.2",
     "discommand": "workspace:^",
     "discord.js": "^14.1.0",
     "eslint": "^8.32.0",

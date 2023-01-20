@@ -6,11 +6,10 @@ import { Command } from 'discommand'
 
 export default class TestUserCtxMenu extends Command {
   constructor() {
-    super('pinga')
-    this.data = {
+    super({
       type: ApplicationCommandType.User,
       name: 'pinga',
-    }
+    })
   }
   execute(interaction: UserContextMenuCommandInteraction) {
     interaction.reply(`${interaction.targetUser.username} Hello!`)

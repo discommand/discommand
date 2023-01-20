@@ -23,13 +23,10 @@ export const loadModule = async (
 
   for (const dir of returnDir(fileDir)) {
     const tempModule = await import(dir)
-
     if (!tempModule.default) {
-      const module: MessageComponent = new tempModule()
-      modules.push(module)
+      modules.push(new tempModule())
     } else {
-      const module: MessageComponent = new tempModule.default()
-      modules.push(module)
+      modules.push(new tempModule.default())
     }
   }
 

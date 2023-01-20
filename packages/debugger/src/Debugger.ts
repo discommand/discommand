@@ -1,5 +1,5 @@
 import { DiscommandClient } from 'discommand'
-import type { DebuggerOptions } from './types'
+import type { DebuggerOptions } from './types.js'
 
 export class Debugger {
   public constructor(
@@ -11,13 +11,13 @@ export class Debugger {
     this.client
       .on('interactionCreate', interaction => {
         if (interaction.isChatInputCommand()) {
-          import('./commands/debugger').then(a =>
+          import('./commands/debugger.js').then(a =>
             new a.default(this).execute(interaction)
           )
         }
       })
       .once('ready', () => {
-        import('./commands/debugger').then(a =>
+        import('./commands/debugger.js').then(a =>
           this.client.application?.commands.create(new a.default(this).toJSON())
         )
       })

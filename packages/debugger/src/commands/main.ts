@@ -1,5 +1,5 @@
-import Base from '../Base'
-import type { Debugger } from '../Debugger'
+import Base from '../Base.js'
+import type { Debugger } from '../Debugger.js'
 import {
   type ChatInputCommandInteraction,
   version as djsVersion,
@@ -17,12 +17,12 @@ export default class Main extends Base {
     let content = `@discommand/debugger v\`${debuggerVersion}\`
 discommand v\`${discommandVersion}\`
 discord.js v\`${djsVersion}\`
-Node.JS v\`${process.versions.node}\`
-Operating System \`${platform()} ${arch()}\`
+Node.JS v\`${process.versions.node}\` on \`${platform()} ${arch()}\`
 
 `
 
     content += `Websocket ping: \`${client.ws.ping}\`ms`
-    interaction.reply(content)
+
+    interaction.reply({ content, ephemeral: true })
   }
 }

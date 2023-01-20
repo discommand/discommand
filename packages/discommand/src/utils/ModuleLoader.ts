@@ -1,5 +1,9 @@
-import { readdirSync } from 'fs'
-import type { DeloadOptions, ModuleType, ReloadOptions } from '../index'
+import { readdirSync } from 'node:fs'
+import type {
+  DeloadOptions,
+  ModuleType,
+  ReloadOptions,
+} from '../types/index.js'
 
 export const returnDir = (fileDir: string): string[] => {
   const dir: string[] = []
@@ -17,39 +21,20 @@ export const returnDir = (fileDir: string): string[] => {
 
 export const loadModule = async (fileDir: string): Promise<ModuleType[]> => {
   const modules: ModuleType[] = []
-  for (const dirent of readdirSync(fileDir, { withFileTypes: true })) {
-    if (dirent.isDirectory()) {
-      for (const file of readdirSync(`${fileDir}/${dirent.name}`)) {
-        const tempModule = await import(`${fileDir}/${dirent.name}/${file}`)
-        if (!tempModule.default) {
-          const module: ModuleType = new tempModule()
-          modules.push(module)
-        } else {
-          const module: ModuleType = new tempModule.default()
-          modules.push(module)
-        }
-      }
-    } else if (dirent.isFile()) {
-      const tempModule = await import(`${fileDir}/${dirent.name}`)
-      if (!tempModule.default) {
-        const module: ModuleType = new tempModule()
-        modules.push(module)
-      } else {
-        const module: ModuleType = new tempModule.default()
-        modules.push(module)
-      }
-    }
+  for (const dir of returnDir(fileDir)) {
+    const tempModule = await import(dir)
+    if (!tempModule.default) modules.push(new tempModule())
+    else modules.push(new tempModule.default())
   }
   return modules
 }
 
 export const deloadModule = (fileDir: string): DeloadOptions[] => {
-  const dir = returnDir(fileDir)
   const modules: DeloadOptions[] = []
   loadModule(fileDir) //
     .then(module =>
       module.forEach(module => {
-        dir.forEach(dir => {
+        returnDir(fileDir).forEach(dir => {
           modules.push({
             module: module,
             fileDir: dir,
@@ -61,14 +46,12 @@ export const deloadModule = (fileDir: string): DeloadOptions[] => {
 }
 
 export const reloadModule = (fileDir: string): ReloadOptions[] => {
-  const dir = returnDir(fileDir)
   const modules: ReloadOptions[] = []
   loadModule(fileDir) //
     .then(module =>
       module.forEach(module => {
         modules.push({
           module: module,
-          fileDirs: dir,
           fileDir,
         })
       })

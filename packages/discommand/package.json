@@ -1,14 +1,12 @@
 {
   "name": "discommand",
-  "version": "11.2.0",
+  "version": "12.0.0",
+  "type": "module",
   "description": "easy discord.js command handler.",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "require": "./dist/index.js",
-      "import": "./dist/index.mjs"
+      "import": "./dist/index.js"
     }
   },
   "files": [
@@ -22,8 +20,8 @@
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^18.11.18",
-    "@typescript-eslint/eslint-plugin": "^5.48.1",
-    "@typescript-eslint/parser": "^5.48.1",
+    "@typescript-eslint/eslint-plugin": "^5.48.2",
+    "@typescript-eslint/parser": "^5.48.2",
     "discord.js": "^14.1.0",
     "eslint": "^8.32.0",
     "eslint-config-prettier": "^8.6.0",

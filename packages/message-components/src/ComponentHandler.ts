@@ -47,8 +47,9 @@ export class ComponentHandler {
     })
   }
 
-  public async loadAll() {
-    this.load(await loadModule(this.options.directory))
+  public loadAll() {
+    loadModule(this.options.directory) //
+      .then(module => this.load(module))
   }
 
   public reloadAll() {

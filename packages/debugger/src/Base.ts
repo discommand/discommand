@@ -1,4 +1,4 @@
-import type { Debugger } from './Debugger'
+import type { Debugger } from './Debugger.js'
 import type { ChatInputCommandInteraction } from 'discord.js'
 
 export default abstract class {

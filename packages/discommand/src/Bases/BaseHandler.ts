@@ -4,9 +4,13 @@ import {
   type Snowflake,
   ApplicationCommandType,
 } from 'discord.js'
-import { Listener } from '../Listener'
-import { DeloadOptions, type ModuleType, ReloadOptions } from '../types'
-import { loadModule } from '../utils'
+import { Listener } from '../Listener.js'
+import {
+  DeloadOptions,
+  type ModuleType,
+  ReloadOptions,
+} from '../types/index.js'
+import { loadModule } from '../utils/index.js'
 
 export abstract class BaseHandler {
   public readonly modules: Collection<string, ModuleType> = new Collection()
@@ -18,9 +22,10 @@ export abstract class BaseHandler {
     this.guildID = guildID
   }
 
-  protected register(modules: ModuleType) {
+  private register(modules: ModuleType) {
+    this.modules.set(modules.name, modules)
+
     if (modules instanceof Listener) {
-      this.modules.set(modules.name, modules)
       if (modules.once) {
         this.client.once(modules.name, (...args) => {
           modules.execute(...args)
@@ -30,21 +35,19 @@ export abstract class BaseHandler {
           modules.execute(...args)
         })
       }
-    } else {
-      this.modules.set(modules.toJSON().name, modules)
     }
   }
 
-  protected deregister(moduleName: string, fileDir?: string) {
+  private deregister(moduleName: string, fileDir?: string) {
     this.modules.delete(moduleName)
     if (fileDir) delete require.cache[require.resolve(fileDir)]
   }
 
-  protected moduleType(module: ModuleType) {
+  private moduleType(module: ModuleType) {
     if (module instanceof Listener) {
       return 'Listener'
     } else {
-      switch (module.data!.type) {
+      switch (module.data.type) {
         case ApplicationCommandType.ChatInput:
           return 'ChatInputCommand'
         case ApplicationCommandType.User:
@@ -82,16 +85,10 @@ export abstract class BaseHandler {
 
   public reload(options: ReloadOptions[]) {
     options.forEach(option => {
-      const { module, fileDirs, fileDir } = option
-      fileDirs.forEach(file => {
-        this.deregister(module.name, file)
-      })
+      const { module, fileDir } = option
+      this.deregister(module.name, fileDir)
       loadModule(fileDir) //
-        .then(a =>
-          a.forEach(module => {
-            this.register(module)
-          })
-        )
+        .then(modules => modules.forEach(module => this.register(module)))
       console.log(
         `[discommand] ${this.moduleType(option.module)} ${
           module.name

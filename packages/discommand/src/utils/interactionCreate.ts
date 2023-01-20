@@ -1,5 +1,5 @@
 import { Events, InteractionType } from 'discord.js'
-import { type BaseHandler } from '../Bases'
+import type { BaseHandler } from '../Bases/index.js'
 
 export async function interactionCreate(handler: BaseHandler) {
   handler.client.on(Events.InteractionCreate, async interaction => {

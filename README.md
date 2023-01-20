@@ -8,6 +8,7 @@ easy discord.js commandHandler
 
 ## Installation
 
+- **alert! this is Pure ES Module. [See this document for details.](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c)**
 - this is use for discord.js@14
 - **Required by node.js 16.9.0 or higher**
 
@@ -17,7 +18,7 @@ easy discord.js commandHandler
 npm i discommand
 ```
 
-2. Devlopment version
+2. Development version
 
 ```sh
 npm i discommand@next
@@ -44,8 +45,6 @@ const client = new DiscommandClient(
   }
 )
 
-client.loadAll()
-
 client.login('your_bot_token')
 ```
 
@@ -57,12 +56,11 @@ import { ChatInputCommandInteraction, ApplicationCommandType } from 'discord.js'
 
 export default class extends Command {
   constructor() {
-    super('ping')
-    this.data = {
+    super({
       name: 'ping',
       description: 'Pong',
       type: ApplicationCommandType.ChatInput,
-    }
+    })
   }
   execute(interaction: ChatInputCommandInteraction) {
     interaction.reply('Pong!')
@@ -75,8 +73,8 @@ export default class extends Command {
 index.js
 
 ```js
-const { DiscommndClient } = require('discommand')
-const { GatewayIntentBits } = require('discord.js')
+import { DiscommandClient } from 'discommand'
+import { GatewayIntentBits } from 'discord.js'
 
 const client = new DiscommandClient(
   {
@@ -89,25 +87,22 @@ const client = new DiscommandClient(
   }
 )
 
-client.loadAll()
-
 client.login('your_bot_token')
 ```
 
 commands/ping.js
 
 ```js
-const { Command } = require('discommand')
-const { SlashCommandBuilder, ApplicationCommandType } = require('discord.js')
+import { Command } from 'discommand'
+import { ApplicationCommandType } from 'discord.js'
 
 module.exports = class extends Command {
   constructor() {
-    super('ping')
-    this.data = {
+    super({
       name: 'ping',
       description: 'Pong',
       type: ApplicationCommandType.ChatInput,
-    }
+    })
   }
   execute(interaction) {
     interaction.reply('Pong!')

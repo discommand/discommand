@@ -1,2 +1,2 @@
-export * from './Base'
-export * from './BaseHandler'
+export * from './Base.js'
+export * from './BaseHandler.js'

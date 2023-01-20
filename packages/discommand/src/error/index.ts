@@ -1,1 +1,1 @@
-export * from './DiscommandError'
+export * from './DiscommandError.js'
