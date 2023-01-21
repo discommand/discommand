@@ -33,6 +33,8 @@ index.ts
 ```ts
 import { DiscommandClient } from 'discommand'
 import { GatewayIntentBits } from 'discord.js'
+import { dirname } from 'node:path'
+import { fileURLToPath } from 'node:url'
 
 const client = new DiscommandClient(
   {
@@ -40,7 +42,7 @@ const client = new DiscommandClient(
   },
   {
     directory: {
-      command: __dirname + '/commands',
+      command: dirname(fileURLToPath(import.meta.url)) + '/commands',
     },
   }
 )
@@ -75,6 +77,8 @@ index.js
 ```js
 import { DiscommandClient } from 'discommand'
 import { GatewayIntentBits } from 'discord.js'
+import { dirname } from 'node:path'
+import { fileURLToPath } from 'node:url'
 
 const client = new DiscommandClient(
   {
@@ -82,7 +86,7 @@ const client = new DiscommandClient(
   },
   {
     directory: {
-      command: __dirname + '/commands',
+      command: dirname(fileURLToPath(import.meta.url)) + '/commands',
     },
   }
 )

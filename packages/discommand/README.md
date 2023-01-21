@@ -8,7 +8,7 @@ easy discord.js commandHandler
 
 ## Installation
 
-- **alert! this is using ES Module. If you're using TypeScript, 4.7 or higher. [See this document for details.](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c)**
+- **alert! this is Pure ES Module. [See this document for details.](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c)**
 - this is use for discord.js@14
 - **Required by node.js 16.9.0 or higher**
 
@@ -33,6 +33,8 @@ index.ts
 ```ts
 import { DiscommandClient } from 'discommand'
 import { GatewayIntentBits } from 'discord.js'
+import { dirname } from 'node:path'
+import { fileURLToPath } from 'node:url'
 
 const client = new DiscommandClient(
   {
@@ -40,7 +42,7 @@ const client = new DiscommandClient(
   },
   {
     directory: {
-      command: __dirname + '/commands',
+      command: dirname(fileURLToPath(import.meta.url)) + '/commands',
     },
   }
 )
@@ -75,6 +77,8 @@ index.js
 ```js
 import { DiscommandClient } from 'discommand'
 import { GatewayIntentBits } from 'discord.js'
+import { dirname } from 'node:path'
+import { fileURLToPath } from 'node:url'
 
 const client = new DiscommandClient(
   {
@@ -82,7 +86,7 @@ const client = new DiscommandClient(
   },
   {
     directory: {
-      command: __dirname + '/commands',
+      command: dirname(fileURLToPath(import.meta.url)) + '/commands',
     },
   }
 )
@@ -96,7 +100,7 @@ commands/ping.js
 import { Command } from 'discommand'
 import { ApplicationCommandType } from 'discord.js'
 
-module.exports = class extends Command {
+export default class extends Command {
   constructor() {
     super({
       name: 'ping',

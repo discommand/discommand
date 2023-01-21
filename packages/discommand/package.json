@@ -1,6 +1,6 @@
 {
   "name": "discommand",
-  "version": "12.0.0",
+  "version": "12.0.1",
   "type": "module",
   "description": "easy discord.js command handler.",
   "exports": {
