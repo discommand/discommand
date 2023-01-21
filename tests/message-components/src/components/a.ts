@@ -1,5 +1,5 @@
 import { MessageComponent } from '@discommand/message-components'
-import { ButtonInteraction } from 'discord.js'
+import { type ButtonInteraction } from 'discord.js'
 
 export default class extends MessageComponent {
   constructor() {

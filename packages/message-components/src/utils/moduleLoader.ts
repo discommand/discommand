@@ -22,7 +22,7 @@ export const loadModule = async (
   const modules: MessageComponent[] = []
 
   for (const dir of returnDir(fileDir)) {
-    const tempModule = await import(dir)
+    const tempModule = require(dir)
     if (!tempModule.default) {
       modules.push(new tempModule())
     } else {

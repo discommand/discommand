@@ -1,14 +1,13 @@
 import { Client, GatewayIntentBits } from 'discord.js'
 import { CommandHandler } from '@discommand/lite'
-import { join, dirname } from 'path'
-import { fileURLToPath } from 'url'
+import { join } from 'node:path'
 import 'dotenv/config'
 
 const client = new Client({
   intents: [GatewayIntentBits.Guilds],
 })
 const handler = new CommandHandler(client, {
-  directory: join(dirname(fileURLToPath(import.meta.url)), 'commands'),
+  directory: join(__dirname, 'commands'),
 })
 
 client.login(process.env.TOKEN).then(() => handler.loadAll())

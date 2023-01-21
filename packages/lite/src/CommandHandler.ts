@@ -31,12 +31,12 @@ export class CommandHandler {
     delete require.cache[require.resolve(fileDir)]
   }
 
-  public async deloadAll() {
+  public deloadAll() {
     const dir = readdirSync(this.options.directory)
 
     if (this.options.loadType === LoadType.File) {
       for (const file of dir) {
-        const tempModules = await import(`${this.options.directory}/${file}`)
+        const tempModules = require(`${this.options.directory}/${file}`)
         let modules: Command
         if (!tempModules.default) {
           modules = new tempModules()
@@ -50,9 +50,7 @@ export class CommandHandler {
       for (const folder of dir) {
         const folderDir = readdirSync(`${this.options.directory}/${folder}`)
         for (const file of folderDir) {
-          const tempModules = await import(
-            `${this.options.directory}/${folder}/${file}`
-          )
+          const tempModules = require(`${this.options.directory}/${folder}/${file}`)
           let modules: Command
           if (!tempModules.default) {
             modules = new tempModules()
@@ -66,12 +64,12 @@ export class CommandHandler {
     }
   }
 
-  public async loadAll() {
+  public loadAll() {
     const dir = readdirSync(this.options.directory)
 
     if (this.options.loadType === LoadType.File) {
       for (const file of dir) {
-        const tempModules = await import(`${this.options.directory}/${file}`)
+        const tempModules = require(`${this.options.directory}/${file}`)
         let modules
         if (!tempModules.default) {
           modules = new tempModules()
@@ -85,9 +83,7 @@ export class CommandHandler {
       for (const folder of dir) {
         const folderDir = readdirSync(`${this.options.directory}/${folder}`)
         for (const file of folderDir) {
-          const tempModules = await import(
-            `${this.options.directory}/${folder}/${file}`
-          )
+          const tempModules = require(`${this.options.directory}/${folder}/${file}`)
           let modules: Command
           if (!tempModules.default) {
             modules = new tempModules()

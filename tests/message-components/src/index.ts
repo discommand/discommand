@@ -6,8 +6,7 @@ import {
   GatewayIntentBits,
 } from 'discord.js'
 import { ComponentHandler } from '@discommand/message-components'
-import { join, dirname } from 'path'
-import { fileURLToPath } from 'url'
+import { join } from 'node:path'
 import 'dotenv/config'
 
 const client = new Client({
@@ -18,7 +17,7 @@ const client = new Client({
   ],
 })
 const handler = new ComponentHandler(client, {
-  directory: join(dirname(fileURLToPath(import.meta.url)), 'components'),
+  directory: join(__dirname, 'components'),
 })
 
 client.login(process.env.TOKEN).then(() => handler.loadAll())
