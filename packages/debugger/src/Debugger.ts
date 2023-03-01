@@ -11,9 +11,10 @@ export class Debugger {
     this.client
       .on('interactionCreate', interaction => {
         if (interaction.isChatInputCommand()) {
-          import('./commands/debugger.js').then(a =>
-            new a.default(this).execute(interaction)
-          )
+          if (interaction.commandName === 'debugger')
+            import('./commands/debugger.js').then(a =>
+              new a.default(this).execute(interaction)
+            )
         }
       })
       .once('ready', () => {

@@ -1,6 +1,8 @@
 import { DiscommandClient } from 'discommand'
 import { Debugger } from '@discommand/debugger'
 import { GatewayIntentBits } from 'discord.js'
+import { join, dirname } from 'node:path'
+import { fileURLToPath } from 'url'
 import 'dotenv/config'
 
 const client = new DiscommandClient(
@@ -9,7 +11,7 @@ const client = new DiscommandClient(
   },
   {
     directory: {
-      command: '',
+      command: join(dirname(fileURLToPath(import.meta.url)), 'commands'),
     },
   }
 )
