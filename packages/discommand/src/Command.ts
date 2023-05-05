@@ -1,9 +1,23 @@
-import type { ApplicationCommandData, CommandInteraction } from 'discord.js'
+import type {
+  ApplicationCommandData,
+  CommandInteraction,
+  Snowflake,
+} from 'discord.js'
 import { Base } from './Bases/index.js'
 
 export abstract class Command extends Base {
-  protected constructor(public readonly data: ApplicationCommandData) {
+  #guildID?: Snowflake
+
+  get guildID() {
+    return this.#guildID
+  }
+
+  protected constructor(
+    public readonly data: ApplicationCommandData,
+    guildID?: Snowflake
+  ) {
     super(data.name)
+    this.#guildID = guildID
   }
   public abstract execute(interaction: CommandInteraction): unknown
 

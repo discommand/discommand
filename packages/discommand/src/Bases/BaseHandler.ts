@@ -10,7 +10,8 @@ import {
   type ModuleType,
   ReloadOptions,
 } from '../types/index.js'
-import { loadModule } from '../utils/index.js'
+import { clientReady, loadModule } from '../utils/index.js'
+import { Command } from '../Command.js'
 
 export abstract class BaseHandler {
   public readonly modules: Collection<string, ModuleType> = new Collection()
@@ -63,6 +64,7 @@ export abstract class BaseHandler {
   public load(modules: ModuleType[]) {
     modules.forEach(module => {
       this.register(module)
+      if (module instanceof Command) clientReady(this, module)
       console.log(
         `[discommand]${
           this.guildID ? ` guild ${this.guildID}` : ''

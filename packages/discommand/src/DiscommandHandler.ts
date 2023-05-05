@@ -5,7 +5,6 @@ import {
 } from './types/index.js'
 import { BaseHandler } from './Bases/index.js'
 import {
-  clientReady,
   deloadModule,
   interactionCreate,
   loadModule,
@@ -27,8 +26,6 @@ export class DiscommandHandler extends BaseHandler {
   public loadAll() {
     loadModule(this.options.directory) //
       .then(modules => this.load(modules))
-
-    clientReady(this)
   }
 
   public deloadAll() {

@@ -44,14 +44,7 @@ export class DiscommandClient extends Client {
 
   public async login(token?: string): Promise<string> {
     await this.loadAll()
+    this.discommandOptions.plugins.forEach(plugin => plugin.start())
     return super.login(token)
-  }
-
-  /**
-   * @__PURE__
-   * @deprecated use .login('your-token')
-   */
-  public start(token?: string) {
-    this.login(token)
   }
 }

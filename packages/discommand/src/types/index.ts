@@ -2,6 +2,7 @@ import type { Snowflake } from 'discord.js'
 import type { Command } from '../Command.js'
 import type { Listener } from '../Listener.js'
 import type { DiscommandHandler } from '../DiscommandHandler.js'
+import type { BasePlugin } from '../Bases/index.js'
 
 export interface directory {
   command: string
@@ -17,6 +18,7 @@ export interface DiscommandHandlerOptions {
 export interface DiscommandClientOptions {
   directory: directory
   guildID?: Snowflake
+  plugins: [BasePlugin]
 }
 
 // Load options
