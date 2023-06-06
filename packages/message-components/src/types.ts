@@ -1,4 +1,4 @@
-import type { MessageComponent } from './Component'
+import type { MessageComponent } from './Component.js'
 
 export interface ComponentsHandlerOptions {
   directory: string

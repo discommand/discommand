@@ -2,25 +2,36 @@ import {
   ActionRowBuilder,
   ButtonBuilder,
   ButtonStyle,
-  Client,
   GatewayIntentBits,
 } from 'discord.js'
-import { ComponentHandler } from '@discommand/message-components'
-import { join } from 'node:path'
+import { ComponentPlugin } from '@discommand/message-components'
+import { DiscommandClient } from 'discommand'
+import { join, dirname } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import 'dotenv/config'
 
-const client = new Client({
-  intents: [
-    GatewayIntentBits.Guilds,
-    GatewayIntentBits.GuildMessages,
-    GatewayIntentBits.MessageContent,
-  ],
-})
-const handler = new ComponentHandler(client, {
-  directory: join(__dirname, 'components'),
-})
+const __dirname = dirname(fileURLToPath(import.meta.url))
+const client = new DiscommandClient(
+  {
+    intents: [
+      GatewayIntentBits.Guilds,
+      GatewayIntentBits.GuildMessages,
+      GatewayIntentBits.MessageContent,
+    ],
+  },
+  {
+    directory: {
+      command: join(__dirname, '..', '..', 'discommand', 'src', 'commands'),
+    },
+    plugins: [
+      new ComponentPlugin({
+        directory: join(__dirname, 'components'),
+      }),
+    ],
+  }
+)
 
-client.login(process.env.TOKEN).then(() => handler.loadAll())
+client.login(process.env.TOKEN)
 
 client.on('messageCreate', msg => {
   if (msg.author.bot) return

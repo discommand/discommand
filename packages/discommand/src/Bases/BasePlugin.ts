@@ -1,5 +1,7 @@
+import { DiscommandClient } from '../DiscommandClient.js'
+
 export abstract class BasePlugin {
-  start() {
+  public start(client: DiscommandClient) {
     return this
   }
 }

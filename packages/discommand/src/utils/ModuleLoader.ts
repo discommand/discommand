@@ -1,9 +1,5 @@
 import { readdirSync } from 'node:fs'
-import type {
-  DeloadOptions,
-  ModuleType,
-  ReloadOptions,
-} from '../types/index.js'
+import type { DeloadOptions, ReloadOptions } from '../types/index.js'
 
 export const returnDir = (fileDir: string): string[] => {
   const dir: string[] = []
@@ -19,8 +15,8 @@ export const returnDir = (fileDir: string): string[] => {
   return dir
 }
 
-export const loadModule = async (fileDir: string): Promise<ModuleType[]> => {
-  const modules: ModuleType[] = []
+export async function loadModule<T>(fileDir: string): Promise<T[]> {
+  const modules: T[] = []
   for (const dir of returnDir(fileDir)) {
     const tempModule = await import(dir)
     if (!tempModule.default) modules.push(new tempModule())
@@ -29,9 +25,9 @@ export const loadModule = async (fileDir: string): Promise<ModuleType[]> => {
   return modules
 }
 
-export const deloadModule = (fileDir: string): DeloadOptions[] => {
-  const modules: DeloadOptions[] = []
-  loadModule(fileDir) //
+export function deloadModule<T>(fileDir: string): DeloadOptions<T>[] {
+  const modules: DeloadOptions<T>[] = []
+  loadModule<T>(fileDir) //
     .then(module =>
       module.forEach(module => {
         returnDir(fileDir).forEach(dir => {
@@ -45,9 +41,9 @@ export const deloadModule = (fileDir: string): DeloadOptions[] => {
   return modules
 }
 
-export const reloadModule = (fileDir: string): ReloadOptions[] => {
-  const modules: ReloadOptions[] = []
-  loadModule(fileDir) //
+export function reloadModule<T>(fileDir: string): ReloadOptions<T>[] {
+  const modules: ReloadOptions<T>[] = []
+  loadModule<T>(fileDir) //
     .then(module =>
       module.forEach(module => {
         modules.push({

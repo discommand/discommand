@@ -15,4 +15,4 @@ new DiscommandClient(
       listener: join(__dirname, 'events'),
     },
   }
-).start(process.env.TOKEN)
+).login(process.env.TOKEN)

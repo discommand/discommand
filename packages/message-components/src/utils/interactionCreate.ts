@@ -1,10 +1,14 @@
-import type { ComponentHandler } from '../ComponentHandler'
-import { Events, InteractionType } from 'discord.js'
+import type { ComponentPlugin } from '../ComponentPlugin.js'
+import { Client, Events, InteractionType } from 'discord.js'
+import { ComponentHandler } from '../ComponentHandler.js'
 
-export function interactionCreate(handler: ComponentHandler) {
-  handler.client.on(Events.InteractionCreate, async interaction => {
+export function interactionCreate(
+  plugin: ComponentPlugin | ComponentHandler,
+  client: Client
+) {
+  client.on(Events.InteractionCreate, async interaction => {
     if (interaction.type === InteractionType.MessageComponent) {
-      const module = handler.modules.get(interaction.customId)
+      const module = plugin.modules.get(interaction.customId)
 
       if (!module) return
 

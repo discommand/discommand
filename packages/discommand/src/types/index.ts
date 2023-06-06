@@ -18,21 +18,21 @@ export interface DiscommandHandlerOptions {
 export interface DiscommandClientOptions {
   directory: directory
   guildID?: Snowflake
-  plugins: [BasePlugin]
+  plugins?: [BasePlugin]
 }
 
 // Load options
-export interface BaseLoadOptions {
-  module: ModuleType
+export interface BaseLoadOptions<T> {
+  module: T
 }
 
-export interface DeloadOptions extends BaseLoadOptions {
+export interface DeloadOptions<T> extends BaseLoadOptions<T> {
   fileDir?: string
 }
 
-export interface ReloadOptions extends BaseLoadOptions {
+export interface ReloadOptions<T> extends BaseLoadOptions<T> {
   fileDir: string
-  nextModule?: ModuleType
+  nextModule?: T
 }
 
 // Module Type

@@ -1,13 +1,15 @@
 {
   "name": "@discommand/message-components-test",
   "private": true,
+  "type": "module",
   "dependencies": {
     "@discommand/message-components": "workspace:^",
+    "discommand": "workspace:^",
     "discord.js": "^14.9.0",
     "dotenv": "^16.0.3"
   },
   "scripts": {
-    "start": "ts-node src"
+    "start": "ts-node-esm src/index.ts"
   },
   "devDependencies": {
     "@types/node": "^18.16.0",

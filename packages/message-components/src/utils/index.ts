@@ -1,2 +1,1 @@
-export * from './interactionCreate'
-export * from './moduleLoader'
+export * from './interactionCreate.js'

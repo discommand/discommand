@@ -1,32 +1,31 @@
-import { type Client, Collection } from 'discord.js'
-import type { MessageComponent } from './Component.js'
-import { interactionCreate } from './utils/index.js'
 import {
-  loadModule,
+  BasePlugin,
+  DiscommandClient,
   reloadModule,
+  loadModule,
   deloadModule,
   DeloadOptions,
   ReloadOptions,
 } from 'discommand'
-import type { ComponentsHandlerOptions } from './types.js'
+import { Collection } from 'discord.js'
+import { MessageComponent } from './Component.js'
+import { ComponentsHandlerOptions } from './types.js'
+import { interactionCreate } from './utils/index.js'
 
-/**
- * @__PURE__
- * @deprecated use {@link ComponentPlugin}.
- * */
-export class ComponentHandler {
+export class ComponentPlugin extends BasePlugin {
   public modules: Collection<string, MessageComponent> = new Collection()
-  public constructor(
-    public readonly client: Client,
-    public readonly options: ComponentsHandlerOptions
-  ) {
-    client.on('ready', () => interactionCreate(this, client))
+  public constructor(public readonly options: ComponentsHandlerOptions) {
+    super()
   }
-
+  public start(client: DiscommandClient): this {
+    this.loadAll()
+    interactionCreate(this, client)
+    return super.start(client)
+  }
   public load(modules: MessageComponent[]) {
     modules.forEach(module => {
       this.modules.set(module.name, module)
-      console.log(`[discommand-message-component] ${module.name} is loaded.`)
+      console.log(`[discommand@message-component] ${module.name} is loaded.`)
     })
   }
 
@@ -35,7 +34,7 @@ export class ComponentHandler {
       const { module, fileDir } = option
       this.modules.delete(module.name)
       if (fileDir) delete require.cache[require.resolve(fileDir)]
-      console.log(`[discommand-message-component] ${module.name} is deloaded.`)
+      console.log(`[discommand@message-component] ${module.name} is deloaded.`)
     })
   }
 
@@ -45,13 +44,13 @@ export class ComponentHandler {
       this.modules.delete(module.name)
       delete require.cache[require.resolve(fileDir)]
       this.load([module])
-      console.log(`[discommand-message-component] ${module.name} is reloaded.`)
+      console.log(`[discommand@message-component] ${module.name} is reloaded.`)
     })
   }
 
   public loadAll() {
     loadModule<MessageComponent>(this.options.directory) //
-      .then(module => this.load(module))
+      .then((module: MessageComponent[]) => this.load(module))
   }
 
   public reloadAll() {
@@ -59,6 +58,6 @@ export class ComponentHandler {
   }
 
   public deloadAll() {
-    this.deload(deloadModule<MessageComponent>(this.options.directory))
+    this.deload(deloadModule(this.options.directory))
   }
 }

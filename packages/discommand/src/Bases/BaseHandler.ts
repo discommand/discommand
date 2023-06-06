@@ -73,7 +73,7 @@ export abstract class BaseHandler {
     })
   }
 
-  public deload(options: DeloadOptions[]) {
+  public deload(options: DeloadOptions<ModuleType>[]) {
     options.forEach(option => {
       const { module, fileDir } = option
       this.deregister(module.name, fileDir)
@@ -85,11 +85,11 @@ export abstract class BaseHandler {
     })
   }
 
-  public reload(options: ReloadOptions[]) {
+  public reload(options: ReloadOptions<ModuleType>[]) {
     options.forEach(option => {
       const { module, fileDir } = option
       this.deregister(module.name, fileDir)
-      loadModule(fileDir) //
+      loadModule<ModuleType>(fileDir) //
         .then(modules => modules.forEach(module => this.register(module)))
       console.log(
         `[discommand] ${this.moduleType(option.module)} ${

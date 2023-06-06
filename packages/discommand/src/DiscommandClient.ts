@@ -5,6 +5,7 @@ import type { DiscommandClientOptions } from './types/index.js'
 export class DiscommandClient extends Client {
   public commandHandler: DiscommandHandler
   public listenerHandler?: DiscommandHandler
+
   public constructor(
     clientOptions: ClientOptions,
     public readonly discommandOptions: DiscommandClientOptions
@@ -44,7 +45,8 @@ export class DiscommandClient extends Client {
 
   public async login(token?: string): Promise<string> {
     await this.loadAll()
-    this.discommandOptions.plugins.forEach(plugin => plugin.start())
+    if (this.discommandOptions.plugins)
+      this.discommandOptions.plugins.forEach(plugin => plugin.start(this))
     return super.login(token)
   }
 }

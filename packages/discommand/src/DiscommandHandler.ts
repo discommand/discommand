@@ -24,7 +24,7 @@ export class DiscommandHandler extends BaseHandler {
   }
 
   public loadAll() {
-    loadModule(this.options.directory) //
+    loadModule<ModuleType>(this.options.directory) //
       .then(modules => this.load(modules))
   }
 

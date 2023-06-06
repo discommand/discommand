@@ -2,7 +2,7 @@ import type {
   APIMessageActionRowComponent,
   MessageComponentInteraction,
 } from 'discord.js'
-import { DiscommandError } from './error'
+import { DiscommandError } from './error/index.js'
 
 export abstract class MessageComponent {
   protected constructor(public readonly name: string) {

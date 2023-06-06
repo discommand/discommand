@@ -2,40 +2,53 @@
 
 ## Using
 
+alert! this is Pure ES Module.
+
 - stable version
 
 ```shell
-npm i @discommand/message-components
+npm i @discommand/message-components discommand
 ```
 
 - development version
 
 ```shell
-npm i @discommand/message-components@next
+npm i @discommand/message-components@next discommand
 ```
 
 ---
 
 ```js
-const { ComponentHandler } = require('@discommand/message-components')
-// ...
-const handler = new ComponentHandler(client, {
-  directory: __dirname + '/components',
-})
+import { ComponentPlugin } from '@discommand/message-components'
+import { DiscommandClient } from 'discommand'
 
-handler.loadAll()
-// ...
+const client = new DiscommandClient(
+  {
+    // ...
+  },
+  {
+    // ...
+    plugins: [
+      new ComponentPlugin({
+        directory: 'your_component_directory',
+      }),
+    ],
+  }
+)
+
+client.login('your_token')
 ```
 
 components/select.js
 
 ```js
-const { MessageComponents } = require('@discommand/message-components')
+import { MessageComponents } from '@discommand/message-components'
 
-module.exports = class extends MessageComponents {
+export default class extends MessageComponents {
   constructor() {
     super('foo')
   }
+
   execute(interaction) {
     interaction.update({ content: 'bar', components: [] })
   }
