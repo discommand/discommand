@@ -1,5 +1,7 @@
 # @discommand/message-components
 
+discommand plugin.
+
 ## Using
 
 alert! this is Pure ES Module.
