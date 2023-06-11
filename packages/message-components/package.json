@@ -35,5 +35,8 @@
   "keywords": [
     "discommand",
     "discord.js"
-  ]
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
 }
