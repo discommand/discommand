@@ -10,7 +10,7 @@ import {
   type ModuleType,
   ReloadOptions,
 } from '../types/index.js'
-import { clientReady, loadModule } from '../utils/index.js'
+import { clientReady, ModuleLoader } from '../utils/index.js'
 import { Command } from '../command.js'
 
 export abstract class BaseHandler {
@@ -89,7 +89,8 @@ export abstract class BaseHandler {
     options.forEach(option => {
       const { module, fileDir } = option
       this.deregister(module.name, fileDir)
-      loadModule<ModuleType>(fileDir) //
+      new ModuleLoader()
+        .loadModule<ModuleType>(fileDir) //
         .then(modules => modules.forEach(module => this.register(module)))
       console.log(
         `[discommand] ${this.moduleType(option.module)} ${

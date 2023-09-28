@@ -14,10 +14,12 @@ export class DiscommandClient extends Client {
     this.commandHandler = new DiscommandHandler(this, {
       directory: discommandOptions.directory.command,
       guildID: discommandOptions.guildID,
+      loader: discommandOptions.loader,
     })
     if (discommandOptions.directory.listener) {
       this.listenerHandler = new DiscommandHandler(this, {
         directory: discommandOptions.directory.listener,
+        loader: discommandOptions.loader,
       })
     }
   }
@@ -44,7 +46,7 @@ export class DiscommandClient extends Client {
   }
 
   public async login(token?: string): Promise<string> {
-    await this.loadAll()
+    this.loadAll()
     if (this.discommandOptions.plugins)
       this.discommandOptions.plugins.forEach(plugin => plugin.start(this))
     return super.login(token)

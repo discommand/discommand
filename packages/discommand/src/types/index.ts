@@ -3,6 +3,7 @@ import type { Command } from '../command.js'
 import type { Listener } from '../listener.js'
 import type { DiscommandHandler } from '../discommandHandler.js'
 import type { BasePlugin } from '../Bases/index.js'
+import type { BaseModuleLoader } from '../utils/index.js'
 
 export interface directory {
   command: string
@@ -13,12 +14,14 @@ export interface directory {
 export interface DiscommandHandlerOptions {
   directory: string
   guildID?: Snowflake
+  loader?: BaseModuleLoader
 }
 
 export interface DiscommandClientOptions {
   directory: directory
   guildID?: Snowflake
   plugins?: [BasePlugin]
+  loader?: BaseModuleLoader
 }
 
 // Load options

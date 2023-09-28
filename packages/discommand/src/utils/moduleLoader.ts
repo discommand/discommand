@@ -1,56 +1,66 @@
-import { readdirSync } from 'node:fs'
+import { readdir } from 'node:fs/promises'
 import type { DeloadOptions, ReloadOptions } from '../types/index.js'
 
-export const returnDir = (fileDir: string): string[] => {
-  const dir: string[] = []
-  for (const dirent of readdirSync(fileDir, { withFileTypes: true })) {
-    if (dirent.isDirectory()) {
-      for (const file of readdirSync(`${fileDir}/${dirent.name}`)) {
-        dir.push(`${fileDir}/${dirent.name}/${file}`)
+export interface BaseModuleLoader {
+  loadModule<T>(fileDir: string): Promise<T[]>
+  deloadModule<T>(fileDir: string): DeloadOptions<T>[]
+  reloadModule<T>(fileDir: string): ReloadOptions<T>[]
+}
+
+export class ModuleLoader implements BaseModuleLoader {
+  private async returnDir(fileDir: string): Promise<string[]> {
+    const dir: string[] = []
+    const files = await readdir(fileDir, { withFileTypes: true })
+    for (const file of files) {
+      if (file.isDirectory()) {
+        await this.returnDir(`${fileDir}/${file.name}`)
+      } else {
+        if (file.name.endsWith('.js') || file.name.endsWith('.ts')) {
+          dir.push(`${fileDir}/${file.name}`)
+        }
       }
-    } else if (dirent.isFile()) {
-      dir.push(`${fileDir}/${dirent.name}`)
     }
+    return dir
   }
-  return dir
-}
 
-export async function loadModule<T>(fileDir: string): Promise<T[]> {
-  const modules: T[] = []
-  for (const dir of returnDir(fileDir)) {
-    const tempModule = await import(dir)
-    if (!tempModule.default) modules.push(new tempModule())
-    else modules.push(new tempModule.default())
+  public async loadModule<T>(fileDir: string): Promise<T[]> {
+    const modules: T[] = []
+    for (const dir of await this.returnDir(fileDir)) {
+      const tempModule = await import(dir)
+      if (!tempModule.default) modules.push(new tempModule())
+      else modules.push(new tempModule.default())
+    }
+    return modules
   }
-  return modules
-}
 
-export function deloadModule<T>(fileDir: string): DeloadOptions<T>[] {
-  const modules: DeloadOptions<T>[] = []
-  loadModule<T>(fileDir) //
-    .then(module =>
-      module.forEach(module => {
-        returnDir(fileDir).forEach(dir => {
+  public deloadModule<T>(fileDir: string): DeloadOptions<T>[] {
+    const modules: DeloadOptions<T>[] = []
+    this.loadModule<T>(fileDir) //
+      .then(module =>
+        module.forEach(async module => {
+          const dirs = await this.returnDir(fileDir)
+          for (const dir of dirs) {
+            modules.push({
+              module,
+              fileDir: dir,
+            })
+          }
+        })
+      )
+    return modules
+  }
+
+  public reloadModule<T>(fileDir: string): ReloadOptions<T>[] {
+    const modules: ReloadOptions<T>[] = []
+    this.loadModule<T>(fileDir) //
+      .then(module =>
+        module.forEach(module => {
           modules.push({
             module: module,
-            fileDir: dir,
+            fileDir,
           })
         })
-      })
-    )
-  return modules
-}
-
-export function reloadModule<T>(fileDir: string): ReloadOptions<T>[] {
-  const modules: ReloadOptions<T>[] = []
-  loadModule<T>(fileDir) //
-    .then(module =>
-      module.forEach(module => {
-        modules.push({
-          module: module,
-          fileDir,
-        })
-      })
-    )
-  return modules
+      )
+    return modules
+  }
 }
