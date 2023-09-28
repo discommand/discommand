@@ -5,6 +5,7 @@ export const returnDir = (fileDir: string): string[] => {
   const dir: string[] = []
   for (const dirent of readdirSync(fileDir, { withFileTypes: true })) {
     if (dirent.isDirectory()) {
+      for (const file of readdirSync(`${fileDir}/${dirent.name}`)) {
         dir.push(`${fileDir}/${dirent.name}/${file}`)
       }
     } else if (dirent.isFile()) {
