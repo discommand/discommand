@@ -1,7 +1,7 @@
 import type { Snowflake } from 'discord.js'
-import type { Command } from '../Command.js'
-import type { Listener } from '../Listener.js'
-import type { DiscommandHandler } from '../DiscommandHandler.js'
+import type { Command } from '../command.js'
+import type { Listener } from '../listener.js'
+import type { DiscommandHandler } from '../discommandHandler.js'
 import type { BasePlugin } from '../Bases/index.js'
 
 export interface directory {

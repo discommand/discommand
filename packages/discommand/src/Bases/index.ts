@@ -1,3 +1,3 @@
-export * from './Base.js'
-export * from './BaseHandler.js'
-export * from './BasePlugin.js'
+export * from './base.js'
+export * from './baseHandler.js'
+export * from './basePlugin.js'

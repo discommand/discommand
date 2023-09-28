@@ -4,14 +4,14 @@ import {
   type Snowflake,
   ApplicationCommandType,
 } from 'discord.js'
-import { Listener } from '../Listener.js'
+import { Listener } from '../listener.js'
 import {
   DeloadOptions,
   type ModuleType,
   ReloadOptions,
 } from '../types/index.js'
 import { clientReady, loadModule } from '../utils/index.js'
-import { Command } from '../Command.js'
+import { Command } from '../command.js'
 
 export abstract class BaseHandler {
   public readonly modules: Collection<string, ModuleType> = new Collection()
