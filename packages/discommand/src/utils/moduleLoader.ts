@@ -13,7 +13,10 @@ export class ModuleLoader implements BaseModuleLoader {
     const files = await readdir(fileDir, { withFileTypes: true })
     for (const file of files) {
       if (file.isDirectory()) {
-        await this.returnDir(`${fileDir}/${file.name}`)
+        const files = await readdir(`${fileDir}/${file.name}`)
+        for (const file2 of files) {
+          dir.push(`${fileDir}/${file.name}/${file2}`)
+        }
       } else {
         if (file.name.endsWith('.js') || file.name.endsWith('.ts')) {
           dir.push(`${fileDir}/${file.name}`)
