@@ -1,11 +1,9 @@
 import {
   BasePlugin,
   DiscommandClient,
-  reloadModule,
-  loadModule,
-  deloadModule,
   DeloadOptions,
   ReloadOptions,
+  ModuleLoader,
 } from 'discommand'
 import { Collection } from 'discord.js'
 import { MessageComponent } from './Component.js'
@@ -14,6 +12,7 @@ import { interactionCreate } from './utils/index.js'
 
 export class ComponentPlugin extends BasePlugin {
   public modules: Collection<string, MessageComponent> = new Collection()
+  #loader = new ModuleLoader()
   public constructor(public readonly options: ComponentsHandlerOptions) {
     super()
   }
@@ -49,15 +48,16 @@ export class ComponentPlugin extends BasePlugin {
   }
 
   public loadAll() {
-    loadModule<MessageComponent>(this.options.directory) //
+    this.#loader
+      .loadModule<MessageComponent>(this.options.directory) //
       .then((module: MessageComponent[]) => this.load(module))
   }
 
   public reloadAll() {
-    this.reload(reloadModule(this.options.directory))
+    this.reload(this.#loader.reloadModule(this.options.directory))
   }
 
   public deloadAll() {
-    this.deload(deloadModule(this.options.directory))
+    this.deload(this.#loader.deloadModule(this.options.directory))
   }
 }

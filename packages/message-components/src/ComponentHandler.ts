@@ -1,13 +1,7 @@
 import { type Client, Collection } from 'discord.js'
 import type { MessageComponent } from './Component.js'
 import { interactionCreate } from './utils/index.js'
-import {
-  loadModule,
-  reloadModule,
-  deloadModule,
-  DeloadOptions,
-  ReloadOptions,
-} from 'discommand'
+import { DeloadOptions, ModuleLoader, ReloadOptions } from 'discommand'
 import type { ComponentsHandlerOptions } from './types.js'
 
 /**
@@ -16,6 +10,7 @@ import type { ComponentsHandlerOptions } from './types.js'
  * */
 export class ComponentHandler {
   public modules: Collection<string, MessageComponent> = new Collection()
+  #loader = new ModuleLoader()
   public constructor(
     public readonly client: Client,
     public readonly options: ComponentsHandlerOptions
@@ -50,15 +45,18 @@ export class ComponentHandler {
   }
 
   public loadAll() {
-    loadModule<MessageComponent>(this.options.directory) //
+    this.#loader
+      .loadModule<MessageComponent>(this.options.directory) //
       .then(module => this.load(module))
   }
 
   public reloadAll() {
-    this.reload(reloadModule(this.options.directory))
+    this.reload(this.#loader.reloadModule(this.options.directory))
   }
 
   public deloadAll() {
-    this.deload(deloadModule<MessageComponent>(this.options.directory))
+    this.deload(
+      this.#loader.deloadModule<MessageComponent>(this.options.directory)
+    )
   }
 }
