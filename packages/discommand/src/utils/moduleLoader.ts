@@ -1,4 +1,4 @@
-import { readdir } from 'node:fs/promises'
+import { readdirSync } from 'node:fs'
 import type { DeloadOptions, ReloadOptions } from '../types/index.js'
 
 export interface BaseModuleLoader {
@@ -10,11 +10,9 @@ export interface BaseModuleLoader {
 export class ModuleLoader implements BaseModuleLoader {
   private async returnDir(fileDir: string): Promise<string[]> {
     const dir: string[] = []
-    const files = await readdir(fileDir, { withFileTypes: true })
-    for (const file of files) {
+    for (const file of readdirSync(fileDir, { withFileTypes: true })) {
       if (file.isDirectory()) {
-        const files = await readdir(`${fileDir}/${file.name}`)
-        for (const file2 of files) {
+        for (const file2 of readdirSync(`${fileDir}/${file.name}`)) {
           dir.push(`${fileDir}/${file.name}/${file2}`)
         }
       } else {
