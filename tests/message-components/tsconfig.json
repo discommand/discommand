@@ -4,6 +4,9 @@
     "target": "ES2020",
     "module": "ES2020",
     "moduleResolution": "Node16",
-    "declaration": false
-  }
+    "declaration": false,
+    "outDir": "./dist",
+    "skipLibCheck": true
+  },
+  "include": ["src/**/*.ts"]
 }

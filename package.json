@@ -30,5 +30,8 @@
     "packages/*",
     "tests/*"
   ],
+  "scripts": {
+    "build": "yarn workspaces foreach -pt run build"
+  },
   "packageManager": "yarn@3.6.0"
 }

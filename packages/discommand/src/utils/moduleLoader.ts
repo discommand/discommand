@@ -1,4 +1,5 @@
 import { readdirSync } from 'node:fs'
+import { pathToFileURL } from 'node:url'
 import type { DeloadOptions, ReloadOptions } from '../types/index.js'
 
 export interface BaseModuleLoader {
@@ -27,7 +28,7 @@ export class ModuleLoader implements BaseModuleLoader {
   public async loadModule<T>(fileDir: string): Promise<T[]> {
     const modules: T[] = []
     for (const dir of await this.returnDir(fileDir)) {
-      const tempModule = await import(dir)
+      const tempModule = await import(pathToFileURL(dir).toString())
       if (!tempModule.default) modules.push(new tempModule())
       else modules.push(new tempModule.default())
     }
