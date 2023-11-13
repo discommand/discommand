@@ -23,9 +23,9 @@ export abstract class Command extends Base {
 
   public abstract execute(interaction: CommandInteraction): unknown
 
-  public abstract autocompleteExecute(
-    interaction: AutocompleteInteraction
-  ): unknown
+  public autocompleteExecute(interaction: AutocompleteInteraction) {
+    return
+  }
 
   public toJSON(): ApplicationCommandData {
     return { ...this.data }
