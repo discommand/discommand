@@ -23,7 +23,7 @@ export abstract class Command extends Base {
 
   public abstract execute(interaction: CommandInteraction): unknown
 
-  public autocompleteExecute(interaction: AutocompleteInteraction) {
+  public autocompleteExecute(interaction: AutocompleteInteraction): unknown {
     return
   }
 

@@ -4,11 +4,7 @@ import {
   type ModuleType,
 } from './types/index.js'
 import { BaseHandler } from './Bases/index.js'
-import {
-  interactionCreate,
-  ModuleLoader,
-  BaseModuleLoader,
-} from './utils/index.js'
+import { ModuleLoader, BaseModuleLoader } from './utils/index.js'
 
 export class DiscommandHandler extends BaseHandler {
   public modules: Collection<string, ModuleType> = new Collection()
@@ -18,9 +14,6 @@ export class DiscommandHandler extends BaseHandler {
     public readonly options: DiscommandHandlerOptions
   ) {
     super(client, options.guildID)
-    client.on('ready', async () => {
-      await interactionCreate(this)
-    })
     this.loader = options.loader || new ModuleLoader()
   }
 

@@ -1,5 +1,5 @@
 import { Listener } from 'discommand'
-import type { Client } from 'discord.js'
+import { type Client, ActivityType } from 'discord.js'
 
 export default class extends Listener {
   constructor() {
@@ -7,5 +7,6 @@ export default class extends Listener {
   }
   execute(client: Client) {
     console.log(`Login as ${client.user!.tag}`)
+    client.user!.setActivity('asdf', { type: ActivityType.Playing })
   }
 }

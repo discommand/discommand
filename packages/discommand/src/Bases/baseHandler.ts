@@ -1,26 +1,53 @@
 import {
   type Client,
-  Collection,
   type Snowflake,
+  Collection,
   ApplicationCommandType,
+  Events,
 } from 'discord.js'
 import { Listener } from '../listener.js'
-import {
+import type {
   DeloadOptions,
-  type ModuleType,
+  ModuleType,
   ReloadOptions,
 } from '../types/index.js'
-import { clientReady, ModuleLoader } from '../utils/index.js'
-import { Command } from '../command.js'
+import { ModuleLoader } from '../utils/index.js'
+import type { Command } from '../command.js'
 
 export abstract class BaseHandler {
   public readonly modules: Collection<string, ModuleType> = new Collection()
+
   protected constructor(
     public readonly client: Client,
     public readonly guildID?: Snowflake
   ) {
-    this.client = client
-    this.guildID = guildID
+    this.client.on(Events.InteractionCreate, async interaction => {
+      if (interaction.isChatInputCommand()) {
+        const command = this.modules.get(interaction.commandName) as
+          | Command
+          | undefined
+
+        if (!command) return
+
+        try {
+          await command.execute(interaction)
+        } catch (error) {
+          console.error(error)
+        }
+      } else if (interaction.isAutocomplete()) {
+        const command = this.modules.get(interaction.commandName) as
+          | Command
+          | undefined
+
+        if (!command) return
+
+        try {
+          await command.autocompleteExecute(interaction)
+        } catch (error) {
+          console.error(error)
+        }
+      }
+    })
   }
 
   private register(modules: ModuleType) {
@@ -61,15 +88,36 @@ export abstract class BaseHandler {
     }
   }
 
-  public load(modules: ModuleType[]) {
-    modules.forEach(module => {
-      this.register(module)
-      if (module instanceof Command) clientReady(this, module)
-      console.log(
-        `[discommand]${
-          this.guildID ? ` guild ${this.guildID}` : ''
-        } ${this.moduleType(module)} ${module.name} is loaded.`
-      )
+  public async load(modules: ModuleType[]) {
+    for (const module of modules) {
+      if (module instanceof Listener) {
+        this.register(module)
+        console.log(
+          `[discommand]${
+            this.guildID ? ` guild ${this.guildID}` : ''
+          } ${this.moduleType(module)} ${module.name} is loaded.`
+        )
+      }
+    }
+
+    this.client.once(Events.ClientReady, async () => {
+      for (const module of modules) {
+        if (module instanceof Listener) {
+          return
+        }
+
+        this.register(module)
+        console.log(
+          `[discommand]${
+            this.guildID ? ` guild ${this.guildID}` : ''
+          } ${this.moduleType(module)} ${module.name} is loaded.`
+        )
+
+        await this.client.application!.commands.create(
+          module.toJSON(),
+          module.guildID || this.guildID
+        )
+      }
     })
   }
 
@@ -90,7 +138,7 @@ export abstract class BaseHandler {
       const { module, fileDir } = option
       this.deregister(module.name, fileDir)
       new ModuleLoader()
-        .loadModule<ModuleType>(fileDir) //
+        .loadModule<ModuleType>(fileDir)
         .then(modules => modules.forEach(module => this.register(module)))
       console.log(
         `[discommand] ${this.moduleType(option.module)} ${
