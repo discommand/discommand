@@ -6,12 +6,12 @@ import {
   Events,
 } from 'discord.js'
 import { Listener } from '../listener.js'
-import type {
-  DeloadOptions,
-  ModuleType,
-  ReloadOptions,
-} from '../types/index.js'
-import { ModuleLoader } from '../utils/index.js'
+import type { ModuleType } from '../types/index.js'
+import {
+  ModuleLoader,
+  type DeloadOptions,
+  type ReloadOptions,
+} from '@discommand/loader'
 import type { Command } from '../command.js'
 
 export abstract class BaseHandler {
@@ -19,7 +19,7 @@ export abstract class BaseHandler {
 
   protected constructor(
     public readonly client: Client,
-    public readonly guildID?: Snowflake
+    public readonly guildID?: Snowflake,
   ) {
     this.client.on(Events.InteractionCreate, async interaction => {
       if (interaction.isChatInputCommand()) {
@@ -95,7 +95,7 @@ export abstract class BaseHandler {
         console.log(
           `[discommand]${
             this.guildID ? ` guild ${this.guildID}` : ''
-          } ${this.moduleType(module)} ${module.name} is loaded.`
+          } ${this.moduleType(module)} ${module.name} is loaded.`,
         )
       }
     }
@@ -110,12 +110,12 @@ export abstract class BaseHandler {
         console.log(
           `[discommand]${
             this.guildID ? ` guild ${this.guildID}` : ''
-          } ${this.moduleType(module)} ${module.name} is loaded.`
+          } ${this.moduleType(module)} ${module.name} is loaded.`,
         )
 
         await this.client.application!.commands.create(
           module.toJSON(),
-          module.guildID || this.guildID
+          module.guildID || this.guildID,
         )
       }
     })
@@ -128,7 +128,7 @@ export abstract class BaseHandler {
       console.log(
         `[discommand] ${this.moduleType(option.module)} ${
           module.name
-        } is deloaded.`
+        } is deloaded.`,
       )
     })
   }
@@ -143,7 +143,7 @@ export abstract class BaseHandler {
       console.log(
         `[discommand] ${this.moduleType(option.module)} ${
           module.name
-        } is reloaded.`
+        } is reloaded.`,
       )
     })
   }

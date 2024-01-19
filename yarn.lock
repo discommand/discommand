@@ -113,6 +113,17 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@discommand/loader@workspace:packages/loader":
+  version: 0.0.0-use.local
+  resolution: "@discommand/loader@workspace:packages/loader"
+  dependencies:
+    "@types/node": ^20.11.5
+    prettier: ^3.2.4
+    tsup: ^8.0.1
+    typescript: ^5.3.3
+  languageName: unknown
+  linkType: soft
+
 "@discommand/message-components-test@workspace:tests/message-components":
   version: 0.0.0-use.local
   resolution: "@discommand/message-components-test@workspace:tests/message-components"

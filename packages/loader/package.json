@@ -1,0 +1,39 @@
+{
+  "name": "@discommand/loader",
+  "version": "0.1.0",
+  "description": "discommand's loader",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/discommand/discommand.git"
+  },
+  "author": "Migan178 <me@migan.co.kr>",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "homepage": "https://discommand.github.io/",
+  "bugs": {
+    "url": "https://github.com/discommand/discommand/issues"
+  },
+  "scripts": {
+    "build": "tsup"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.5",
+    "prettier": "^3.2.4",
+    "tsup": "^8.0.1",
+    "typescript": "^5.3.3"
+  }
+}

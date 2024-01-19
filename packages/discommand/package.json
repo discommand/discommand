@@ -1,6 +1,6 @@
 {
   "name": "discommand",
-  "version": "13.2.3",
+  "version": "13.2.4",
   "type": "module",
   "description": "easy discord.js command handler.",
   "main": "dist/index.js",
@@ -21,6 +21,7 @@
   "author": "Migan178 <migan9857@gmail.com>",
   "license": "MIT",
   "devDependencies": {
+    "@discommand/loader": "workspace:^",
     "@types/node": "^20.11.5",
     "@typescript-eslint/eslint-plugin": "^6.19.0",
     "@typescript-eslint/parser": "^6.19.0",

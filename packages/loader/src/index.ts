@@ -1,6 +1,18 @@
 import { readdirSync } from 'node:fs'
 import { pathToFileURL } from 'node:url'
-import type { DeloadOptions, ReloadOptions } from '../types/index.js'
+
+export interface BaseLoadOptions<T> {
+  module: T
+}
+
+export interface DeloadOptions<T> extends BaseLoadOptions<T> {
+  fileDir?: string
+}
+
+export interface ReloadOptions<T> extends BaseLoadOptions<T> {
+  fileDir: string
+  nextModule?: T
+}
 
 export interface BaseModuleLoader {
   loadModule<T>(fileDir: string): Promise<T[]>
@@ -47,7 +59,7 @@ export class ModuleLoader implements BaseModuleLoader {
               fileDir: dir,
             })
           }
-        })
+        }),
       )
     return modules
   }
@@ -61,7 +73,7 @@ export class ModuleLoader implements BaseModuleLoader {
             module: module,
             fileDir,
           })
-        })
+        }),
       )
     return modules
   }
