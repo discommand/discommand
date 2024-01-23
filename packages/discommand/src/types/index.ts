@@ -20,7 +20,7 @@ export interface DiscommandHandlerOptions {
 export interface DiscommandClientOptions {
   directory: directory
   guildID?: Snowflake
-  plugins?: [BasePlugin]
+  plugins?: Array<BasePlugin>
   loader?: BaseModuleLoader
 }
 
