@@ -70,9 +70,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@discommand/eris@workspace:packages/eris"
   dependencies:
+    "@discommand/loader": "workspace:^"
     "@types/node": ^20.11.5
     "@typescript-eslint/eslint-plugin": ^6.19.0
     "@typescript-eslint/parser": ^6.19.0
+    discord-api-types: ^0.37.67
     eris: ^0.17.2
     eslint: ^8.56.0
     eslint-config-prettier: ^9.1.0
@@ -113,7 +115,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@discommand/loader@workspace:packages/loader":
+"@discommand/loader@workspace:^, @discommand/loader@workspace:packages/loader":
   version: 0.0.0-use.local
   resolution: "@discommand/loader@workspace:packages/loader"
   dependencies:
@@ -1337,6 +1339,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "discommand@workspace:packages/discommand"
   dependencies:
+    "@discommand/loader": "workspace:^"
     "@types/node": ^20.11.5
     "@typescript-eslint/eslint-plugin": ^6.19.0
     "@typescript-eslint/parser": ^6.19.0
@@ -1354,6 +1357,13 @@ __metadata:
   version: 0.37.61
   resolution: "discord-api-types@npm:0.37.61"
   checksum: fe33d528e31a6de0bab2afb43d0e058957a6da6cfc4d797943fac83aeb8d07543dc0f85cad3c4e6789cbbac0c7ca49dae5ac465224b129c7acb716097fa0b081
+  languageName: node
+  linkType: hard
+
+"discord-api-types@npm:^0.37.67":
+  version: 0.37.67
+  resolution: "discord-api-types@npm:0.37.67"
+  checksum: 693d8e5062e4032afa58b3dd058af9fcb0891ee4425e044b73f72db95d01fe886116ef853993051e72ee5b36b664a6eaaccc37ab94999f348ac1100c85c02763
   languageName: node
   linkType: hard
 

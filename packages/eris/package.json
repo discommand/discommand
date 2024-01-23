@@ -1,0 +1,51 @@
+{
+  "name": "@discommand/eris",
+  "version": "1.0.0",
+  "description": "discommand for eris.",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/discommand/discommand.git"
+  },
+  "author": "Migan178 <me@migan.co.kr>",
+  "license": "MIT",
+  "keywords": [
+    "eris",
+    "commandhandler"
+  ],
+  "devDependencies": {
+    "@discommand/loader": "workspace:^",
+    "@types/node": "^20.11.5",
+    "@typescript-eslint/eslint-plugin": "^6.19.0",
+    "@typescript-eslint/parser": "^6.19.0",
+    "eris": "^0.17.2",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.1.3",
+    "tsup": "^8.0.1",
+    "typescript": "^5.3.3"
+  },
+  "scripts": {
+    "build": "tsup"
+  },
+  "homepage": "https://discommand.github.io/eris",
+  "bugs": {
+    "url": "https://github.com/discommand/discommand/issues"
+  },
+  "engines": {
+    "node": ">=10.4.0"
+  },
+  "dependencies": {
+    "discord-api-types": "^0.37.67"
+  }
+}
