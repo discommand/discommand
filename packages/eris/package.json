@@ -1,6 +1,6 @@
 {
   "name": "@discommand/eris",
-  "version": "1.0.0",
+  "version": "1.0.0-dev.0",
   "description": "discommand for eris.",
   "type": "module",
   "main": "dist/index.js",
