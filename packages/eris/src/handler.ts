@@ -1,4 +1,9 @@
-import { type Client } from 'eris'
+import {
+  type AutocompleteInteraction,
+  type Client,
+  type CommandInteraction,
+  Constants,
+} from 'eris'
 import type { DiscommandHandlerOptions, ModuleType } from './types.js'
 import {
   type BaseModuleLoader,
@@ -7,6 +12,12 @@ import {
 } from '@discommand/loader'
 import { Listener } from './listener.js'
 import { Command } from './command.js'
+
+interface InteractionData {
+  type: 1 | 2 | 3
+  name: string
+  id: string
+}
 
 export class DiscommandHandler {
   public modules: Map<string, ModuleType> = new Map()
@@ -17,6 +28,63 @@ export class DiscommandHandler {
     public readonly options: DiscommandHandlerOptions,
   ) {
     this.loader = options.loader || new ModuleLoader()
+
+    this.client.on('interactionCreate', async interaction => {
+      if (interaction.type === Constants.InteractionTypes.APPLICATION_COMMAND) {
+        const command = this.modules.get(
+          (interaction.data as InteractionData | undefined)!.name!,
+        ) as Command | undefined
+
+        if (!command) {
+          return
+        }
+
+        try {
+          await command.execute(interaction as CommandInteraction)
+        } catch (err) {
+          console.error(err)
+        }
+      } else if (
+        interaction.type ===
+        Constants.InteractionTypes.APPLICATION_COMMAND_AUTOCOMPLETE
+      ) {
+        const command = this.modules.get(
+          (interaction.data as InteractionData | undefined)!.name!,
+        ) as Command | undefined
+
+        if (!command) {
+          return
+        }
+
+        try {
+          await command.autocompleteExecute(
+            interaction as AutocompleteInteraction,
+          )
+        } catch (err) {
+          console.error(err)
+        }
+      }
+    })
+  }
+
+  private async _create(module: Command, guildId?: string) {
+    if (guildId) {
+      await this.client.requestHandler.request(
+        'POST',
+        `/applications/${this.client.application!.id}/guilds/${guildId}/commands`,
+        true,
+        { ...module.toJSON() },
+      )
+      this._log('load', module, guildId)
+    } else {
+      await this.client.requestHandler.request(
+        'POST',
+        `/applications/${this.client.application!.id}/commands`,
+        true,
+        { ...module.toJSON() },
+      )
+      this._log('load', module)
+    }
   }
 
   private _register(module: ModuleType) {
@@ -84,37 +152,25 @@ export class DiscommandHandler {
 
   public async load(modules: ModuleType[]) {
     for (const module of modules) {
-      this._register(module)
-      if (module instanceof Command) {
-        if (module.guildId) {
-          await this.client.requestHandler.request(
-            'POST',
-            `/applications/${this.client.application!.id}/guilds/${module.guildId}/commands`,
-            true,
-            { ...module.toJSON() },
-          )
-          this._log('load', module, module.guildId)
-        } else if (this.options.guildId) {
-          await this.client.requestHandler.request(
-            'POST',
-            `/applications/${this.client.application!.id}/guilds/${this.options.guildId}/commands`,
-            true,
-            { ...module.toJSON() },
-          )
-          this._log('load', module, this.options.guildId)
-        } else {
-          await this.client.requestHandler.request(
-            'POST',
-            `/applications/${this.client.application!.id}/commands`,
-            true,
-            { ...module.toJSON() },
-          )
-          this._log('load', module)
-        }
-      } else {
+      if (module instanceof Listener) {
+        this._register(module)
         this._log('load', module)
       }
     }
+
+    this.client.once('ready', () => {
+      for (const module of modules) {
+        if (module instanceof Listener) {
+          return
+        }
+
+        this._register(module)
+        this._create(
+          module,
+          module.guildId || this.options.guildId || undefined,
+        )
+      }
+    })
   }
 
   public deload(options: DeloadOptions<ModuleType>[]) {
