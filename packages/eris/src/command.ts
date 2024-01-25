@@ -5,16 +5,18 @@ import { AutocompleteInteraction, CommandInteraction } from 'eris'
 export abstract class Command extends Base {
   protected constructor(
     public data: ApplicationCommandData,
-    guildID?: string,
+    public guildId?: string,
   ) {
     super(data.name)
   }
 
   public abstract execute(interaction: CommandInteraction): unknown
 
-  public abstract autocompleteExecute(
+  public autocompleteExecute(
     interaction: AutocompleteInteraction,
-  ): unknown
+  ): unknown {
+    return undefined
+  }
 
   public toJSON(): ApplicationCommandData {
     return { ...this.data }

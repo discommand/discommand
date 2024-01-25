@@ -66,7 +66,20 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@discommand/eris@workspace:packages/eris":
+"@discommand/eris-test@workspace:tests/eris":
+  version: 0.0.0-use.local
+  resolution: "@discommand/eris-test@workspace:tests/eris"
+  dependencies:
+    "@discommand/eris": "workspace:^"
+    "@types/node": ^20.11.5
+    dotenv: ^16.3.1
+    eris: ^0.17.2
+    ts-node: ^10.9.2
+    typescript: ^5.3.3
+  languageName: unknown
+  linkType: soft
+
+"@discommand/eris@workspace:^, @discommand/eris@workspace:packages/eris":
   version: 0.0.0-use.local
   resolution: "@discommand/eris@workspace:packages/eris"
   dependencies:
