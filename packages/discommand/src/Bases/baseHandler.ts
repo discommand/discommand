@@ -8,9 +8,9 @@ import {
 import { Listener } from '../listener.js'
 import type { ModuleType } from '../types/index.js'
 import {
-  ModuleLoader,
   type DeloadOptions,
   type ReloadOptions,
+  type BaseModuleLoader,
 } from '@discommand/loader'
 import type { Command } from '../command.js'
 
@@ -19,6 +19,7 @@ export abstract class BaseHandler {
 
   protected constructor(
     public readonly client: Client,
+    public loader: BaseModuleLoader,
     public readonly guildID?: Snowflake,
   ) {
     this.client.on(Events.InteractionCreate, async interaction => {
@@ -137,7 +138,7 @@ export abstract class BaseHandler {
     options.forEach(option => {
       const { module, fileDir } = option
       this.deregister(module.name, fileDir)
-      new ModuleLoader()
+      this.loader
         .loadModule<ModuleType>(fileDir)
         .then(modules => modules.forEach(module => this.register(module)))
       console.log(

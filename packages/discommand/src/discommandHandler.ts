@@ -4,17 +4,15 @@ import {
   type ModuleType,
 } from './types/index.js'
 import { BaseHandler } from './Bases/index.js'
-import { ModuleLoader, BaseModuleLoader } from '@discommand/loader'
+import { ModuleLoader } from '@discommand/loader'
 
 export class DiscommandHandler extends BaseHandler {
   public modules: Collection<string, ModuleType> = new Collection()
-  public loader: BaseModuleLoader
   public constructor(
     public client: Client,
     public readonly options: DiscommandHandlerOptions,
   ) {
-    super(client, options.guildID)
-    this.loader = options.loader || new ModuleLoader()
+    super(client, options.loader || new ModuleLoader(), options.guildID)
   }
 
   public loadAll() {

@@ -1,16 +1,9 @@
 {
-  "name": "@discommand/loader",
+  "name": "@discommand/cjs-loader",
   "version": "0.1.0",
-  "description": "discommand's loader",
-  "type": "module",
+  "description": "discommand's commonjs loader",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
-    }
-  },
   "files": [
     "dist"
   ],
