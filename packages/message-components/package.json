@@ -13,7 +13,7 @@
     "dist"
   ],
   "license": "MIT",
-  "author": "Migan178 <migan9857@gmail.com>",
+  "author": "Migan178 <me@migan.co.kr>",
   "devDependencies": {
     "@migan/prettier-config": "^1.0.0",
     "@types/node": "^20.11.5",

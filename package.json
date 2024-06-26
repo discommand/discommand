@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "description": "easy discord.js command handler.",
   "repository": "https://github.com/discommand/discommand",
-  "author": "Migan178 <migan9857@gmail.com>",
+  "author": "Migan178 <me@migan.co.kr>",
   "license": "MIT",
   "devDependencies": {
     "@migan/prettier-config": "^1.0.0",
@@ -31,7 +31,14 @@
     "tests/*"
   ],
   "scripts": {
-    "build": "yarn workspaces foreach -pt run build"
+    "build": "yarn workspaces foreach -pt run build",
+    "discommand": "yarn workspace discommand",
+    "message-components": "yarn workspace @discommand/message-components",
+    "lite": "yarn workspace @discommand/lite",
+    "loader": "yarn workspace @discommand/loader",
+    "debugger": "yarn workspace @discommand/debugger",
+    "eris": "yarn workspace @discommand/eris",
+    "cjs-loader": "yarn workspace @discommand/cjs-loader"
   },
   "packageManager": "yarn@3.6.0"
 }

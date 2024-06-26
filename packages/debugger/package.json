@@ -16,7 +16,7 @@
     "type": "git",
     "url": "git+https://github.com/discommand/discommand.git"
   },
-  "author": "Migan178 <migan9867@gmail.com>",
+  "author": "Migan178 <me@migan.co.kr>",
   "devDependencies": {
     "@types/node": "^20.11.5",
     "@typescript-eslint/eslint-plugin": "^6.19.0",

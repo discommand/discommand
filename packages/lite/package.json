@@ -11,7 +11,7 @@
     "type": "git",
     "url": "git+https://github.com/discommand/discommand.git"
   },
-  "author": "Migan178 <migan9857@gmail.com>",
+  "author": "Migan178 <me@migan.co.kr>",
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^20.11.5",
