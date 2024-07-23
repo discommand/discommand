@@ -8,7 +8,6 @@ easy discord.js commandHandler
 
 ## Installation
 
-- **alert! this is Pure ES Module.**
 - this is use for discord.js@14
 - **Required by node.js 16.9.0 or higher**
 
@@ -25,6 +24,8 @@ npm i discommand@next
 ```
 
 ## Example
+
+- ** This examples is use es module.**
 
 ### Usage for TypeScript
 
@@ -44,7 +45,7 @@ const client = new DiscommandClient(
     directory: {
       command: dirname(fileURLToPath(import.meta.url)) + '/commands',
     },
-  }
+  },
 )
 
 client.login('your_bot_token')
@@ -89,7 +90,7 @@ const client = new DiscommandClient(
     directory: {
       command: dirname(fileURLToPath(import.meta.url)) + '/commands',
     },
-  }
+  },
 )
 
 client.login('your_bot_token')
