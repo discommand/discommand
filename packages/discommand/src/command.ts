@@ -4,7 +4,7 @@ import type {
   Snowflake,
   AutocompleteInteraction,
 } from 'discord.js'
-import { Base } from './Bases/index.js'
+import { Base } from './bases/index.js'
 
 export abstract class Command extends Base {
   #guildID?: Snowflake
@@ -15,7 +15,7 @@ export abstract class Command extends Base {
 
   protected constructor(
     public readonly data: ApplicationCommandData,
-    guildID?: Snowflake
+    guildID?: Snowflake,
   ) {
     super(data.name)
     this.#guildID = guildID

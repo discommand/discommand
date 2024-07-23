@@ -1,14 +1,20 @@
 {
   "name": "discommand",
-  "version": "13.2.6",
+  "version": "13.2.7",
   "type": "module",
   "description": "easy discord.js command handler.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
+      "import": {
+        "types": "./dist/index.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
     }
   },
   "files": [

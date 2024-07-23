@@ -3,7 +3,7 @@ import {
   type DiscommandHandlerOptions,
   type ModuleType,
 } from './types/index.js'
-import { BaseHandler } from './Bases/index.js'
+import { BaseHandler } from './bases/index.js'
 import { ModuleLoader } from '@discommand/loader'
 
 export class DiscommandHandler extends BaseHandler {

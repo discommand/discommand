@@ -38,7 +38,9 @@
     "loader": "yarn workspace @discommand/loader",
     "debugger": "yarn workspace @discommand/debugger",
     "eris": "yarn workspace @discommand/eris",
-    "cjs-loader": "yarn workspace @discommand/cjs-loader"
+    "cjs-loader": "yarn workspace @discommand/cjs-loader",
+    "test:discommand-cjs": "yarn workspace @discommand/discommand-cjs-test",
+    "test:discommand": "yarn workspace @discommand/discommand-test"
   },
   "packageManager": "yarn@3.6.0"
 }
