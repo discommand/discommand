@@ -21,18 +21,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@discommand/cjs-loader@workspace:packages/cjs-loader":
-  version: 0.0.0-use.local
-  resolution: "@discommand/cjs-loader@workspace:packages/cjs-loader"
-  dependencies:
-    "@migan/prettier-config": ^1.0.0
-    "@types/node": ^20.11.5
-    prettier: ^3.2.4
-    tsup: ^8.0.1
-    typescript: ^5.3.3
-  languageName: unknown
-  linkType: soft
-
 "@discommand/debugger-test@workspace:tests/debugger":
   version: 0.0.0-use.local
   resolution: "@discommand/debugger-test@workspace:tests/debugger"
