@@ -9,6 +9,6 @@ export default class DeloadCommands extends Command {
     })
   }
   execute(interaction: ChatInputCommandInteraction) {
-    interaction.client.reloadAll()
+    interaction.client.reLoadAll()
   }
 }

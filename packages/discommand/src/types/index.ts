@@ -2,7 +2,7 @@ import type { Snowflake } from 'discord.js'
 import type { Command } from '../command.js'
 import type { Listener } from '../listener.js'
 import type { DiscommandHandler } from '../discommandHandler.js'
-import type { BasePlugin } from '../bases/index.js'
+import type { BasePlugin } from '../Bases/index.js'
 import type { BaseModuleLoader } from '@discommand/loader'
 
 export interface directory {
@@ -33,7 +33,7 @@ declare module 'discord.js' {
     commandHandler: DiscommandHandler
     listenerHandler?: DiscommandHandler
     loadAll(): void
-    deloadAll(): void
-    reloadAll(): void
+    deLoadAll(): void
+    reLoadAll(): void
   }
 }

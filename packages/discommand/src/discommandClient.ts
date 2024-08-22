@@ -1,6 +1,6 @@
-import { Client, type ClientOptions } from 'discord.js'
-import { DiscommandHandler } from './discommandHandler.js'
 import type { DiscommandClientOptions } from './types/index.js'
+import { DiscommandHandler } from './discommandHandler.js'
+import { Client, type ClientOptions } from 'discord.js'
 
 export class DiscommandClient extends Client {
   public commandHandler: DiscommandHandler
@@ -8,7 +8,7 @@ export class DiscommandClient extends Client {
 
   public constructor(
     clientOptions: ClientOptions,
-    public readonly discommandOptions: DiscommandClientOptions
+    public readonly discommandOptions: DiscommandClientOptions,
   ) {
     super(clientOptions)
     this.commandHandler = new DiscommandHandler(this, {
@@ -25,30 +25,31 @@ export class DiscommandClient extends Client {
   }
 
   public loadAll() {
-    this.commandHandler.loadAll()
+    void this.commandHandler.loadAll()
     if (this.listenerHandler) {
-      this.listenerHandler.loadAll()
+      void this.listenerHandler.loadAll()
     }
   }
 
-  public deloadAll() {
-    this.commandHandler.deloadAll()
+  public deLoadAll() {
+    this.commandHandler.deLoadAll()
     if (this.listenerHandler) {
-      this.listenerHandler.deloadAll()
+      this.listenerHandler.deLoadAll()
     }
   }
 
-  public reloadAll() {
-    this.commandHandler.reloadAll()
+  public reLoadAll() {
+    this.commandHandler.reLoadAll()
     if (this.listenerHandler) {
-      this.listenerHandler.reloadAll()
+      this.listenerHandler.reLoadAll()
     }
   }
 
   public async login(token?: string): Promise<string> {
+    const login = await super.login(token)
     this.loadAll()
     if (this.discommandOptions.plugins)
       this.discommandOptions.plugins.forEach(plugin => plugin.start(this))
-    return super.login(token)
+    return login
   }
 }
